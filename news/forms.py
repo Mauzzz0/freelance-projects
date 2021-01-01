@@ -13,7 +13,7 @@ class ArticlesForm(ModelForm):
             }),
             "announce" : TextInput(attrs={
                 'class' : 'form-control',
-                'placeholder' : 'Аннонс'
+                'placeholder' : 'Аннонс (макс 50 симв)'
             }),
             "text" : Textarea(attrs={
                'class' : 'form-control',
