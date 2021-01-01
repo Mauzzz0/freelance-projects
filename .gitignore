@@ -1,3 +1,2 @@
 mysite/settings.py
-*/__pycache__/*
-?/__pycache__/?
+*.pyc
