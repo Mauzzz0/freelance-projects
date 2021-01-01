@@ -11,12 +11,22 @@
 <header style="background: dimgrey">
     <div class="header-center">
         <h1>Статичный заголовок [Wrapper.html][Header]</h1>
-          <p>
-              <a href="/" class="btn btn-success btn-lg">Главная страница</a>
-              <a href="/schedule" class="btn btn-primary btn-lg">Раписание</a>
-              <a href="/news" class="btn btn-dark btn-lg">Новости</a>
-              <a href="/news/create" class="btn btn-info btn-lg">Добавить запись</a>
-          </p>
+            {% if user.is_authenticated %}
+                <a href="/logout" class="btn btn-info btn-lg">Выйти ({{ user.username }})</a>
+            {% else %}
+                <a href="/register" class="btn btn-info btn-lg">Регистрация</a>
+                <a href="/login" class="btn btn-info btn-lg">Вход</a>
+            {% endif %}
+            <p>
+                <a href="/" class="btn btn-success btn-lg">Главная страница</a>
+                <a href="/schedule" class="btn btn-primary btn-lg">Раписание</a>
+                <a href="/news" class="btn btn-dark btn-lg">Новости</a>
+                <a href="/news/create" class="btn btn-info btn-lg">Добавить запись</a>
+                {% if user.is_authenticated %}
+                <button>Кнопка видна только логинам</button>
+                {% endif %}
+
+            </p>
     </div>
 
 </header>
