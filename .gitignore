@@ -1,2 +1,2 @@
 mysite/settings.py
-*.pyc
+mainApp/__pycache__/
