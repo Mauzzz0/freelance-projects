@@ -1,0 +1,14 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block content %}
+    {% if news|length > 0 %}
+        {% for el in news %}
+            <div class="alert alert-warning">
+                <h3>{{ el.title }}</h3>
+                <p>{{ el.announce }}</p>
+            <a href="{% url 'news_detail' el.id %}" class="btn btn-warning">Читать дальше</a>
+            </div>
+        {% endfor %}
+    {%  else %}
+        <p>Записей не найдено</p>
+    {% endif %}
+{% endblock %}

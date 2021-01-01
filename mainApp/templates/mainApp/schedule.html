@@ -1,0 +1,11 @@
+{% extends "mainApp/wrapper.html" %}
+
+{% block content %}
+    <h1>{{ tittle }}</h1>
+    <p>Раписание (schedule.html)</p>
+    <p>Массив строк из бизнес-логики .py файла:</p>
+    {% for el in values %}
+        <p>{{ el }}</p>
+    {% endfor %}
+{% endblock %}
+

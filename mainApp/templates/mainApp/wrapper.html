@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>РТХЛ</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+</head>
+<header style="background: dimgrey">
+    <div class="header-center">
+        <h1>Статичный заголовок [Wrapper.html][Header]</h1>
+          <p>
+              <a href="/" class="btn btn-success btn-lg">Главная страница</a>
+              <a href="/schedule" class="btn btn-primary btn-lg">Раписание</a>
+              <a href="/news" class="btn btn-dark btn-lg">Новости</a>
+              <a href="/news/create" class="btn btn-info btn-lg">Добавить запись</a>
+          </p>
+    </div>
+
+</header>
+<body style="background: silver">
+  <div class="jumbotron">
+      <div class="container">
+
+          <p>
+          {% block content %}
+          {% endblock %}
+          </p>
+
+      </div>
+  </div>
+
+</body>
+<footer style="background: darkgray;">
+    <span class=»sub»>© Все права защищены <a href=https://rthl.ru/>РТХЛ</a> 2020-2020 [Wrapper.html][Footer]</span>
+</footer>
+</html>
