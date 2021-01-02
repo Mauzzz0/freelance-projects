@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Articles
 from .forms import ArticlesForm
@@ -7,6 +8,7 @@ def news_home(request):
     news = Articles.objects.order_by('-date') # [:2] Выбор последних n записей
     return render(request, "news/news_home.html",{"news" : news})
 
+@login_required
 def create(request):
     error = ""
     if request.method == 'POST':

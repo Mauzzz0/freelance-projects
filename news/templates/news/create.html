@@ -4,16 +4,12 @@
     <h1>Форма для добавления новости</h1>
     <form method="post">
         {% csrf_token %}
-        {% if user.is_authenticated %}
         {{ form.title }}<br>
         {{ form.announce }}<br>
         {{ form.text }}<br>
         {{ form.date }}<br>
         <span>{{ error }}</span>
         <button class="btn btn-success" type="submit">Добавить</button>
-        {% else %}
-            <a>Для добавления новостей вам необходимо авторизоваться</a>
-        {% endif %}
     </form>
     </div>
 {% endblock %}
