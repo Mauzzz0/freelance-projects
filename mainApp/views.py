@@ -10,6 +10,9 @@ from django.contrib.auth.forms import UserCreationForm
 def index(request):
     return render(request, 'mainApp/homePage.html')
 
+def Schedule(request):
+    return render(request, 'mainApp/Schedule.html')
+
 class RegisterFormView(FormView):
     form_class = UserCreationForm
     success_url = "/login"
