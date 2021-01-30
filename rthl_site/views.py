@@ -10,5 +10,14 @@ def insurance(request):
 def documents(request):
     return render(request,"Other/documents.html")
 
-def PassPage(request): # TODO: inProgress
-    pass
+def schedule(request):
+    return render(request, "Schedule/schedule.html")
+
+def news(request):
+    return render(request, "News/news.html")
+
+def teams(request):
+    return render(request, "Team/team.html")
+
+def Home(request): # TODO: inProgress
+    return render(request, "empty.html")
