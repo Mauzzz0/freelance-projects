@@ -1,3 +1,50 @@
-<footer style="background: darkgray;">
-    <span class=»sub»>© Все права защищены <a href=https://rthl.ru/>РТХЛ</a> 2020-2020 [Wrapper.html][Footer]</span>
-</footer>
+<footer class="footer">
+    <div class="footer-block">
+      <div class="footer-first">
+        <div class="footer-pages">
+          <ul class="footer-pages__list">
+            <li><a class="footer-pages__item" href="{% url 'schedule' %}">Расписание</a></li>
+            <li><a class="footer-pages__item" href="{% url 'news' %}">Новости</a></li>
+            <li><a class="footer-pages__item" href="https://www.youtube.com/channel/UCNJbhEi4TsOLamqbMnqqlRA/featured" target="_blank">Видео</a></li>
+            <li><a class="footer-pages__item" href="{% url 'teams' %}">Команды</a></li>
+          </ul>
+          <ul class="footer-pages__list">
+            <li><a class="footer-pages__item" href="{% url 'documents' %}">Документы</a></li>
+            <li><a class="footer-pages__item" href="{% url 'insurance' %}">Страховка</a></li>
+            <li><a class="footer-pages__item" href="{% url 'contacts' %}">Контакты</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <a href="https://vk.com/hockey_rthl" target="_blank" class="header__link"><i class="fa fa-vk"></i></a>
+          <a href="https://www.instagram.com/rthl.ru/" target="_blank" class="header__link"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.facebook.com/rthl.hockey/" target="_blank" class="header__link"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.youtube.com/channel/UCNJbhEi4TsOLamqbMnqqlRA/featured" target="_blank" class="header__link"><i class="fa fa-youtube-play"></i></a>
+        </div>
+        <span class="footer__c">©2021 РТХЛ</span>
+      </div>
+      <div class="footer-partners">
+        <p class="footer-partners__title">Наши партнеры :</p>
+        <a class="footer__partner" href="http://www.northstarmedia.ru/" target="_blank">
+          <img class="footer__partner__img__mc" src="{% static 'main/img/partners/northStarMedia.png' %}" alt="North Star Media">
+          <img class="footer__partner__img" src="{% static 'main/img/partners/northStarMedia_col.png' %}" alt="North Star Media">
+        </a>
+        <a class="footer__partner" href="https://ccm.ru/" target="_blank">
+          <img class="footer__partner__img__mc" src="{% static 'main/img/partners/allOut.png' %}" alt="All Out">
+          <img class="footer__partner__img" src="{% static 'main/img/partners/allOut_col.png' %}" alt="All Out">
+        </a>
+        <a class="footer__partner" href="https://svyatoyistochnik.com/" target="_blank">
+          <img class="footer__partner__img__mc" src="{% static 'main/img/partners/saintSpring.png' %}" alt="Святой Источник">
+          <img class="footer__partner__img" src="{% static 'main/img/partners/saintSpring_col.png' %}" alt="Святой Источник">
+        </a>
+        <a class="footer__partner" href="http://arttex1.ru/" target="_blank">
+          <img class="footer__partner__img__mc" src="{% static 'main/img/partners/artex.png' %}" alt="ArTex">
+          <img class="footer__partner__img" src="{% static 'main/img/partners/artex_col.png' %}" alt="ArTex">
+        </a>
+        <a class="footer__partner" href="https://murom-hockey.com/" target="_blank" target="_blank">
+          <img class="footer__partner__img__mc" src="{% static 'main/img/partners/muromHockey.png' %}" alt="Murom Hockey">
+          <img class="footer__partner__img" src="{% static 'main/img/partners/muromHockey_col.png' %}" alt="Murom Hockey">
+        </a>
+      </div>
+     
+    </div>
+  </footer>
