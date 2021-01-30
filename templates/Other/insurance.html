@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Страховка | РТХЛ{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="insurance">
+  <div class="insurance-block">
+    <h2 class="insurance__title">Страховка</h2>
+    <div class="insurance-cards"> 
+      <a href="{% static '/docs/Strahovaniye.pdf' %}" target="_blank" class="insurance-cards__card">
+        <span class="insurance-cards__text">Cтрахование от несчастного случая</span>
+      </a>
+      <a href="{% static '/docs/Strahovka_komanda.xlsx' %}" target="_blank"  class="insurance-cards__card">
+        <span class="insurance-cards__text">Страховка - файл для команды</span>
+      </a>
+      <a href="{% static '/docs/Strahovka_tablitsa.pdf' %}" target="_blank" class="insurance-cards__card">
+        <span class="insurance-cards__text">Таблица страховых выплат</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

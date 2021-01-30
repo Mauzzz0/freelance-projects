@@ -19,7 +19,8 @@
     <div class="header-block">
       <div class="header-logo">
         <a href="{% url 'home' %}" class="">
-          <img src="{% static 'main/img/logo.png' %}" alt="Логотип РТХЛ" class="header__logo">
+          {% load static %}
+          <img src="{% static 'img/logo.png' %}" alt="Логотип РТХЛ" class="header__logo">
         </a> 
         <h1 class="header__title">Российская Товарищеская<br>Хоккейная Лига</h1>
       </div>

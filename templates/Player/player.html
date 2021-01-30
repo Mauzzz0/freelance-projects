@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Иван Иванов | РТХЛ{% endblock %}
+
+{% load static %}
+
+{% block content%}
+  <div class="player">
+    <div class="container">
+      <div class="player-block">
+        <img src="" alt="Фото игрока" class="player__img">
+        <h2 class="player__name"></h2>
+        <div class="player-info">
+          <div class="player-info__item"></div>
+          <div class="player-info__item"></div>
+          <div class="player-info__item"></div>
+          <div class="player-info__item"></div>
+          <div class="player-info__item">
+            <div class="player-info-team">
+              <img class="player-info-team__img" src="" alt="">
+              <span class="player-info-team__text"></span>
+            </div>
+            <div class="player-info-team">
+              <img class="player-info-team__img" src="" alt="">
+              <span class="player-info-team__text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-stats">
+          <h2 class="player-stats__title">Статистика</h2>
+          <ul class="player-stats-list">
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Дата рождения :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Хват :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Квалификация :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Рейтинг :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+          </ul>
+          <ul class="player-stats-list">
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Игры :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Голы :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Передачи :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Штраф :</span>
+              <span class="player-stats-list__item-value"></span>
+            </li>
+          </ul>
+          <div class="player-stats-extra">
+            <div class="player-stats-bio">
+              <span class="player-stats-bio__title">Хоккейная биография</span>
+              <p class="player-stats-bio__text"></p>
+            </div>
+            <div class="player-stats-dis">
+              <span class="player-stats-dis__title">Игр дисквалификации</span>
+              <p class="player-stats-dis__text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

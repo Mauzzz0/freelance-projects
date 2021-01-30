@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Контакты | РТХЛ{% endblock %}
+
+
+{% load static %}
+
+{% block content %}
+<div class="contacts">
+  <div class="contacts-block">
+    <h2 class="contacts__title">Контакты</h2>
+    <div class="contacts-cards"> 
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <span class="contacts-cards__name">Руководитель проекта: <strong>Денис&nbspЛуговой</strong></span>
+          <a class="contacts-cards__btn" href="https://wa.me/79637827904" target="_blank" title="Написать в WhatsApp">Написать</a>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Президент лиги: <strong>Владимир&nbspГрачев</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79637700015">+7-963-770-00-15</a></p>
+          <p class="contacts-cards__name contacts-cards__link">E-mail: <a href="mailto:7700015@mail.ru">7700015@mail.ru</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Помощник президента Лиги: <strong>Али&nbspНекрасов</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79645381433">+7-964-538-14-33</a></p>
+          <p class="contacts-cards__name contacts-cards__link">E-mail: <a href="mailto:5381433@mail.ru">5381433@mail.ru</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Секретариат и работа с заявками: <strong>Елена&nbspСоколова</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79168707266">+7-916-870-72-66</a></p>
+          <p class="contacts-cards__name contacts-cards__link">E-mail: <a href="mailto:hello-rthl@mail.ru">hello-rthl@mail.ru</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Главный судья, г.Москва: <strong>Александр&nbspЗайцев</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79262196617">+7-926-219-66-17</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Председатель квалификационной коллегии: <strong>Сергей&nbspСтоляров</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79645383603">+7-964-538-36-03</a>, <a href="tel:+79265740517">+7-926-574-05-17</a></p>
+          <p class="contacts-cards__name contacts-cards__link">E-mail: <a href="mailto:seregastolyarov@mail.ru">seregastolyarov@mail.ru</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+      <div class="contacts-cards__card">
+        <div class="contacts-cards-content">
+          <p class="contacts-cards__name">Руководитель отдела фото и видео: <strong>Михаил&nbspКурков</strong></p>
+          <p class="contacts-cards__name contacts-cards__link">Телефон: <a href="tel:+79653383328">+7-965-338-33-28</a></p>
+          <p class="contacts-cards__name contacts-cards__link">E-mail: <a href="mailto:samstudioproductions@gmail.com">samstudioproductions@gmail.com</a></p>
+        </div>
+        <img class="contacts-cards__img" src="{% static 'img/player.jpg' %}" alt="Руководитель проекта">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

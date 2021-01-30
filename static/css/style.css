@@ -1,0 +1,1758 @@
+@font-face {
+  font-family: Ubuntu-Bold;
+  src: url(../fonts/Ubuntu-Bold.ttf);
+}
+
+@font-face {
+  font-family: Ubuntu-Light;
+  src: url(../fonts/Ubuntu-Light.ttf);
+}
+
+@font-face {
+  font-family: Ubuntu-Medium;
+  src: url(../fonts/Ubuntu-Medium.ttf);
+}
+
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url(../fonts/Ubuntu-Regular.ttf);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Ubuntu-Regular, sans-serif;
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #343333;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Ubuntu-Regular, sans-serif;
+}
+
+button:active, button:focus {
+  outline: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.container {
+  padding: 40px 30px;
+}
+
+a {
+  cursor: pointer;
+  color: #343333;
+  text-decoration: none;
+  font-family: Ubuntu-Regular, sans-serif;
+}
+
+a:active, a:focus {
+  outline: none;
+}
+
+.fa {
+  -webkit-transition: color, linear, .3s;
+  transition: color, linear, .3s;
+}
+
+.fa-vk:hover {
+  color: #2787F5;
+}
+
+.fa-youtube-play:hover {
+  color: #c4302b;
+}
+
+.fa-facebook:hover {
+  color: #3b5998;
+}
+
+.fa-instagram:hover {
+  color: #e1306c;
+}
+
+@media (max-width: 1080px) {
+  .container {
+    padding: 30px 30px;
+  }
+}
+
+@media (max-width: 780px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 780px) {
+  .container {
+    padding: 15px;
+  }
+}
+
+.header {
+  color: #ffffff;
+  background: -webkit-gradient(linear, left top, right top, from(rgba(20, 36, 138, 0.9)), to(rgba(75, 95, 225, 0.9))), url(../img/bg.jpg);
+  background: linear-gradient(90deg, rgba(20, 36, 138, 0.9) 0%, rgba(75, 95, 225, 0.9) 100%), url(../img/bg.jpg);
+  background-size: cover;
+  margin-bottom: 1px;
+}
+
+.header-block {
+  padding: 60px 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header-logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.header__logo {
+  height: 135px;
+  margin-right: 50px;
+}
+
+.header__title {
+  font-size: 36px;
+  line-height: 41px;
+  max-width: 500px;
+}
+
+.header-links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  height: 135px;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.header__link {
+  margin-right: 25px;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.header__search {
+  background-color: rgba(0, 0, 0, 0);
+  margin-left: 65px;
+}
+
+.header-login__btn {
+  height: 45px;
+  width: 240px;
+  border-radius: 30px;
+  padding: 7px 19px;
+  background-color: rgba(20, 36, 138, 0.5);
+  font-size: 18px;
+  font-family: Ubuntu-Regular, sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-transition: background-color, linear, .2s;
+  transition: background-color, linear, .2s;
+}
+
+.header-login__btn:hover {
+  background-color: rgba(20, 36, 138, 0.8);
+}
+
+.header__menu {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 25px;
+}
+
+.header-nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -1px;
+  z-index: 99;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 60px;
+  background-color: #3241A5;
+}
+
+.header-nav__item {
+  width: 175px;
+  height: 60px;
+  background-color: #3241A5;
+  font-size: 18px;
+  color: #ffffff;
+  vertical-align: middle;
+  -webkit-transition: background-color, linear, .2s;
+  transition: background-color, linear, .2s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.header-nav__item:hover {
+  background-color: #14248A;
+}
+
+.header-nav-more {
+  display: block;
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
+}
+
+.header-nav-dropdown {
+  display: none;
+}
+
+.header-nav-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-ham-menu {
+  right: -250px;
+  height: 100%;
+  position: fixed;
+  width: 250px;
+  background-color: #3241A5;
+}
+
+.header-ham-content {
+  padding: 30px 40px;
+  text-align: right;
+}
+
+.header-ham-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-ham__item {
+  margin-bottom: 7px;
+  font-size: 20px;
+}
+
+.header-ham__item a {
+  color: #ffffff;
+}
+
+.header__close {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1080px) {
+  .header-block {
+    padding: 40px 50px;
+  }
+  .header__logo {
+    height: 110px;
+    margin-right: 35px;
+  }
+  .header__title {
+    font-size: 24px;
+  }
+  .header__link {
+    font-size: 22px;
+  }
+  .header-links {
+    height: 120px;
+  }
+  .header-login__btn {
+    font-size: 16px;
+    width: 200px;
+  }
+  .header-login__btn img {
+    height: 20px;
+  }
+  .header-nav {
+    height: 50px;
+  }
+  .header-nav__item {
+    height: 50px;
+    font-size: 16px;
+    width: 150px;
+  }
+}
+
+@media (max-width: 780px) {
+  .header-block {
+    padding: 20px 30px;
+  }
+  .header__logo {
+    height: 90px;
+    margin-right: 25px;
+  }
+  .header__title {
+    font-size: 20px;
+    line-height: 1.5;
+    font-family: Ubuntu-Regular, sans-serif;
+  }
+  .header-links {
+    height: 90px;
+  }
+  .header__link {
+    font-size: 18px;
+    margin-right: 15px;
+  }
+  .header-login__btn {
+    font-size: 14px;
+    width: 160px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 40px;
+  }
+  .header-login__btn img {
+    display: none;
+  }
+  .header-nav {
+    height: 45px;
+  }
+  .header-nav__item {
+    height: 45px;
+    width: 120px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-block {
+    padding: 15px 20px;
+  }
+  .header__logo {
+    height: 70px;
+    margin-right: 15px;
+  }
+  .header__title {
+    font-size: 18px;
+  }
+  .header-links {
+    height: 30px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .header__menu {
+    display: inline-block;
+  }
+  .header-social, .header-nav, .header-login {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-block {
+    padding: 10px 15px;
+  }
+  .header__logo {
+    height: 60px;
+  }
+  .header__title {
+    font-size: 16px;
+    margin-right: 30px;
+  }
+  .header__menu {
+    font-size: 18px;
+  }
+}
+
+.footer {
+  color: #ffffff;
+  background: -webkit-gradient(linear, left top, right top, from(rgba(20, 36, 138, 0.9)), to(rgba(75, 95, 225, 0.9))), url(../img/bg.jpg);
+  background: linear-gradient(90deg, rgba(20, 36, 138, 0.9) 0%, rgba(75, 95, 225, 0.9) 100%), url(../img/bg.jpg);
+  background-size: cover;
+}
+
+.footer-block {
+  padding: 40px 70px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.footer-first {
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
+}
+
+.footer-pages {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  margin-bottom: 30px;
+}
+
+.footer-pages__item {
+  display: inline-block;
+  margin-bottom: 15px;
+  position: relative;
+  color: #ffffff;
+}
+
+.footer-pages__item::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  height: 1px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.footer-pages__item:hover::after {
+  width: 100%;
+}
+
+.footer-pages__c {
+  font-family: Ubuntu-Regular, sans-serif;
+}
+
+.footer-pages__list {
+  font-size: 24px;
+  margin-bottom: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-right: 75px;
+}
+
+.footer-links {
+  margin-bottom: 45px;
+}
+
+.footer__partner {
+  margin-bottom: 30px;
+  margin-right: 30px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  height: 100px;
+  width: 100px;
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.footer__partner:nth-child(6) {
+  -ms-flex-preferred-size: 55%;
+      flex-basis: 55%;
+  height: 75px;
+  margin-bottom: 0;
+}
+
+.footer__partner:nth-child(6) img {
+  width: 335px;
+  height: auto;
+}
+
+.footer__partner:nth-child(5) {
+  margin-left: 50px;
+  margin-bottom: 0;
+}
+
+.footer__partner__img {
+  height: 100px;
+  width: auto;
+  opacity: 0;
+}
+
+.footer__partner__img__mc {
+  height: 100px;
+  width: auto;
+}
+
+.footer__partner img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.footer-partners {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-item-align: start;
+      align-self: start;
+  max-width: 680px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.footer-partners__title {
+  margin: 0;
+  margin-bottom: 30px;
+  font-family: Ubuntu-Regular, sans-serif;
+  font-size: 24px;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+@media (max-width: 1230px) {
+  .footer__partner {
+    height: 70px;
+    width: 70px;
+  }
+  .footer__partner__img {
+    height: 70px;
+    width: auto;
+    opacity: 0;
+  }
+  .footer__partner__img__mc {
+    height: 70px;
+    width: auto;
+  }
+  .footer__partner:nth-child(6) {
+    -ms-flex-preferred-size: 200px;
+        flex-basis: 200px;
+    height: 45px;
+    margin-right: 15px;
+  }
+  .footer__partner:nth-child(6) img {
+    width: 200px;
+    height: auto;
+  }
+  .footer__partner:nth-child(5) {
+    margin-left: 10px;
+  }
+  .footer-partners {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .footer-pages__list, .footer-partners__title {
+    font-size: 18px;
+  }
+  .footer-partner:nth-child(5) {
+    margin-right: 15px;
+  }
+}
+
+@media (max-width: 860px) {
+  .footer {
+    background-size: contain;
+  }
+  .footer-pages {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+  }
+  .footer-pages__list {
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 650px) {
+  .footer-block {
+    padding: 30px 30px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-flow: column-reverse;
+            flex-flow: column-reverse;
+  }
+  .footer-partners {
+    margin-bottom: 40px;
+  }
+  .footer-pages {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row;
+            flex-flow: row;
+  }
+}
+
+@media (max-width: 420px) {
+  .footer-partners {
+    max-width: 270px;
+  }
+  .footer__partner {
+    -ms-flex-preferred-size: 35%;
+        flex-basis: 35%;
+  }
+  .footer__partner:nth-child(5) {
+    margin-bottom: 30px;
+  }
+}
+
+.documents-block {
+  padding: 40px 150px;
+}
+
+.documents__title {
+  font-size: 48px;
+  position: relative;
+  margin: 0;
+  margin-bottom: 60px;
+  color: #3241A5;
+}
+
+.documents__title::after {
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 730px;
+  bottom: -20px;
+  left: 0;
+  background-color: #3241A5;
+}
+
+.documents-cards__card {
+  display: block;
+  width: 700px;
+  height: 75px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 1px solid #BAB9B9;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.documents-cards__card:hover {
+  -webkit-box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+}
+
+.documents-cards__card:last-child {
+  margin-bottom: 0;
+}
+
+.documents-cards__text {
+  font-family: Ubuntu-Medium, sans-serif;
+}
+
+@media (max-width: 1080px) {
+  .documents-block {
+    padding: 20px 80px;
+  }
+  .documents__title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  .documents__title::after {
+    width: 515px;
+    bottom: -15px;
+  }
+  .documents-cards__card {
+    width: 500px;
+    height: 60px;
+    padding-left: 15px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 780px) {
+  .documents-block {
+    padding: 20px 50px;
+  }
+  .documents__title::after {
+    height: 1px;
+  }
+}
+
+@media (max-width: 640px) {
+  .documents__title {
+    font-size: 24px;
+  }
+  .documents__title::after {
+    width: 330px;
+  }
+  .documents-cards__card {
+    width: 300px;
+    height: 50px;
+    padding: 0 15px;
+    font-size: 16px;
+    font-family: Ubuntu-Regular, sans-serif;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .documents-block {
+    padding: 20px 20px;
+  }
+  .documents__title::after {
+    width: 300px;
+  }
+  .documents-cards__card {
+    width: 280px;
+    padding: 0 10px;
+    font-size: 15px;
+  }
+}
+
+.insurance-block {
+  padding: 40px 150px;
+}
+
+.insurance__title {
+  font-size: 48px;
+  position: relative;
+  margin: 0;
+  margin-bottom: 60px;
+  color: #3241A5;
+}
+
+.insurance__title::after {
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 730px;
+  bottom: -20px;
+  left: 0;
+  background-color: #3241A5;
+}
+
+.insurance-cards__card {
+  display: block;
+  width: 700px;
+  height: 75px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border: 1px solid #BAB9B9;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.insurance-cards__card:hover {
+  -webkit-box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+}
+
+.insurance-cards__card:last-child {
+  margin-bottom: 0;
+}
+
+.insurance-cards__text {
+  font-family: Ubuntu-Medium, sans-serif;
+}
+
+@media (max-width: 1080px) {
+  .insurance-block {
+    padding: 20px 80px;
+  }
+  .insurance__title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  .insurance__title::after {
+    width: 515px;
+    bottom: -15px;
+  }
+  .insurance-cards__card {
+    width: 500px;
+    height: 60px;
+    padding-left: 15px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 780px) {
+  .insurance-block {
+    padding: 20px 50px;
+  }
+  .insurance__title::after {
+    height: 1px;
+  }
+}
+
+@media (max-width: 640px) {
+  .insurance__title {
+    font-size: 24px;
+  }
+  .insurance__title::after {
+    width: 330px;
+  }
+  .insurance-cards__card {
+    width: 300px;
+    height: 50px;
+    padding: 0 15px;
+    font-size: 16px;
+    font-family: Ubuntu-Regular, sans-serif;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .insurance-block {
+    padding: 20px 20px;
+  }
+  .insurance__title::after {
+    width: 300px;
+  }
+  .insurance-cards__card {
+    width: 280px;
+    padding: 0 10px;
+    font-size: 15px;
+  }
+}
+
+.contacts-block {
+  padding: 40px 150px;
+}
+
+.contacts__title {
+  font-size: 48px;
+  position: relative;
+  margin: 0;
+  margin-bottom: 60px;
+  color: #3241A5;
+}
+
+.contacts__title::after {
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 840px;
+  bottom: -20px;
+  left: 0;
+  background-color: #3241A5;
+}
+
+.contacts-cards__card {
+  display: block;
+  width: 800px;
+  font-size: 24px;
+  margin-bottom: 20px;
+  padding: 20px 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border: 1px solid #BAB9B9;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.contacts-cards__card:hover {
+  -webkit-box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 6px 15px -5px rgba(0, 0, 0, 0.25);
+}
+
+.contacts-cards__card:last-child {
+  margin-bottom: 0;
+}
+
+.contacts-cards__name {
+  display: block;
+  margin: 0;
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+.contacts-cards__link > a {
+  font-family: Ubuntu-Medium, sans-serif;
+  -webkit-transition: .2s;
+  transition: .2s;
+  white-space: nowrap;
+}
+
+.contacts-cards__link:hover > a {
+  color: #3241A5;
+}
+
+.contacts-cards__btn {
+  background: #3241A5;
+  font-size: 18px;
+  width: 150px;
+  height: 50px;
+  padding: 5px 30px;
+  border-radius: 10px;
+  display: block;
+  -webkit-transition: .2s;
+  transition: .2s;
+  color: #ffffff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.contacts-cards__btn:hover {
+  background-color: #14248A;
+  -webkit-box-shadow: 0px 6px 10px -6px rgba(50, 65, 165, 0.4);
+          box-shadow: 0px 6px 10px -6px rgba(50, 65, 165, 0.4);
+}
+
+.contacts-cards__img {
+  height: 100px;
+  width: auto;
+  border-radius: 50%;
+}
+
+@media (max-width: 1080px) {
+  .contacts-block {
+    padding: 20px 80px;
+  }
+  .contacts__title {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  .contacts__title::after {
+    width: 640px;
+    bottom: -15px;
+  }
+  .contacts-cards__card {
+    width: 600px;
+    font-size: 18px;
+  }
+  .contacts-cards__name {
+    margin-bottom: 15px;
+    max-width: 450px;
+  }
+  .contacts-cards__img {
+    height: 80px;
+  }
+  .contacts-cards__btn {
+    font-size: 16px;
+    height: 45px;
+    width: 130px;
+  }
+}
+
+@media (max-width: 780px) {
+  .contacts-block {
+    padding: 20px 50px;
+  }
+  .contacts__title::after {
+    width: 540px;
+    height: 1px;
+  }
+  .contacts-cards__card {
+    width: 500px;
+    padding: 15px 20px;
+  }
+  .contacts-cards__name {
+    max-width: 400px;
+  }
+  .contacts-cards__img {
+    height: 60px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contacts__title {
+    font-size: 24px;
+  }
+  .contacts__title::after {
+    width: 330px;
+  }
+  .contacts-cards__card {
+    width: 300px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-family: Ubuntu-Regular, sans-serif;
+    margin-bottom: 15px;
+  }
+  .contacts-cards__name {
+    max-width: 250px;
+    margin-bottom: 10px;
+  }
+  .contacts-cards__btn {
+    font-size: 12px;
+    height: 35px;
+    width: 100px;
+  }
+  .contacts-cards__img {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .contacts-block {
+    padding: 20px 20px;
+  }
+  .contacts__title::after {
+    width: 300px;
+  }
+  .contacts-cards__card {
+    width: 280px;
+    padding: 10px 10px;
+    font-size: 15px;
+  }
+  .contacts-cards__name {
+    max-width: 240px;
+  }
+}
+
+.teams__title {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  margin-bottom: 7px;
+}
+
+.teams__subtitle {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.teams__star {
+  color: #BAB9B9;
+}
+
+.teams__select:hover {
+  cursor: pointer;
+}
+
+.teams__selected {
+  color: #FAFF00;
+}
+
+.teams-league {
+  border: 1px solid #BAB9B9;
+  padding: 50px 60px 20px 70px;
+  padding-right: 60px;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.teams-league__title {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 35px;
+  font-family: Ubuntu-Medium, sans-serif;
+  font-size: 28px;
+}
+
+.teams-league-team {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  width: 350px;
+  height: 50px;
+  margin-bottom: 30px;
+  margin-right: 10px;
+  -webkit-transition: .3s;
+  transition: .3s;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.teams-league-team:hover {
+  -webkit-box-shadow: 0px 6px 12px -5px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 6px 12px -5px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.teams-league-teams {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.teams-league-team__img {
+  height: 50px;
+  width: 50px;
+  margin-right: 15px;
+}
+
+.teams-league-team__title {
+  font-size: 18px;
+  font-family: Ubuntu-Medium, sans-serif;
+  -ms-flex-preferred-size: 290px;
+      flex-basis: 290px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 3px;
+}
+
+.teams-league-team__subtitle {
+  font-size: 16px;
+  color: #727272;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 1272px) {
+  .teams-league-teams {
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: start;
+  }
+}
+
+@media (max-width: 1080px) {
+  .teams-league {
+    padding: 30px 30px 0 40px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 780px) {
+  .teams__title {
+    font-size: 16px;
+  }
+  .teams__subtitle {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  .teams-league {
+    margin-bottom: 30px;
+  }
+  .teams-league__title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .teams-league-team {
+    margin-bottom: 15px;
+    width: 320px;
+  }
+  .teams-league-team__img {
+    height: 35px;
+    width: 35px;
+  }
+  .teams-league-team__title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .teams-league__title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 482px) {
+  .teams-league {
+    padding: 20px;
+    padding-bottom: 0;
+  }
+  .teams-league__title {
+    font-size: 16px;
+  }
+  .teams-league-team {
+    width: 280px;
+  }
+  .teams-league-team__title {
+    font-size: 14px;
+  }
+  .teams-league-team__subtitle {
+    font-size: 14px;
+  }
+}
+
+.schedule-date {
+  width: 300px;
+  height: 100px;
+  font-size: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  padding: 5px 15px;
+}
+
+.schedule-date a {
+  font-size: 18px;
+  font-family: Ubuntu-Regular, sans-serif;
+}
+
+.schedule-date:nth-child(4) {
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+.schedule-date:nth-child(4) a {
+  font-family: Ubuntu-Medium, sans-serif;
+  font-size: 24px;
+}
+
+.schedule-dates {
+  border: 1px solid #BAB9B9;
+  margin-top: 40px;
+  border-right: none;
+  border-left: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.schedule-dates-left {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  margin-top: -4px;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.schedule-dates-right {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.schedule-league {
+  padding: 40px 120px 20px 120px;
+  border: 1px solid #BAB9B9;
+  margin-bottom: 40px;
+}
+
+.schedule-league:last-child {
+  margin-bottom: 0;
+}
+
+.schedule-league__title {
+  font-family: Ubuntu-Medium, sans-serif;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.schedule-league-table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.schedule-league-table-block {
+  margin-bottom: 30px;
+}
+
+.schedule-league-table td {
+  text-align: center;
+}
+
+.schedule-league-table__col1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding-right: 15px;
+}
+
+.schedule-league-table__col2 {
+  width: 450px;
+}
+
+.schedule-league-table__col5 {
+  width: 40px;
+}
+
+.schedule-league__header {
+  font-size: 18px;
+  padding: 15px 40px;
+  background-color: #3241A5;
+  color: #ffffff;
+}
+
+.schedule-league-line {
+  font-size: 24px;
+  padding: 30px;
+  border: 1px solid #BAB9B9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-top: none;
+  -webkit-transition: background-image .3s linear;
+  transition: background-image .3s linear;
+}
+
+.schedule-league-line__tour, .schedule-league-line__place {
+  margin-right: 15px;
+}
+
+.schedule-league-line__team1, .schedule-league-line__team2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  text-align: left;
+}
+
+.schedule-league-line__team1 div, .schedule-league-line__team2 div {
+  min-height: 52px;
+  min-width: 52px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-right: 10px;
+}
+
+.schedule-league-line__team1 div img, .schedule-league-line__team2 div img {
+  height: 35px;
+  width: 35px;
+}
+
+.schedule-league-line__team1 {
+  margin-bottom: 10px;
+}
+
+.schedule-league-line__video i {
+  color: #727272;
+  font-size: 32px;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.schedule-league-line__video i:hover {
+  color: #3241A5;
+}
+
+@media (max-width: 1080px) {
+  .schedule-date:nth-child(4) a {
+    font-size: 18px;
+  }
+  .schedule-league {
+    padding: 40px 80px 20px 80px;
+  }
+  .schedule-league-table__col1 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+  }
+  .schedule-league-line {
+    padding: 20px;
+  }
+  .schedule-league-line__tour, .schedule-league-line__place {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 840px) {
+  .schedule-date {
+    width: 300px;
+    height: 70px;
+    font-family: Ubuntu-Regular, sans-serif;
+  }
+  .schedule-date a {
+    font-size: 16px;
+    font-family: Ubuntu-Regular, sans-serif;
+  }
+  .schedule-date:nth-child(2), .schedule-date:nth-child(6) {
+    display: none;
+  }
+  .schedule-dates {
+    margin-top: 20px;
+  }
+  .schedule-dates-left {
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  .schedule-dates-right {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .schedule-league {
+    padding: 40px 40px 20px 40px;
+  }
+  .schedule-league-line {
+    padding: 15px 20px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 780px) {
+  .schedule-league-table__col2 {
+    width: 350px;
+  }
+  .schedule-league__title {
+    font-size: 24px;
+  }
+  .schedule-league-line {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .schedule-league {
+    padding: 20px 20px 0 20px;
+  }
+  .schedule-league__title {
+    margin-bottom: 20px;
+  }
+  .schedule-league__header {
+    font-size: 16px;
+    padding: 15px 20px;
+  }
+  .schedule-league-table-block {
+    min-height: 125px;
+    overflow: scroll;
+    background-image: -webkit-gradient(linear, left top, right top, from(white), to(white)), -webkit-gradient(linear, left top, right top, from(white), to(white)), -webkit-gradient(linear, left top, right top, from(rgba(50, 65, 165, 0.25)), to(rgba(255, 255, 255, 0))), -webkit-gradient(linear, right top, left top, from(rgba(50, 65, 165, 0.25)), to(rgba(255, 255, 255, 0)));
+    background-image: linear-gradient(to right, white, white), linear-gradient(to right, white, white), linear-gradient(to right, rgba(50, 65, 165, 0.25), rgba(255, 255, 255, 0)), linear-gradient(to left, rgba(50, 65, 165, 0.25), rgba(255, 255, 255, 0));
+    background-position: left center, right center, left center, right center;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+    background-attachment: local, local, scroll, scroll;
+  }
+  .schedule-league-line {
+    font-size: 18px;
+  }
+  .schedule-league-line__place, .schedule-league-line__time {
+    margin-right: 0;
+  }
+  .schedule-league-line__video {
+    font-size: 24px;
+  }
+  .schedule-league-line__team1, .schedule-league-line__team2 {
+    padding-left: 10px;
+  }
+  .schedule-league-line__team1 div, .schedule-league-line__team2 div {
+    min-height: 41px;
+    min-width: 41px;
+  }
+  .schedule-league-line__team1 div img, .schedule-league-line__team2 div img {
+    height: 25px;
+    width: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-league__title {
+    font-size: 18px;
+  }
+  .schedule-league__header {
+    padding: 15px;
+  }
+}
+
+.createTeam-block {
+  padding: 50px 120px;
+  border: 1px solid #BAB9B9;
+}
+
+.createTeam__title {
+  margin: 0;
+  margin-bottom: 50px;
+  font-size: 36px;
+  font-family: Ubuntu-Medium, sans-serif;
+}
+
+.createTeam-field {
+  margin-bottom: 40px;
+}
+
+.createTeam-field__text {
+  display: inline-block;
+  width: 120px;
+  font-size: 18px;
+}
+
+.createTeam-field__name {
+  width: 350px;
+  height: 35px;
+  padding-left: 15px;
+  font-size: 18px;
+  border: none;
+  border: 1px solid #BAB9B9;
+  border-radius: 5px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-family: Ubuntu-Regular, sans-serif;
+  color: #343333;
+}
+
+.createTeam-field__name:focus {
+  outline: none;
+  border-color: #3241A5;
+}
+
+.createTeam-field__example {
+  padding: 15px 30px;
+  background-color: #3241A5;
+  margin-left: -3px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 18px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  display: inline-block;
+  text-align: center;
+  font-family: Ubuntu-Regular, sans-serif;
+}
+
+.createTeam-field__example:hover {
+  background-color: #14248A;
+}
+
+.createTeam-field__players {
+  margin-top: 30px;
+  margin-left: 120px;
+}
+
+.createTeam-field__logo, .createTeam-field__players {
+  display: none;
+}
+
+.createTeam-field__logo-text, .createTeam-field__players-text {
+  display: block;
+  margin-top: 60px;
+}
+
+.createTeam-field-upld {
+  margin-left: 120px;
+}
+
+.createTeam-field-upld-logo {
+  margin-top: 30px;
+}
+
+.createTeam-field-upld-players {
+  margin-top: 80px;
+}
+
+.createTeam-field-upld label {
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px dashed #BAB9B9;
+  border-radius: 5px;
+  padding: 50px 125px;
+  color: #343333;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.createTeam-field-upld label:hover {
+  border-color: #14248A;
+}
+
+.createTeam__btn {
+  width: 300px;
+  height: 50px;
+  padding: 15px 115px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 18px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  border: none;
+  background-color: #3241A5;
+  font-family: Ubuntu-Regular, sans-serif;
+  margin-left: 120px;
+  display: block;
+  margin-top: 75px;
+  margin-bottom: 50px;
+}
+
+.createTeam__btn:hover {
+  background-color: #14248A;
+}
+
+#fl_inp {
+  display: none;
+}
+
+.fl_upld {
+  width: 300px;
+}
+
+.fl_upld label {
+  cursor: pointer;
+  background: #36c;
+  border-radius: 3px;
+  padding: 10px 25px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.fl_upld label:hover {
+  background: #fc0;
+}
+
+#fl_nm {
+  margin-top: 20px;
+  color: #f00;
+}

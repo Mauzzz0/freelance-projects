@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+  <div class="teams">
+    <div class="container">
+      <div class="teams-block">
+        <p class="teams__title">Нажмите на <i class="fas fa-star teams__star"></i>, чтобы добавить дивизион в избранное</p>
+        <p class="teams__subtitle">Он будет отображаться на главной странице и в расписании</p>
+        <div class="teams-league">
+          <p class="teams-league__title"><i id="select_league" class="fas fa-star teams__star teams__select"></i></p>
+          <div class="teams-league-teams">
+            <a class="teams-league-team" href="#">
+              <img src="" alt="" class="teams-league-team__img">
+              <div class="teams-league-team-text">
+                <p class="teams-league-team__title"></p>
+                <p class="teams-league-team__subtitle"></p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
