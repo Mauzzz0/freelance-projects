@@ -9,5 +9,7 @@ urlpatterns = [
     path('teams/',views.teams, name="teams"),
     path('documents/',views.documents, name="documents"),
     path('insurance/',views.insurance, name="insurance"),
-    path('contacts/',views.contacts, name="contacts")
+    path('contacts/',views.contacts, name="contacts"),
+
+    path('team/<int:pk>', views.TeamDetailView.as_view())
 ]

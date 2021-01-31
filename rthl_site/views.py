@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import DetailView
+from .models import Team
+
 
 def contacts(request):
     return render(request, "Other/contacts.html")
@@ -21,3 +24,9 @@ def teams(request):
 
 def Home(request): # TODO: inProgress
     return render(request, "empty.html")
+
+class TeamDetailView(DetailView):
+    model = Team
+    template_name = "Team/each_team.html"
+    context_object_name = 'team'
+
