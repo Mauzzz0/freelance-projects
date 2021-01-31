@@ -9,7 +9,7 @@ admin.site.register(Team)
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     """Игроки"""
-    list_display = ("name","surname","patronymic","role","get_image")
+    list_display = ("fullname","role","get_image")
     readonly_fields = ("get_image",)
 
     def get_image(self,obj):

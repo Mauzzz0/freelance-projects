@@ -49,6 +49,9 @@ class Player(models.Model):
     def __str__(self):
         return self.name + " " + self.surname + " " + self.patronymic
 
+    def fullname(self):
+        return self.surname + " " + self.name + " " + self.patronymic
+
     class Meta:
         verbose_name = "Игрок"
         verbose_name_plural = "Игроки"
