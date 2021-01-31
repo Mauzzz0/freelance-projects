@@ -4,6 +4,7 @@ from datetime import datetime
 class Team(models.Model):
     """Команда"""
     name = models.CharField("Название", max_length=50, unique=True)
+    image = models.ImageField("Логотип", upload_to="img/teams",default="img/team.jpg")
 
     def __str__(self):
         return self.name

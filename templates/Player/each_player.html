@@ -14,14 +14,13 @@
           <div class="player-info__item">{{ player.weight }}</div>
           <div class="player-info__item">{{ player.birth_date }}</div>
           <div class="player-info__item">
+			{% for team in player.team_name.all %}
             <div class="player-info-team">
-              <img class="player-info-team__img" src="" alt="">
-              <span class="player-info-team__text"></span>
+              <img class="player-info-team__img" src="{{ team.image.url }}" alt="">
+              <span class="player-info-team__text">{{ team.name }}</span>
             </div>
-            <div class="player-info-team">
-              <img class="player-info-team__img" src="" alt="">
-              <span class="player-info-team__text"></span>
-            </div>
+			{% endfor %}
+			
           </div>
         </div>
 
