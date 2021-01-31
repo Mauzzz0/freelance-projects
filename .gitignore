@@ -1,4 +1,5 @@
 mysite/settings.py
-mainApp/__pycache__/
+rthl_site/__pycache__/
 */__pycache__/*
+~$_architecture.docx
 .idea/
