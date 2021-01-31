@@ -11,5 +11,6 @@ urlpatterns = [
     path('insurance/',views.insurance, name="insurance"),
     path('contacts/',views.contacts, name="contacts"),
 
-    path('team/<int:pk>', views.TeamDetailView.as_view())
+    path('team/<int:pk>', views.TeamDetailView.as_view()),
+    path('player/<int:pk>', views.PlayerDetailView.as_view())
 ]
