@@ -1,8 +1,8 @@
 from django.db import models
-from datetime import datetime
+from datetime import date
 
-class Team(models.Model):
-    """Команда"""
+class Team(models.Model): # TODO: Сделать .url через Slug/SlugField
+    """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
     name = models.CharField("Название", max_length=50, unique=True)
     image = models.ImageField("Логотип", upload_to="img/teams",default="img/team.jpg")
 
@@ -52,6 +52,11 @@ class Player(models.Model):
 
     def fullname(self):
         return self.surname + " " + self.name + " " + self.patronymic
+
+    def age(self):
+        today = date.today()
+        bd = self.birth_date
+        return today.year - bd.year - ((today.month,today.day) < (bd.month, bd.day))
 
     class Meta:
         verbose_name = "Игрок"
