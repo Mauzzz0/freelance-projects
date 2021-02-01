@@ -46,9 +46,7 @@ $('.header__close').click(function() {
     is_open = false;
 });
 
-$('.footer__partner').css({
-    "background-image": 'url('+($(this).attr('data-img-bg')+')'),
-});
+
 
 
 
