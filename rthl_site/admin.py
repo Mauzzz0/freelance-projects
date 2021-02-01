@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Team, Player
+from .models import *
 from modeltranslation.admin import TranslationAdmin
 
+admin.site.register(Season)
 admin.site.site_header = 'Администрирование РТХЛ'
 
 @admin.register(Team)
@@ -27,3 +28,13 @@ class PlayerAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src={obj.image.url} width="50" height="50"')
 
     get_image.short_description = "Фото игрока"
+
+@admin.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    """Турниры"""
+    list_display = ("name","type","season")
+
+@admin.register(Match)
+class MatchAdmin(admin.ModelAdmin):
+    """Матчи"""
+    list_display = ("name","tournament","teamA","teamB","date")

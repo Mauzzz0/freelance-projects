@@ -1,7 +1,12 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import date
 
-class Team(models.Model): # TODO: Сделать .url через Slug/SlugField
+def validate_season_years(first,second):
+    if second-first != 1:
+        raise ValidationError("Некорректная разница годов")
+
+class Team(models.Model): # TODO: Сделать PK по имени-городу
     """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
     name = models.CharField("Название", max_length=50, unique=True)
     image = models.ImageField("Логотип", upload_to="img/teams",default="img/team.jpg")
@@ -81,3 +86,65 @@ class Player(models.Model):
     class Meta:
         verbose_name = "Игрок"
         verbose_name_plural = "Игроки"
+
+class Season(models.Model):
+    """Сезон"""
+    start_year = models.PositiveSmallIntegerField("Год начала",unique=True)
+    end_year = models.PositiveSmallIntegerField("Год конца",unique=True)
+
+    def __str__(self):
+        return str(self.start_year) + "-" + str(self.end_year)
+
+    class Meta:
+        verbose_name = "Сезон"
+        verbose_name_plural = "Сезоны"
+
+class Tournament(models.Model):
+    """Турнир"""
+    name = models.CharField("Название",max_length=50,unique=True)
+    type = models.CharField("Тип",max_length=20)
+    season = models.ForeignKey(
+        Season,
+        verbose_name="Сезон чемпионата",
+        on_delete=models.SET_NULL,
+        null = True
+        )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Турнир"
+        verbose_name_plural = "Турниры"
+
+class Match(models.Model):
+    """Матч"""
+    name = models.CharField("Название",max_length=50)
+    date = models.DateTimeField("Дата и время")
+    teamA = models.ForeignKey(
+        Team,
+        verbose_name="Команда 1",
+        related_name="team1",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    teamB = models.ForeignKey(
+        Team,
+        verbose_name="Команда 2",
+        related_name="team2",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    tournament = models.ForeignKey(
+        Tournament,
+        verbose_name="В рамках турнира",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Матч"
+        verbose_name_plural = "Матчи"
