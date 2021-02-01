@@ -30,6 +30,28 @@ class TeamDetailView(DetailView):
     template_name = "Team/each_team.html"
     context_object_name = 'team'
 
+    def VVKPI(self):
+        """ВывестиВсеКомандыПервогоИгрока"""
+        pl = Player.objects.first()
+        objects = pl.team_name.all()
+        return objects
+
+    def VVIPK(self):
+        """ВывестиВсехИгроковПервойКоманды"""
+        obj = Team.objects.first()
+        pls = obj.player_team.all()
+        return pls
+
+    def VVITK(self):
+        """ВывестиВсехИгроковТекущейКоманды"""
+        pls = self.object.player_team.all()
+        return pls
+
+    def get_coach(self):
+        for pl in self.object.player_team.all():
+            if pl.role == "Гл. Тренер":
+                return pl.surname + " " + pl.name
+
 class PlayerDetailView(DetailView):
     model = Player
     template_name = "Player/each_player.html"

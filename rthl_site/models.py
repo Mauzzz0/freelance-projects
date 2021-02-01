@@ -5,6 +5,13 @@ class Team(models.Model): # TODO: Сделать .url через Slug/SlugField
     """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
     name = models.CharField("Название", max_length=50, unique=True)
     image = models.ImageField("Логотип", upload_to="img/teams",default="img/team.jpg")
+    city = models.CharField("Город",max_length=30, default="Москва")
+    division = models.CharField("Дивизион", max_length=50,default="Нет",
+                                choices=(
+                                    ("Золотой","Золотой"),
+                                    ("Бронзовый","Бронзовый"),
+                                    ("Серебряный","Серебряный"))
+                                )
 
     def __str__(self):
         return self.name
@@ -23,7 +30,8 @@ class Player(models.Model):
                             choices=(
                                 ("Нападающий", "Нападающий"),
                                 ("Защитник", "Защитник"),
-                                ("Тренер", "Тренер"))
+                                ("Тренер", "Тренер"),
+                                ("Гл. Тренер", "Гл. Тренер"))
                             )
     team_name = models.ManyToManyField(
         Team,
