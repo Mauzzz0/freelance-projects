@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ team.name }} | РТХЛ{% endblock %}
-{% block content %}	{% block content %}
-  <p>{{ team.name }}</p>	{% load static %}
-{% endblock %} 	<div class="team">
+{% block content %}
+{% load static %}
+<div class="team">
   <div class="container">
     <div class="team-block">
       <div class="team-header">
@@ -24,7 +24,7 @@
           <div class="team-info-item">
             <span class="team-info-item__title">Главный тренер</span>
             <span class="team-info-item__text">Анатолий Федотов</span>
-
+            
           </div>
         </div>
         <div class="team-nav">
@@ -102,7 +102,7 @@
 
         </div>
         <div class="team-tournaments team-switch">
-
+          
         </div>
       </div>
     </div>
