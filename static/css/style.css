@@ -1245,6 +1245,9 @@ a:active, a:focus {
 
 .team-matches {
   width: 100%;
+}
+
+.team-matches-block {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1325,6 +1328,113 @@ a:active, a:focus {
   margin: 5px 0;
   font-family: Ubuntu-Medium, sans-serif;
   color: #3241A5;
+}
+
+.team-players {
+  width: 100%;
+}
+
+.team-players-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.team-players-table-header {
+  background-color: #3241A5;
+  height: 50px;
+}
+
+.team-players-table-header__item {
+  font-weight: normal;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 0 10px;
+}
+
+.team-players-table-line {
+  height: 75px;
+  border: 1px solid #BAB9B9;
+  border-top: none;
+}
+
+.team-players-table-line__item {
+  text-align: center;
+}
+
+.team-players-table-line__img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
+.team-media {
+  width: 100%;
+}
+
+.team-media-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.team-media-card {
+  margin-bottom: 30px;
+  flex-basis: 33%;
+}
+
+.team-media-card__video {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.team-media-card__title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.team-media-card__date {
+  font-size: 18px;
+  color: #727272;
+}
+
+.team-tournaments {
+  width: 100%;
+}
+
+.team-tournaments-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.team-tournaments-table-header {
+  background-color: #3241A5;
+  height: 50px;
+}
+
+.team-tournaments-table-header__item {
+  font-weight: normal;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 0 10px;
+}
+
+.team-tournaments-table-line {
+  height: 50px;
+  border: 1px solid #BAB9B9;
+  border-top: none;
+}
+
+.team-tournaments-table-line__item {
+  text-align: center;
+}
+
+.tab, .line {
+  display: none;
 }
 
 .schedule-date {

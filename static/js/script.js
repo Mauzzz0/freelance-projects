@@ -1,7 +1,8 @@
 const menuBtn = $('.header-nav-more__btn'),
       menu    = $('.header-nav-dropdown'),
       hamMenuBtn = $('.header__menu'),
-      hamMenu = $('.header-hum-menu');
+      hamMenu = $('.header-hum-menu'),
+      matchesTable = $('.player-matches__header');
 let is_open = false;
 
 menuBtn.on('click', function() {
@@ -13,6 +14,18 @@ menuBtn.on('click', function() {
       menu.slideDown();
   }
 });
+
+matchesTable.on('click', function() {
+    $(this).next($('.player-matches-table-block')).toggleClass('hidden');
+    if ( $(this).hasClass('is-active') ) {
+        $(this).removeClass('is-active');
+        $(this).children('i').css('transform', 'rotate(0deg)');
+    } else {
+        $(this).addClass('is-active');
+        $(this).children('i').css('transform', 'rotate(180deg)');
+    }
+    
+  });
 
 $(document).scroll(function (e) {
   if ( !menuBtn.is(e.target) && !menu.is(e.target) && menu.has(e.target).length === 0) {
@@ -49,3 +62,31 @@ $('.footer__partner__img').mouseout(function(){
 $('#select_league').on('click', function() {
     $('#select_league').toggleClass('teams__selected');
   });
+
+document.getElementById("defaultOpen").click();
+
+function openBlock(event, blockName, line) {
+    // Declare all variables
+    var i, tabcontent, tablinks, lines;
+    lines = document.getElementsByClassName("line");
+    for (i = 0; i < lines.length; i++) {
+        lines[i].style.display = "none";
+    }
+    
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tab");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(blockName).style.display = "block";
+    document.getElementById(line).style.display = "block";
+    event.currentTarget.className += " active";
+}

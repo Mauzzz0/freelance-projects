@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block title %}{{ team.name }} | РТХЛ{% endblock %}
+{% block content %}
+{% load static %}
+<div class="team">
+  <div class="container">
+    <div class="team-block">
+      <div class="team-header">
+        <img src="" alt="Логотип команды" class="team__logo">
+        <div class="team-name">
+          <h1 class="team__title">COSMO</h1>
+          <span class="team__from">Москва</span>
+        </div>
+        <div class="team-info">
+          <button class="team-info__application">Заявка команды на игру</button>
+          <div class="team-info-item">
+            <span class="team-info-item__title">Дивизион</span>
+            <span class="team-info-item__text">Серебряный</span>
+          </div>
+          <div class="team-info-item">
+            <span class="team-info-item__title">Рейтинг</span>
+            <span class="team-info-item__text">2,36</span>
+          </div>
+          <div class="team-info-item">
+            <span class="team-info-item__title">Главный тренер</span>
+            <span class="team-info-item__text">Анатолий Федотов</span>
+            
+          </div>
+        </div>
+        <div class="team-nav">
+          <div class="team-nav-item">
+            <button id="defaultOpen" class="team-nav__btn tablink" onclick="openBlock(event, 'matches', 'line1')">Матчи</button>
+            <div id="line1" class="team-nav__line line"></div>
+          </div>
+          <div class="team-nav-item">
+            <button class="team-nav__btn tablink" onclick="openBlock(event, 'players', 'line2')">Состав</button>
+            <div id="line2" class="team-nav__line line"></div>
+          </div>
+          <div class="team-nav-item">
+            <button class="team-nav__btn tablink" onclick="openBlock(event, 'media', 'line3')">Медиа</button>
+            <div id="line3" class="team-nav__line line"></div>
+          </div>
+          <div class="team-nav-item">
+            <button class="team-nav__btn tablink" onclick="openBlock(event, 'tournaments', 'line')">Турниры</button>
+            <div id="line4" class="team-nav__line line"></div>
+          </div>
+        </div>
+        <div id="matches" class="team-matches tab">
+          <div class="team-matches-block">
+            <div class="team-matches-column">
+              <h2 class="team-matches__title">Ближайшие</h2>
+              <div class="team-matches-card">
+                <div class="team-matches-card-teams">
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team1__name">ХХК СГМ)</div>
+                    <div class="team-matches-card-team1__from">Москва</div>
+                  </div>
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team2__name">ХК Феникс</div>
+                    <div class="team-matches-card-team2__from">Москва</div>
+                  </div>
+                </div>
+                <div class="team-matches-card-info">
+                  <img src="{% static 'img/team.png' %}" alt="Команда 1" class="team-matches-card__img">
+                  <div class="team-matches-card-match">
+                    <span class="team-matches-card__first">23.11</span>
+                    <span class="team-matches-card__second">18:00</span>
+                    <span class="team-matches-card__third">Янтарь</span>
+                  </div>
+                  <img src="{% static 'img/team2.png' %}" alt="Команда 2" class="team-matches-card__img">
+                </div>
+              </div>
+            </div>
+            <div class="team-matches-column">
+              <h2 class="team-matches__title">Прошедшие</h2>
+              <div class="team-matches-card">
+                <div class="team-matches-card-teams">
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team1__name">ХХК СГМ)</div>
+                    <div class="team-matches-card-team1__from">Москва</div>
+                  </div>
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team2__name">ХК Феникс</div>
+                    <div class="team-matches-card-team2__from">Москва</div>
+                  </div>
+                </div>
+                <div class="team-matches-card-info">
+                  <img src="{% static 'img/team.png' %}" alt="Команда 1" class="team-matches-card__img">
+                  <div class="team-matches-card-match">
+                    <span class="team-matches-card__first">23.11, 18:00</span>
+                    <span class="team-matches-card__second">5 : 3</span>
+                    <span class="team-matches-card__third">Янтарь</span>
+                  </div>
+                  <img src="{% static 'img/team2.png' %}" alt="Команда 2" class="team-matches-card__img">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="players" class="team-players tab">
+          <div class="team-players-type">
+            <h2 class="team-players__title">Вратари</h2>
+            <table class="team-players-table">
+              <tr class="team-players-table-header">
+                <th class="team-players-table-header__item">#</th>
+                <th></th>
+                <th class="team-players-table-header__item">ИГРОК</th>
+                <th class="team-players-table-header__item">КВАЛИФИКАЦИЯ</th>
+                <th class="team-players-table-header__item">ВОЗРАСТ</th>
+                <th class="team-players-table-header__item">РЕЙТИНГ</th>
+              </tr>
+              <tr class="team-players-table-line">
+                <td class="team-players-table-line__item">1</td>
+                <td class="team-players-table-line__item"><img src="{% static 'img/player.jpg' %}" alt="" class="team-players-table-line__img"></td>
+                <td class="team-players-table-line__item">Сергей Зехов</td>
+                <td class="team-players-table-line__item">Новичок</td>
+                <td class="team-players-table-line__item">45</td>
+                <td class="team-players-table-line__item">0.5</td>
+              </tr>
+            </table>
+          </div>
+          <div class="team-players-type">
+            <h2 class="team-players__title">Вратари</h2>
+            <table class="team-players-table">
+              <tr class="team-players-table-header">
+                <th class="team-players-table-header__item">#</th>
+                <th></th>
+                <th class="team-players-table-header__item">ИГРОК</th>
+                <th class="team-players-table-header__item">КВАЛИФИКАЦИЯ</th>
+                <th class="team-players-table-header__item">ВОЗРАСТ</th>
+                <th class="team-players-table-header__item">РЕЙТИНГ</th>
+              </tr>
+              <tr class="team-players-table-line">
+                <td class="team-players-table-line__item">1</td>
+                <td class="team-players-table-line__item"><img src="{% static 'img/player.jpg' %}" alt="" class="team-players-table-line__img"></td>
+                <td class="team-players-table-line__item">Сергей Зехов</td>
+                <td class="team-players-table-line__item">Новичок</td>
+                <td class="team-players-table-line__item">45</td>
+                <td class="team-players-table-line__item">0.5</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div id="media" class="team-media tab">
+          <div class="team-media-block">
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+            <div class="team-media-card">
+              <iframe class="team-media-card__video" width="333" height="186" src="https://www.youtube.com/embed/GooSrYVxuoI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="team-media-card__title">Cosmo - ХК Феникс</span>
+              <span class="team-media-card__date">24.12.2020</span>
+            </div>
+          </div>
+        </div>
+        <div id="tournaments" class="team-tournaments tab">
+          <div class="team-tournaments-block">
+            <table class="team-tournaments-table">
+              <tr class="team-tournaments-table-header">
+                <th class="team-tournaments-table-header__item">Сезон</th>
+                <th class="team-tournaments-table-header__item">И</th>
+                <th class="team-tournaments-table-header__item">В</th>
+                <th class="team-tournaments-table-header__item">ВБ</th>
+                <th class="team-tournaments-table-header__item">Н</th>
+                <th class="team-tournaments-table-header__item">П</th>
+                <th class="team-tournaments-table-header__item">ПБ</th>
+                <th class="team-tournaments-table-header__item">Ш</th>
+                <th class="team-tournaments-table-header__item">О</th>
+              </tr>
+              <tr class="team-tournaments-table-line">
+                <td class="team-tournaments-table-line__item">Сезон 2019-2020 Дивизион "Золотой" Регулярный чемпионат</td>
+                <td class="team-tournaments-table-line__item">7</td>
+                <td class="team-tournaments-table-line__item">4</td>
+                <td class="team-tournaments-table-line__item">3</td>
+                <td class="team-tournaments-table-line__item">2</td>
+                <td class="team-tournaments-table-line__item">0</td>
+                <td class="team-tournaments-table-line__item">0</td>
+                <td class="team-tournaments-table-line__item">2</td>
+                <td class="team-tournaments-table-line__item">2</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
