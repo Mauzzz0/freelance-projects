@@ -29,6 +29,7 @@ class TeamDetailView(DetailView):
     model = Team
     template_name = "Team/each_team.html"
     context_object_name = 'team'
+    slug_field = "url"
 
     def VVKPI(self):
         """ВывестиВсеКомандыПервогоИгрока"""

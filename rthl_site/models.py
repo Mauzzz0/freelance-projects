@@ -12,6 +12,7 @@ class Team(models.Model): # TODO: Сделать .url через Slug/SlugField
                                     ("Бронзовый","Бронзовый"),
                                     ("Серебряный","Серебряный"))
                                 )
+    #url = models.SlugField(max_length=30)
 
     def __str__(self):
         return self.name
