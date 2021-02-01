@@ -30,12 +30,20 @@ class Player(models.Model):
     surname = models.CharField("Фамилия", max_length=50)
     patronymic = models.CharField("Отчество", max_length=50)
     game_number = models.PositiveSmallIntegerField("Номер игрока")
-    role = models.CharField("Роль",max_length=20,
+    role = models.CharField("Роль",max_length=20, default="Нет",
                             choices=(
+                                ("Нет", "Нет"),
+                                ("Вратарь", "Вратарь"),
                                 ("Нападающий", "Нападающий"),
                                 ("Защитник", "Защитник"),
-                                ("Тренер", "Тренер"),
-                                ("Гл. Тренер", "Гл. Тренер"))
+                                ("Тренер", "Тренер"))
+                            )
+    adm_role = models.CharField("Административная роль", max_length=20, default="Нет",
+                            choices=(
+                                ("Нет","Нет"),
+                                ("Ассистент", "Ассистент"),
+                                ("Капитан", "Капитан"),
+                                ("Главный Тренер", "Главный тренер"))
                             )
     team_name = models.ManyToManyField(
         Team,
@@ -43,8 +51,8 @@ class Player(models.Model):
         related_name="player_team"
     )
     image = models.ImageField("Фото", upload_to="img/players",default="img/player.jpg")
-    growth = models.PositiveSmallIntegerField("Рост")
-    weight = models.PositiveSmallIntegerField("Вес")
+    growth = models.PositiveSmallIntegerField("Рост",null=True)
+    weight = models.PositiveSmallIntegerField("Вес",null=True)
     birth_date = models.DateField("Дата рождения")
     grip = models.CharField("Хват",max_length=6,
                             choices=(

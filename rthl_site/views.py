@@ -49,10 +49,10 @@ class TeamDetailView(DetailView):
         pls = self.object.player_team.all()
         return pls
 
-    def get_coach(self):
-        for pl in self.object.player_team.all():
-            if pl.role == "Гл. Тренер":
-                return pl.surname + " " + pl.name
+    #def get_coach(self):
+    #    for pl in self.object.player_team.all():
+    #        if pl.role == "Гл. Тренер":
+    #            return pl.surname + " " + pl.name
 
 class PlayerDetailView(DetailView):
     model = Player
