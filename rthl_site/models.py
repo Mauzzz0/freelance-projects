@@ -12,7 +12,10 @@ class Team(models.Model): # TODO: Сделать .url через Slug/SlugField
                                     ("Бронзовый","Бронзовый"),
                                     ("Серебряный","Серебряный"))
                                 )
-    #url = models.SlugField(max_length=30)
+    url = models.SlugField(
+        help_text="Адрес на сайте. Пример: rthl.ru/avangard (\"rthl.ru/\" не вводить)",
+        max_length=30,
+        unique=True)
 
     def __str__(self):
         return self.name

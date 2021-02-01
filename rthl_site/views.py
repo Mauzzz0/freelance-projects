@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from .models import Team, Player
@@ -23,7 +23,8 @@ def teams(request):
     return render(request, "Team/team.html")
 
 def Home(request): # TODO: inProgress
-    return render(request, "empty.html")
+    response = redirect('/schedule')
+    return response
 
 class TeamDetailView(DetailView):
     model = Team
