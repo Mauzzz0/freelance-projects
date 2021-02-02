@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 from .models import Team, Player
 
 
+
 def contacts(request):
     return render(request, "Other/contacts.html")
 
@@ -31,6 +32,13 @@ class TeamDetailView(DetailView):
     template_name = "Team/each_team.html"
     context_object_name = 'team'
     slug_field = "url"
+    ampluas = {
+        "Вратарь" : "Вратари",
+        "Защитник" : "Защитники",
+        "Нападающий" : "Нападающие",
+        "Тренер" : "Тренеры"
+    }
+    players = lambda x: x.object.player_team.all()
 
     def VVKPI(self):
         """ВывестиВсеКомандыПервогоИгрока"""

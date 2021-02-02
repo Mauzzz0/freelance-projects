@@ -24,7 +24,6 @@
           <div class="team-info-item">
             <span class="team-info-item__title">Главный тренер</span>
             <span class="team-info-item__text">????</span>
-            
           </div>
         </div>
         <div class="team-nav">
@@ -67,7 +66,7 @@
                     <span class="team-matches-card__second">18:00</span>
                     <span class="team-matches-card__third">Янтарь</span>
                   </div>
-                  <img src="{% static 'img/team2.png' %}" alt="Команда 2" class="team-matches-card__img">
+                  <img src="{% static 'img/team.png' %}" alt="Команда 2" class="team-matches-card__img">
                 </div>
               </div>
             </div>
@@ -91,15 +90,16 @@
                     <span class="team-matches-card__second">5 : 3</span>
                     <span class="team-matches-card__third">Янтарь</span>
                   </div>
-                  <img src="{% static 'img/team2.png' %}" alt="Команда 2" class="team-matches-card__img">
+                  <img src="{% static 'img/team.png' %}" alt="Команда 2" class="team-matches-card__img">
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div id="players" class="team-players tab">
+		{% for singular,plural in view.ampluas.items %}
           <div class="team-players-type">
-            <h2 class="team-players__title">Вратари</h2>
+            <h2 class="team-players__title">{{ plural }}</h2>
             <table class="team-players-table">
               <tr class="team-players-table-header">
                 <th class="team-players-table-header__item">#</th>
@@ -109,37 +109,21 @@
                 <th class="team-players-table-header__item">ВОЗРАСТ</th>
                 <th class="team-players-table-header__item">РЕЙТИНГ</th>
               </tr>
+			  {% for player in view.players %}
+			  {% if player.role == singular %}
               <tr class="team-players-table-line">
-                <td class="team-players-table-line__item">1</td>
-                <td class="team-players-table-line__item"><img src="{% static 'img/player.jpg' %}" alt="" class="team-players-table-line__img"></td>
-                <td class="team-players-table-line__item">Сергей Зехов</td>
-                <td class="team-players-table-line__item">Новичок</td>
-                <td class="team-players-table-line__item">45</td>
-                <td class="team-players-table-line__item">0.5</td>
+                <td class="team-players-table-line__item">{{ player.game_number }}</td>
+                <td class="team-players-table-line__item"><img src="{{ player.image.url }}" alt="" class="team-players-table-line__img"></td>
+                <td class="team-players-table-line__item">{{ player.name }} {{ player.surname }}</td>
+                <td class="team-players-table-line__item">{{ player.qualification }}</td>
+                <td class="team-players-table-line__item">{{ player.age }}</td>
+                <td class="team-players-table-line__item">0.5rating???</td>
+				{% endif %}
+				{% endfor %}
               </tr>
             </table>
           </div>
-          <div class="team-players-type">
-            <h2 class="team-players__title">Вратари</h2>
-            <table class="team-players-table">
-              <tr class="team-players-table-header">
-                <th class="team-players-table-header__item">#</th>
-                <th></th>
-                <th class="team-players-table-header__item">ИГРОК</th>
-                <th class="team-players-table-header__item">КВАЛИФИКАЦИЯ</th>
-                <th class="team-players-table-header__item">ВОЗРАСТ</th>
-                <th class="team-players-table-header__item">РЕЙТИНГ</th>
-              </tr>
-              <tr class="team-players-table-line">
-                <td class="team-players-table-line__item">1</td>
-                <td class="team-players-table-line__item"><img src="{% static 'img/player.jpg' %}" alt="" class="team-players-table-line__img"></td>
-                <td class="team-players-table-line__item">Сергей Зехов</td>
-                <td class="team-players-table-line__item">Новичок</td>
-                <td class="team-players-table-line__item">45</td>
-                <td class="team-players-table-line__item">0.5</td>
-              </tr>
-            </table>
-          </div>
+		  {% endfor %}
         </div>
         <div id="media" class="team-media tab">
           <div class="team-media-block">
