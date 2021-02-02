@@ -6,16 +6,16 @@
   <div class="container">
     <div class="team-block">
       <div class="team-header">
-        <img src="" alt="Логотип команды" class="team__logo">
+        <img src="{{ team.image.url }}" alt="Логотип команды" class="team__logo">
         <div class="team-name">
-          <h1 class="team__title">COSMO</h1>
-          <span class="team__from">Москва</span>
+          <h1 class="team__title">{{ team.name }}</h1>
+          <span class="team__from">{{ team.city }}</span>
         </div>
         <div class="team-info">
           <button class="team-info__application">Заявка команды на игру</button>
           <div class="team-info-item">
             <span class="team-info-item__title">Дивизион</span>
-            <span class="team-info-item__text">Серебряный</span>
+            <span class="team-info-item__text">{{ team.division }}</span>
           </div>
           <div class="team-info-item">
             <span class="team-info-item__title">Рейтинг</span>
@@ -23,7 +23,7 @@
           </div>
           <div class="team-info-item">
             <span class="team-info-item__title">Главный тренер</span>
-            <span class="team-info-item__text">Анатолий Федотов</span>
+            <span class="team-info-item__text">????</span>
             
           </div>
         </div>
@@ -41,7 +41,7 @@
             <div id="line3" class="team-nav__line line"></div>
           </div>
           <div class="team-nav-item">
-            <button class="team-nav__btn tablink" onclick="openBlock(event, 'tournaments', 'line')">Турниры</button>
+            <button class="team-nav__btn tablink" onclick="openBlock(event, 'tournaments', 'line4')">Турниры</button>
             <div id="line4" class="team-nav__line line"></div>
           </div>
         </div>
@@ -52,8 +52,8 @@
               <div class="team-matches-card">
                 <div class="team-matches-card-teams">
                   <div class="team-matches-card-team1">
-                    <div class="team-matches-card-team1__name">ХХК СГМ)</div>
-                    <div class="team-matches-card-team1__from">Москва</div>
+                    <div class="team-matches-card-team1__name">{{ team.name }}</div>
+                    <div class="team-matches-card-team1__from">{{ team.city }}</div>
                   </div>
                   <div class="team-matches-card-team1">
                     <div class="team-matches-card-team2__name">ХК Феникс</div>
@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <div class="team-matches-card-info">
-                  <img src="{% static 'img/team.png' %}" alt="Команда 1" class="team-matches-card__img">
+                  <img src="{{ team.image.url }}" alt="Команда 1" class="team-matches-card__img">
                   <div class="team-matches-card-match">
                     <span class="team-matches-card__first">23.11</span>
                     <span class="team-matches-card__second">18:00</span>
@@ -76,8 +76,8 @@
               <div class="team-matches-card">
                 <div class="team-matches-card-teams">
                   <div class="team-matches-card-team1">
-                    <div class="team-matches-card-team1__name">ХХК СГМ)</div>
-                    <div class="team-matches-card-team1__from">Москва</div>
+                    <div class="team-matches-card-team1__name">{{ team.name }}</div>
+                    <div class="team-matches-card-team1__from">{{ team.city }}</div>
                   </div>
                   <div class="team-matches-card-team1">
                     <div class="team-matches-card-team2__name">ХК Феникс</div>
@@ -85,7 +85,7 @@
                   </div>
                 </div>
                 <div class="team-matches-card-info">
-                  <img src="{% static 'img/team.png' %}" alt="Команда 1" class="team-matches-card__img">
+                  <img src="{{ team.image.url }}" alt="Команда 1" class="team-matches-card__img">
                   <div class="team-matches-card-match">
                     <span class="team-matches-card__first">23.11, 18:00</span>
                     <span class="team-matches-card__second">5 : 3</span>

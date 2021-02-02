@@ -8,13 +8,9 @@
   <div class="teams">
     <div class="container">
       <div class="teams-block">
-        <p class="teams__title">Нажмите на <i class="fas fa-star teams__star"></i>, чтобы добавить дивизион в избранное</p>
-        <p class="teams__subtitle">Он будет отображаться на главной странице и в расписании</p>
-	{% for i in range3 %}
         <div class="teams-league">
-          <p class="teams-league__title"><i id="select_league" class="fas fa-star teams__star teams__select"></i></p>
+          <p class="teams-league__title"></i></p>
           <div class="teams-league-teams">
-		  {% for j in range9 %}
             <a class="teams-league-team" href="#">
               <img src="" alt="" class="teams-league-team__img">
               <div class="teams-league-team-text">
@@ -22,10 +18,8 @@
                 <p class="teams-league-team__subtitle"></p>
               </div>
             </a>
-			{% endfor %}
           </div>
         </div>
-	{% endfor %}
       </div>
     </div>
   </div>

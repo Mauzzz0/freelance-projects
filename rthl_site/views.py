@@ -20,11 +20,7 @@ def news(request):
     return render(request, "News/news.html")
 
 def teams(request):
-    data = {
-        "range3" : range(3),
-        "range9" : range(9)
-    }
-    return render(request, "Team/team.html", data)
+    return render(request, "Team/teams.html")
 
 def Home(request): # TODO: inProgress
     response = redirect('/schedule')
