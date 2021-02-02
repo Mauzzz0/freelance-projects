@@ -46,10 +46,6 @@ $('.header__close').click(function() {
     is_open = false;
 });
 
-
-
-
-
 $('.footer__partner__img').mouseover(function(){
     $(this).stop().animate({opacity:'1.0'},200);
 });
@@ -57,9 +53,6 @@ $('.footer__partner__img').mouseout(function(){
     $(this).stop().animate({opacity:'0'},200);
 });
 
-$('#select_league').on('click', function() {
-    $('#select_league').toggleClass('teams__selected');
-  });
 
 document.getElementById("defaultOpen").click();
 

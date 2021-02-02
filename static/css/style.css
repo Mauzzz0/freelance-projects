@@ -1036,6 +1036,7 @@ a:active, a:focus {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: start;
 }
 
 .teams-league-team__img {
