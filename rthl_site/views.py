@@ -24,8 +24,16 @@ def teams(request):
     return render(request, "Team/teams.html")
 
 def Home(request):
-    #response = redirect('/schedule')
     return render(request, "Home/home.html")
+
+def create_app(request):
+    return render(request, "App/create_app.html")
+
+def match(request):
+    return render(request, "Matches/match.html")
+
+def scoreboard(request):
+    return render(request, "Scoreboard/scoreboard.html")
 
 class TeamDetailView(DetailView):
     model = Team
