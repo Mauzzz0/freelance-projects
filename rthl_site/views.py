@@ -51,6 +51,9 @@ class MatchDetailView(DetailView):
     goalsA = lambda x:x.object.goal_match.all().filter(team_side="A")
     goalsB = lambda x:x.object.goal_match.all().filter(team_side="B")
 
+    penaltiesA = lambda x:x.object.penalty_match.all().filter(team_side="A")
+    penaltiesB = lambda x:x.object.penalty_match.all().filter(team_side="B")
+
 
 class TeamDetailView(DetailView):
     model = Team
