@@ -5,6 +5,8 @@ from .models import *
 from modeltranslation.admin import TranslationAdmin
 
 admin.site.register(Season)
+admin.site.register(ActionGoal)
+admin.site.register(ActionPenalty)
 admin.site.site_header = 'Администрирование РТХЛ'
 
 @admin.register(Team)

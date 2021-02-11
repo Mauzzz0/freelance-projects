@@ -2,10 +2,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import date
 
-def validate_season_years(first,second):
-    if second-first != 1:
-        raise ValidationError("Некорректная разница годов")
-
 class Team(models.Model): # TODO: Сделать PK по имени-городу
     """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
     name = models.CharField("Название", max_length=50, unique=True)
@@ -117,8 +113,10 @@ class Tournament(models.Model):
         verbose_name = "Турнир"
         verbose_name_plural = "Турниры"
 
+
 class Match(models.Model):
     """Матч"""
+    # TODO: Результаты для трёх раундов
     name = models.CharField("Название",max_length=50)
     date = models.DateTimeField("Дата и время")
     teamA = models.ForeignKey(
@@ -141,6 +139,20 @@ class Match(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    #goals_list = models.ManyToManyField(
+    #    ActionGoal,
+    #    verbose_name="Голы",
+    #    related_name="match_goals"
+    #)
+    #penalties_list = models.ManyToManyField(
+    #    ActionPenalty,
+    #    verbose_name="Штрафы",
+    #    related_name="match_penalties"
+    #)
+    place = models.CharField("Место проведения",max_length=50,blank=True)
+    teamA_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
+    teamB_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
+
 
     def __str__(self):
         return self.name
@@ -148,3 +160,64 @@ class Match(models.Model):
     class Meta:
         verbose_name = "Матч"
         verbose_name_plural = "Матчи"
+
+class ActionGoal(models.Model):
+    """Забитый гол"""
+    player = models.ForeignKey(
+        Player,
+        verbose_name="Игрок, забивший гол",
+        related_name="goal_player",
+        on_delete=models.CASCADE
+    )
+    match = models.ForeignKey(
+        Match,
+        verbose_name="Матч",
+        related_name="goal_match",
+        on_delete=models.CASCADE
+    )
+    team_side = models.CharField("Команда", max_length=1,
+                                 choices=(
+                                     ("A","A"),
+                                     ("B","B")
+                                 ))
+    time_minute = models.PositiveSmallIntegerField("Минута матча")
+    time_second = models.PositiveSmallIntegerField("Секунда матча")
+
+
+    def __str__(self):
+        return self.player.fullname()
+
+    class Meta:
+        verbose_name="Гол"
+        verbose_name_plural="Голы"
+
+class ActionPenalty(models.Model):
+    """Полученный штраф"""
+    # TODO: Заранее список штрафов
+    player = models.ForeignKey(
+        Player,
+        verbose_name="Игрок, получивший штраф",
+        related_name="penalty_player",
+        on_delete=models.CASCADE
+    )
+    match = models.ForeignKey(
+        Match,
+        verbose_name="Матч",
+        related_name="penalty_match",
+        on_delete=models.CASCADE
+    )
+    paragraph = models.CharField("Причина",max_length=255,blank=True)
+    team_side = models.CharField("Команда", max_length=1,
+                                 choices=(
+                                     ("A", "A"),
+                                     ("B", "B")
+                                 ))
+    time_minute = models.PositiveSmallIntegerField("Минута матча")
+    time_second = models.PositiveSmallIntegerField("Секунда матча")
+
+    def __str__(self):
+        return self.player.fullname()
+
+    class Meta:
+        verbose_name="Штраф"
+        verbose_name_plural="Штрафы"
