@@ -29,7 +29,7 @@ class Player(models.Model):
     """Игрок"""
     name = models.CharField("Имя", max_length=50)
     surname = models.CharField("Фамилия", max_length=50)
-    patronymic = models.CharField("Отчество", max_length=50)
+    patronymic = models.CharField("Отчество", max_length=50,blank=True)
     game_number = models.PositiveSmallIntegerField("Номер игрока")
     role = models.CharField("Роль",max_length=20, default="Нет",
                             choices=(
@@ -61,11 +61,11 @@ class Player(models.Model):
                                 ("П","Правый"))
                             )
     qualification = models.CharField("Квалификация",max_length=20,default="Нет")
-    games_count = models.PositiveSmallIntegerField("Кол-во игр")
-    goals_count = models.PositiveSmallIntegerField("Кол-во голов")
-    passes_count = models.PositiveSmallIntegerField("Кол-во передач")
-    penalties_count = models.PositiveSmallIntegerField("Кол-во штрафов")
-    disqualified_games_count = models.PositiveSmallIntegerField("Кол-во дисквал игр")
+    games_count = models.PositiveSmallIntegerField("Кол-во игр",default=0)
+    goals_count = models.PositiveSmallIntegerField("Кол-во голов",default=0)
+    passes_count = models.PositiveSmallIntegerField("Кол-во передач",default=0)
+    penalties_count = models.PositiveSmallIntegerField("Кол-во штрафов",default=0)
+    disqualified_games_count = models.PositiveSmallIntegerField("Кол-во дисквал игр",default=0)
     biography = models.TextField("Биография", blank=True, default="Нет")
 
     def __str__(self):
@@ -163,11 +163,10 @@ class Match(models.Model):
 
 class ActionGoal(models.Model):
     """Забитый гол"""
-    player = models.ForeignKey(
+    players = models.ManyToManyField(
         Player,
-        verbose_name="Игрок, забивший гол",
-        related_name="goal_player",
-        on_delete=models.CASCADE
+        verbose_name="Игроки, забившие гол",
+        related_name="goal_players"
     )
     match = models.ForeignKey(
         Match,
@@ -185,7 +184,14 @@ class ActionGoal(models.Model):
 
 
     def __str__(self):
-        return self.player.fullname()
+        #res = "".join([str(x) + " " for x in (self.match,self.team_side,self.time_minute,self.time_second)])
+        res = str(self.match.date.date()) + " " +\
+                self.match.teamA.name + " - " +\
+                self.match.teamB.name + " " +\
+                str(self.time_minute) + "мин:" +\
+                str(self.time_second) + "сек команда" +\
+                str(self.team_side)
+        return res
 
     class Meta:
         verbose_name="Гол"
@@ -221,3 +227,39 @@ class ActionPenalty(models.Model):
     class Meta:
         verbose_name="Штраф"
         verbose_name_plural="Штрафы"
+
+class Lineup(models.Model):
+    """Конкретный состав команды в конкретном матче"""
+    match = models.ForeignKey(
+        Match,
+        verbose_name="Матч",
+        related_name="lineup_match",
+        on_delete=models.CASCADE
+    )
+    team = models.ForeignKey(
+        Team,
+        verbose_name="Название команды",
+        related_name="lineup_team",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    players = models.ManyToManyField(
+        Player,
+        verbose_name="Игрок",
+        related_name="lineup_player"
+    )
+    team_side = models.CharField("Сторона", max_length=1,
+                                 choices=(
+                                     ("A", "A"),
+                                     ("B", "B")
+                                 ))
+
+    def __str__(self):
+        res = str(self.match.date.date()) + " " +\
+            self.team.name + " сторона-" +\
+            self.team_side
+        return res
+
+    class Meta:
+        verbose_name="Состав"
+        verbose_name_plural="Составы"

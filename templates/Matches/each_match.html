@@ -6,21 +6,21 @@
   <div class="container">
     <div class="match-block">
       <div class="match-header">
-        <p class="match-header__date"></p>
-        <p class="match-header__place"><a href="#"><i class="fas fa-map-marker-alt"></i></a></p>
+        <p class="match-header__date">{{ match.date }}</p>
+        <p class="match-header__place"><a href="#">{{ match.place }}<i class="fas fa-map-marker-alt"></i></a></p>
         <div class="match-header-main">
           <div class="match-header-team-left">
-            <img src="" alt="Команда 1" class="match-header-team-left__logo">
+            <img src="{{ match.teamA.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
             <div class="match-header-team-left-info">
-              <h1 class="match-header-team-left__name"></h1>
-              <span class="match-header-team-left__trainer">Тренер:<br></span>
+              <h1 class="match-header-team-left__name">{{ match.teamA.name }}</h1>
+              <span class="match-header-team-left__trainer">Тренер:<br>{{ view.teamA_coach }}</span>
             </div>      
           </div>
           <div class="match-header-match">
             <div class="match-header-match-count">
-              <span class="match-header-match-count__item"></span>
+              <span class="match-header-match-count__item">{{ match.teamA_total_goals }}</span>
               <span class="match-header-match-count__item">-</span>
-              <span class="match-header-match-count__item"></span>
+              <span class="match-header-match-count__item">{{ match.teamB_total_goals }}</span>
             </div>
             <div class="match-header-match-counts">
               <span class="match-header-match-counts__item"></span>
@@ -30,10 +30,10 @@
             </div>
           </div>
           <div class="match-header-team-right">
-            <img src="" alt="Команда 1" class="match-header-team-right__logo">  
+            <img src="{{ match.teamB.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
             <div class="match-header-team-right-info">
-              <h1 class="match-header-team-right__name"></h1>
-              <span class="match-header-team-right__trainer">Тренер:<br></span>
+              <h1 class="match-header-team-right__name">{{ match.teamB.name }}</h1>
+              <span class="match-header-team-right__trainer">Тренер:<br>{{ view.teamB_coach }}</span>
             </div>
           </div>
         </div>
@@ -52,7 +52,6 @@
           <div id="line3" class="match-nav__line line"></div>
         </div>
       </div>
-      
       <div id="protocol" class="match-protocol tab" id="protocol">
         <div class="match-protocol-block">
           <p class="match-protocol-period__title"></p>
@@ -115,16 +114,18 @@
           </div>         
         </div>
       </div>
-
       <div id="players" class="match-players tab" id="players">
         <div class="match-players-type">
-          <h2 class="match-players-type__title"></h2>
+            {% for amplua,plural in view.ampluas.items %}
+          <h2 class="match-players-type__title">{{ plural }}</h2>
           <div class="match-players-type-table">
+          {% for player in view.teamA_players %}
+              {% if player.role == amplua %}
             <div class="match-players-type-line">
               <div class="match-players-type-line-left">
-                <span class="match-players-type-line-left__num"></span>
-                <img src="" alt="" class="match-players-type-line-left__img">
-                <span class="match-players-type-line-left__name"><a href="#"></a></span>
+                <span class="match-players-type-line-left__num">#{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-line-left__img">
+                <a href="../player/{{ player.id }}" class="match-players-type-line-left__name">{{ player.fullname }}<a href="#"></a></a>
               </div>
               <div class="match-players-type-line-right">
                 <span class="match-players-type-line-right__name"><a href="#"></a></span>
@@ -132,10 +133,12 @@
                 <span class="match-players-type-line-right__num"></span>
               </div>
             </div>
+              {% endif %}
+              {% endfor %}
           </div>
+        {% endfor %}
         </div>
       </div>
-
       <div id="statistics" class="match-statistics tab" id="statistics">
         <div class="match-statistics-team">
           <h2 class="match-statistics__title"></h2>

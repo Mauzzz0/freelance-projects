@@ -15,6 +15,7 @@ urlpatterns = [
     path('dev_match', views.match, name="match"),
     path('dev_news', views.news, name="news"),
     path('dev_scoreboard', views.scoreboard, name="scoreboard"),
+    path('match/<int:pk>', views.MatchDetailView.as_view()),
 
     path('team/<slug:slug>', views.TeamDetailView.as_view()),
     path('player/<int:pk>', views.PlayerDetailView.as_view())

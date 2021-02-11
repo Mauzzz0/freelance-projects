@@ -39,13 +39,21 @@ class MatchDetailView(DetailView):
     model = Match
     template_name = "Matches/each_match.html"
     context_object_name = "match"
+    ampluas = {
+        "Вратарь": "Вратари",
+        "Защитник": "Защитники",
+        "Нападающий": "Нападающие"
+    }
 
-    teamA_players = lambda x:x.object.teamA.player_team.all()
-    teamA_coach = lambda x:x.object.teamA.player_team.all().filter(adm_role="Главный Тренер")[0]
+
+    teamA_players = lambda x:x.object.lineup_match.get(team_side="A").players.all()
+    teamA_coach = lambda x:x.object.lineup_match.get(team_side="A").players.get(adm_role="Главный Тренер")
+    #teamA_players = lambda x:x.object.teamA.player_team.all()
+    #teamA_coach = lambda x:x.object.teamA.player_team.all().filter(adm_role="Главный Тренер")[0]
     # [0], тк возвращается QuerySet<> <=> первый найденный гл тренер
 
-    teamB_players= lambda x:x.object.teamB.player_team.all()
-    teamB_coach = lambda x:x.object.teamB.player_team.all().filter(adm_role="Главный Тренер")[0]
+    #teamB_players= lambda x:x.object.teamB.player_team.all()
+    #teamB_coach = lambda x:x.object.teamB.player_team.all().filter(adm_role="Главный Тренер")[0]
     # [0], тк возвращается QuerySet<> <=> первый найденный гл тренер
 
     goalsA = lambda x:x.object.goal_match.all().filter(team_side="A")
