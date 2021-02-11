@@ -23,9 +23,9 @@ def news(request):
 def teams(request):
     return render(request, "Team/teams.html")
 
-def Home(request): # TODO: inProgress
-    response = redirect('/schedule')
-    return response
+def Home(request):
+    #response = redirect('/schedule')
+    return render(request, "Home/home.html")
 
 class TeamDetailView(DetailView):
     model = Team

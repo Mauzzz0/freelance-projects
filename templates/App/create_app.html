@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <script src="https://kit.fontawesome.com/e884d70755.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <title>Создать заявку</title>
+</head>
+<body>
+  <div class="app">
+    <div class="app-header">
+      <img src="{% static 'img/logo_blue.svg' %}" alt="" class="app__logo">
+      <div class="app-text">
+        <p class="app-text__title">Региональная Товарищеская Хоккейная Лига</p>
+        <p class="app-text__team">ХК СТРОЙГАЗМОНТАЖ (СГМ)</p>
+        <p class="app-text__match">23.01.2021, 18:00   ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс</p>
+      </div>
+      <img src="{% static 'img/team.png' %}" alt="" class="app__team">
+    </div>
+    <div class="app-players">
+      <div class="app-players-type">
+        <p class="app-players-type__title">Выберите полевых игроков (не более 20)</p>
+        <div class="app-players-type-cards">
+          <div class="app-players-type-cards__line"><div>Полевые</div></div>
+          <div class="app-players-type-card">
+            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <div class="app-players-type-card__overlay hidden"></div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">13</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">З</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">ПР</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">45</span>
+            </div>
+            <div class="app-players-type-card__name">Семенов Алексей</div>
+          </div>
+        </div>
+      </div>
+      <div class="app-players-type">
+        <p class="app-players-type__title">Выберите вратарей (не более 2)</p>
+        <div class="app-players-type-cards">
+          <div class="app-players-type-cards__line"><div>Вратари</div></div>
+          <div class="app-players-type-card">
+            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <div class="app-players-type-card__overlay hidden"></div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">13</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">З</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">ПР</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">45</span>
+            </div>
+            <div class="app-players-type-card__name">Семенов Алексей</div>
+          </div>
+        </div>
+      </div>
+      <div class="app-players-type">
+        <p class="app-players-type__title">Выберите вратарей (не более 2)</p>
+        <div class="app-players-type-cards">
+          <div class="app-players-type-cards__line"><div>Администрация</div></div>
+          <div class="app-players-type-card">
+            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <div class="app-players-type-card__overlay hidden"></div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">13</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">З</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">ПР</span>
+            </div>
+            <div class="app-players-type-card-param">
+              <span class="app-players-type-card-param__text">45</span>
+            </div>
+            <div class="app-players-type-card__name">Семенов Алексей</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="app-submit" onClick="window.print()">Готово</button>
+  </div>
+  <script>
+    $('.app-players-type-card').click( function(){
+      $(this).toggleClass('app-players-type-card-active')
+      $(this).children('.app-players-type-card-param').toggleClass('app-players-type-card-param-active');
+      $(this).children('.app-players-type-card__overlay').toggleClass('hidden');
+    });
+  </script>
+</body>
+</html>

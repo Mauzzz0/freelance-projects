@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Табло | РТХЛ</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <script src="https://kit.fontawesome.com/e884d70755.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+<body>
+  <div class="modal-goal modal">
+    <div class="modal-goal-block">
+      <div class="modal-goal-header">
+        <h1 class="modal-goal__title">Гол</h1>
+        <h1 class="modal-goal__team"></h1>
+      </div>
+      <div class="modal-goal-players">
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Ассистент</h2>
+          <div class="modal-goal-part-players">
+            <button class="modal-goal-part-players__btn">1</button>
+          </div>
+        </div>
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Ассистент</h2>
+          <div class="modal-goal-part-players">
+            <button class="modal-goal-part-players__btn">1</button>
+          </div>
+        </div>
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Гол</h2>
+          <div class="modal-goal-part-players">
+            <button class="modal-goal-part-players__btn">1</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-del modal">
+    <div class="modal-del-block">
+      <div class="modal-del-header">
+        <h1 class="modal-del__title">Удаление</h1>
+        <h1 class="modal-del__team"></h1>
+      </div>
+      <div class="modal-del-players">
+        <div class="modal-del-part">
+          <h2 class="modal-del-part__title">Игрок</h2>
+          <div class="modal-del-part-players">
+            <button class="modal-del-part-players__btn">1</button>
+          </div>
+        </div>
+        <div class="modal-del-part">
+          <h2 class="modal-del-part__title">Нарушение</h2>
+          <div class="modal-del-part-players">
+            <button class="modal-del-part-players__btn">1</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="board-nav">
+    <button id="playersBtn" class="board-nav-item tablink" onclick="openBlock(event, 'players')">Составы (1)</button>
+    <button id="defaultOpen" class="board-nav-item tablink" onclick="openBlock(event, 'board')">Табло (2)</button>
+    <button id="protocolBtn" class="board-nav-item tablink" onclick="openBlock(event, 'protocol')">Протокол (3)</button>
+  </div>
+
+  <div class="board-block">
+    <div id="board" class="board-board tab">
+      <div class="board-header">
+        <div class="board-header-team">
+          <p class="board-header-team__name">Команда 1</p>
+          <span class="board-header-team__goals">1</span>
+        </div>
+        <div class="board-header-time">
+          <button id="minus" class="board-header-time__minus"><span>-</span><p>(C\C)</p></button>
+          <span class="board-header-time__time">20:00</span>
+          <button id="plus" class="board-header-time__plus"><span>+</span><p>(M\Ь)</p></button>
+        </div>
+        <div class="board-header-team">
+          <p class="board-header-team__name">Команда 2</p>
+          <span class="board-header-team__goals">2</span>
+        </div>
+      </div>
+      <div class="board-buttons">
+        <div class="board-buttons-left">
+          <button id="leftGoal" class="board-buttons-left-goal">ГОЛ<p>(Левый Shift)</p></button>
+          <button id="leftDel" class="board-buttons-left-del">УДАЛЕНИЕ<p>(Левый Alt)</p></button>
+        </div>
+        <button id="stop" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
+        <div class="board-buttons-right">
+          <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
+          <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="protocol" class="board-protocol-block tab">
+      <div class="board-protocol-teams">
+        <p class="board-protocol__team">Команда 1</p>
+        <p class="board-protocol__team">Команда 2</p>
+      </div>
+      <div class="board-protocol">
+        <div class="board-protocol-block">
+          <p class="board-protocol-period__title"></p>
+          <div class="board-protocol-period">
+            <div class="board-protocol-event-left-fine board-protocol-event event">
+              <button class="board-protocol-event__edit"><i class="fas fa-pencil-alt"></i></button>
+              <div class="board-protocol-event-left-fine-text">
+                <p class="board-protocol-event-left-fine-text__item"></p>
+                <p class="board-protocol-event-left-fine-text__item"></p>
+              </div>
+              <div class="board-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-left-fine-action__img">
+                <span class="board-protocol-event-left-fine-action__text"></span>
+              </div>
+              <div class="board-protocol-event-left-fine-time time">
+                <span class="board-protocol-event-left-fine-time__text"></span>
+              </div>
+            </div>
+            <div class="board-protocol-event-left-goal board-protocol-event event">
+              <button class="board-protocol-event__edit"><i class="fas fa-pencil-alt"></i></button>
+              <div class="board-protocol-event-left-goal-text">
+                <p class="board-protocol-event-left-goal-text__item"></p>
+                <p class="board-protocol-event-left-goal-text__item"></p>
+                <p class="board-protocol-event-left-goal-text__item"></p>
+              </div>
+              <div class="board-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-left-goal-action__img">
+                <span class="board-protocol-event-left-goal-action__text"></span>
+              </div>
+              <div class="board-protocol-event-left-goal-time time">
+                <span class="board-protocol-event-left-goal-time__text"></span>
+              </div>
+            </div>
+            <div class="board-protocol-event-right-fine board-protocol-event event">
+              <div class="board-protocol-event-right-fine-time time">
+                <span class="board-protocol-event-right-fine-time__text"></span>
+              </div>
+              <div class="board-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-right-fine-action__img">
+                <span class="board-protocol-event-right-fine-action__text"></span>
+              </div>
+              <div class="board-protocol-event-right-fine-text">
+                <p class="board-protocol-event-right-fine-text__item"></p>
+                <p class="board-protocol-event-right-fine-text__item"></p>
+              </div>
+              <button class="board-protocol-event__edit"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <div class="board-protocol-event-right-goal board-protocol-event event">
+              <div class="board-protocol-event-right-goal-time time">
+                <span class="board-protocol-event-right-goal-time__text"></span>
+              </div>
+              <div class="board-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-right-goal-action__img">
+                <span class="board-protocol-event-right-goal-action__text"></span>
+              </div>
+              <div class="board-protocol-event-right-goal-text">
+                <p class="board-protocol-event-right-goal-text__item"></p>
+                <p class="board-protocol-event-right-goal-text__item"></p>
+                <p class="board-protocol-event-right-goal-text__item"></p>
+              </div>
+              <button class="board-protocol-event__edit"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+          </div>         
+        </div>
+      </div>
+    </div>
+  
+    <div id="players" class="board-players tab">
+      <div class="board-players-teams">
+        <p class="board-players__team">Команда 1</p>
+        <p class="board-players__team">Команда 2</p>
+      </div>
+      <div class="board-players-type">
+        <h2 class="board-players-type__title"></h2>
+        <div class="board-players-type-table">
+          <div class="board-players-type-line">
+            <div class="board-players-type-line-left">
+              <span class="board-players-type-line-left__num"></span>
+              <img src="" alt="" class="board-players-type-line-left__img">
+              <span class="board-players-type-line-left__name"><a href="#"></a></span>
+            </div>
+            <div class="board-players-type-line-right">
+              <span class="board-players-type-line-right__name"><a href="#"></a></span>
+              <img src="" alt="" class="board-players-type-line-right__img">
+              <span class="board-players-type-line-right__num"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("defaultOpen").click();
+    function openBlock(event, blockName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tab");
+      for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+          tablinks[i].style.backgroundColor = "#3241A5";
+      }
+      document.getElementById(blockName).style.display = "block";
+      event.currentTarget.className += " active";
+      event.currentTarget.style.backgroundColor = "#14248A";
+    }
+
+    function createGoal (team){
+      $('.modal-goal').css({'display' : 'flex'});
+      $('.modal-goal__team').text(team)
+    }
+    function createDel (team){
+      $('.modal-del').css({'display' : 'flex'});
+      $('.modal-del__team').text(team)
+    }
+
+    $('#stop').mousedown(function(){
+      $(this).css({
+        'background-color': '#b9c0ea',
+      });
+    });
+    $('#stop').mouseup(function(){
+      $(this).css({
+        'background-color': '#fff',
+      });
+    });
+    $('#leftGoal').mousedown(function(){
+      $(this).css({
+        'background-color': '#b9c0ea',
+      });
+    });
+    $('#leftGoal').mouseup(function(){
+      $(this).css({
+        'background-color': '#fff',
+      });
+      createGoal('Команда 1');
+    });
+    $('#leftDel').mousedown(function(){
+      $(this).css({
+        'background-color': '#b9c0ea',
+      });
+    });
+    $('#leftDel').mouseup(function(){
+      $(this).css({
+        'background-color': '#fff',
+      });
+      createDel('Команда 1');
+    });
+    $('#rightGoal').mousedown(function(){
+      $(this).css({
+        'background-color': '#b9c0ea',
+      });
+    });
+    $('#rightGoal').mouseup(function(){
+      $(this).css({
+        'background-color': '#fff',
+      });
+      createGoal('Команда 2');
+    });
+    $('#rightDel').mousedown(function(){
+      $(this).css({
+        'background-color': '#b9c0ea',
+      });
+    });
+    $('#rightDel').mouseup(function(){
+      $(this).css({
+        'background-color': '#fff',
+      });
+      createDel('Команда 2');
+    });
+    $('#minus').mousedown(function(){
+      $(this).css({
+        'background-color': 'rgb(20, 36, 138)',
+      });
+    });
+    $('#minus').mouseup(function(){
+      $(this).css({
+        'background-color': '#3241A5',
+      });
+    });
+    $('#plus').mousedown(function(){
+      $(this).css({
+        'background-color': 'rgb(20, 36, 138)',
+      });
+    });
+    $('#plus').mouseup(function(){
+      $(this).css({
+        'background-color': '#3241A5',
+      });
+    });
+    document.addEventListener('keydown', (event) => {
+      event.preventDefault();
+      let keyName = event.code;
+      if (keyName === 'Space') {
+        $('#stop').mousedown();
+      }
+      else if(keyName === 'ShiftLeft'){
+        $('#leftGoal').mousedown();
+      }
+      else if(keyName === 'AltLeft'){
+        $('#leftDel').mousedown();
+      }
+      else if(keyName === 'ShiftRight'){
+        $('#rightGoal').mousedown();
+      }
+      else if(keyName === 'AltRight'){
+        $('#rightDel').mousedown();
+      }
+      else if(keyName === 'KeyC'){
+        $('#minus').mousedown();
+      }
+      else if(keyName === 'KeyM'){
+        $('#plus').mousedown();
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      event.preventDefault();
+      let keyName = event.code;
+      if (keyName === 'Space') {
+        $('#stop').mouseup();
+      }
+      else if(keyName === 'ShiftLeft'){
+        $('#leftGoal').mouseup();
+      }
+      else if(keyName === 'AltLeft'){
+        $('#leftDel').mouseup();
+      }
+      else if(keyName === 'ShiftRight'){
+        $('#rightGoal').mouseup();
+      }
+      else if(keyName === 'AltRight'){
+        $('#rightDel').mouseup();
+      }
+      else if(keyName === 'AltRight'){
+        $('#rightDel').mouseup();
+      }
+      else if(keyName === 'KeyC'){
+        $('#minus').mouseup();
+      }
+      else if(keyName === 'KeyM'){
+        $('#plus').mouseup();
+      }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      event.preventDefault();
+      let keyName = event.code;
+      if (keyName === 'Digit1') {
+        document.getElementById("playersBtn").click();
+      }
+      else if (keyName === 'Digit2'){
+        document.getElementById("defaultOpen").click();
+      }
+      else if (keyName === 'Digit3'){
+        document.getElementById("protocolBtn").click();
+      }
+    })
+  </script>
+</body>
+</html>
