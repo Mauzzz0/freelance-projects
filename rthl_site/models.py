@@ -155,7 +155,7 @@ class Match(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return str(self.teamA) + "-" + str(self.teamB)
 
     class Meta:
         verbose_name = "Матч"

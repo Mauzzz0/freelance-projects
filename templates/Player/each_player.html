@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content%}
+    <b>{{ view.get_matches_by_team }}</b>
   <div class="player">
     <div class="container">
       <div class="player-block">
@@ -74,7 +75,9 @@
         </div>
         <div class="player-matches">
           <h2 class="player-matches__title">Матчи</h2>
-          <button class="player-matches__header"><span></span><i class="fas fa-angle-down"></i></button>
+            {% for team,matches in view.get_matches_by_team.items %}
+          <button class="player-matches__header"><span>{{ team.name }}</span><i class="fas fa-angle-down"></i></button>
+            {% for match in matches %}
           <div class="player-matches-table-block hidden">
             <table class="player-matches-table ">
               <tr class="player-matches-table-header">
@@ -85,16 +88,17 @@
                 <th class="player-matches-table-header__item" title="Кол-во штрафных минут">ШТР</th>
               </tr>
               <tr class="player-matches-table-line">
-                <td class="player-matches-table-line__item"></td>
-                <td class="player-matches-table-line__item"></td>
+                <td class="player-matches-table-line__item">{{ match.date.date }}</td>
+                <td class="player-matches-table-line__item">{{ match }}</td>
                 <td class="player-matches-table-line__item"></td>
                 <td class="player-matches-table-line__item"></td>
                 <td class="player-matches-table-line__item"></td>
               </tr>
             </table>
           </div>
+                {% endfor %}
         </div>
-
+        {% endfor %}
         <div class="player-seasons">
           <h2 class="player-seasons__title">Сезоны</h2>
           <div class="player-seasons-table-block">

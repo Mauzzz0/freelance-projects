@@ -102,3 +102,15 @@ class PlayerDetailView(DetailView):
     model = Player
     template_name = "Player/each_player.html"
     context_object_name = 'player'
+
+    #matches = lambda x:[lineup.match for lineup in x.object.lineup_player.all()]
+    teams = lambda x:[lineup.team for lineup in x.object.lineup_player.all()]
+
+    def get_matches_by_team(self):
+        dic = dict()
+        _teams = [lineup.team for lineup in self.object.lineup_player.all()]
+        for team in _teams:
+            matches = [lineup.match for lineup in self.object.lineup_player.all().filter(team=team)]
+            dic[team] = matches
+        #matches = self.object.lineup_player.all()
+        return dic
