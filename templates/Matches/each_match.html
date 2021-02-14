@@ -9,10 +9,10 @@
         <p class="match-header__date">{{ match.date }}</p>
         <p class="match-header__place"><a href="#">{{ match.place }}<i class="fas fa-map-marker-alt"></i></a></p>
         <div class="match-header-main">
-          <div class="match-header-team-left">
+          <div href="vk.com" class="match-header-team-left">
             <img src="{{ view.teamA.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
             <div class="match-header-team-left-info">
-              <h1 class="match-header-team-left__name">{{ view.teamA.name }}</h1>
+                <h1 class="match-header-team-left__name"><a href="../team/{{ view.teamA.url }}">{{ view.teamA.name }}</a></h1>
               <span class="match-header-team-left__trainer">Тренер:<br>{{ view.teamA_coach }}</span>
             </div>      
           </div>
@@ -32,7 +32,7 @@
           <div class="match-header-team-right">
             <img src="{{ view.teamB.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
             <div class="match-header-team-right-info">
-              <h1 class="match-header-team-right__name">{{ view.teamB.name }}</h1>
+              <h1 class="match-header-team-right__name"><a href="../team/{{ view.teamB.url }}">{{ view.teamB.name }}</a></h1>
               <span class="match-header-team-right__trainer">Тренер:<br>{{ view.teamB_coach }}</span>
             </div>
           </div>
