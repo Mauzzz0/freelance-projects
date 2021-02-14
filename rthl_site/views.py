@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import DetailView
-from .models import Team, Player, Match
+from .models import Team, Player, Match, Season, Tournament
 
 
 
@@ -21,7 +21,12 @@ def news(request):
     return render(request, "News/news.html")
 
 def teams(request):
-    return render(request, "Team/teams.html")
+    tournaments = Tournament.objects.all()
+
+    data = {
+        "tournaments" : tournaments
+    }
+    return render(request, "Team/teams.html", data)
 
 def Home(request):
     return render(request, "Home/home.html")
@@ -45,23 +50,26 @@ class MatchDetailView(DetailView):
         "Нападающий": "Нападающие"
     }
 
+    lineup = lambda x:x.object.lineup_match.all()
+    teamA = lambda x: x.object.lineup_match.get(team_side="A").team
+    teamB = lambda x: x.object.lineup_match.get(team_side="B").team
 
     teamA_players = lambda x:x.object.lineup_match.get(team_side="A").players.all()
+    teamA_goalkeepers = lambda x:x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
     teamA_coach = lambda x:x.object.lineup_match.get(team_side="A").players.get(adm_role="Главный Тренер")
-    #teamA_players = lambda x:x.object.teamA.player_team.all()
-    #teamA_coach = lambda x:x.object.teamA.player_team.all().filter(adm_role="Главный Тренер")[0]
-    # [0], тк возвращается QuerySet<> <=> первый найденный гл тренер
 
-    #teamB_players= lambda x:x.object.teamB.player_team.all()
-    #teamB_coach = lambda x:x.object.teamB.player_team.all().filter(adm_role="Главный Тренер")[0]
-    # [0], тк возвращается QuerySet<> <=> первый найденный гл тренер
+    teamB_players = lambda x:x.object.lineup_match.get(team_side="B").players.all()
+    teamB_coach = lambda x:x.object.lineup_match.get(team_side="B").players.get(adm_role="Главный Тренер")
+    teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
 
-    goalsA = lambda x:x.object.goal_match.all().filter(team_side="A")
-    goalsB = lambda x:x.object.goal_match.all().filter(team_side="B")
+    goalsA = lambda x:x.object.goal_match.get(team_side="A")
+    goalsB = lambda x:x.object.goal_match.get(team_side="B")
 
-    penaltiesA = lambda x:x.object.penalty_match.all().filter(team_side="A")
-    penaltiesB = lambda x:x.object.penalty_match.all().filter(team_side="B")
+    penaltiesA = lambda x:x.object.penalty_match.get(team_side="A")
+    penaltiesB = lambda x:x.object.penalty_match.get(team_side="B")
 
+    goalkeepers_count = lambda x: max(len(x.teamA_goalkeepers()),len(x.teamB_goalkeepers()))
+    goalkeepers = lambda x:[x.teamA_goalkeepers(),x.teamB_goalkeepers()]
 
 class TeamDetailView(DetailView):
     model = Team

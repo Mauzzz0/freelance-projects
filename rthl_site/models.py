@@ -58,7 +58,8 @@ class Player(models.Model):
     grip = models.CharField("Хват",max_length=6,
                             choices=(
                                 ("Л","Левый"),
-                                ("П","Правый"))
+                                ("П","Правый")),
+                            default="Л"
                             )
     qualification = models.CharField("Квалификация",max_length=20,default="Нет")
     games_count = models.PositiveSmallIntegerField("Кол-во игр",default=0)
@@ -106,6 +107,15 @@ class Tournament(models.Model):
         null = True
         )
 
+    def get_teams(self):
+        teams_all = list()
+        for _match in self.match_tournament.all():
+            _lineups = _match.lineup_match.all()
+            for _lineup in _lineups:
+                teams_all.append(_lineup.team)
+        return teams_all
+
+
     def __str__(self):
         return self.name
 
@@ -119,23 +129,24 @@ class Match(models.Model):
     # TODO: Результаты для трёх раундов
     name = models.CharField("Название",max_length=50)
     date = models.DateTimeField("Дата и время")
-    teamA = models.ForeignKey(
-        Team,
-        verbose_name="Команда 1",
-        related_name="team1",
-        on_delete=models.SET_NULL,
-        null=True
-    )
-    teamB = models.ForeignKey(
-        Team,
-        verbose_name="Команда 2",
-        related_name="team2",
-        on_delete=models.SET_NULL,
-        null=True
-    )
+    #teamA = models.ForeignKey(
+    #    Team,
+    #    verbose_name="Команда 1",
+    #    related_name="team1",
+    #    on_delete=models.SET_NULL,
+    #    null=True
+    #)
+    #teamB = models.ForeignKey(
+    #    Team,
+    #    verbose_name="Команда 2",
+    #    related_name="team2",
+    #    on_delete=models.SET_NULL,
+    #    null=True
+    #)
     tournament = models.ForeignKey(
         Tournament,
         verbose_name="В рамках турнира",
+        related_name="match_tournament",
         on_delete=models.SET_NULL,
         null=True
     )
@@ -150,12 +161,12 @@ class Match(models.Model):
     #    related_name="match_penalties"
     #)
     place = models.CharField("Место проведения",max_length=50,blank=True)
-    teamA_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
-    teamB_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
+    #teamA_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
+    #teamB_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
 
 
-    def __str__(self):
-        return str(self.teamA) + "-" + str(self.teamB)
+    #def __str__(self): # TODO: Починить
+    #    return str(self.lineup_match.teamA) + "-" + str(self.teamB)
 
     class Meta:
         verbose_name = "Матч"
@@ -183,15 +194,15 @@ class ActionGoal(models.Model):
     time_second = models.PositiveSmallIntegerField("Секунда матча")
 
 
-    def __str__(self):
+    #def __str__(self):
         #res = "".join([str(x) + " " for x in (self.match,self.team_side,self.time_minute,self.time_second)])
-        res = str(self.match.date.date()) + " " +\
-                self.match.teamA.name + " - " +\
-                self.match.teamB.name + " " +\
-                str(self.time_minute) + "мин:" +\
-                str(self.time_second) + "сек команда" +\
-                str(self.team_side)
-        return res
+        #res = str(self.match.date.date()) + " " +\
+        #        self.match.teamA.name + " - " +\
+        #        self.match.teamB.name + " " +\
+        #        str(self.time_minute) + "мин:" +\
+        #        str(self.time_second) + "сек команда" +\
+        #        str(self.team_side)
+        #return res # TODO: Починить
 
     class Meta:
         verbose_name="Гол"
