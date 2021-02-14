@@ -5,22 +5,26 @@
 {% load static %}
 
 {% block content %}
+    {% for tournament in tournaments %}
   <div class="teams">
     <div class="container">
       <div class="teams-block">
         <div class="teams-league">
-          <p class="teams-league__title"></i></p>
+          <p class="teams-league__title">{{ tournament.name }}</p>
+            {% for team in tournament.get_teams %}
           <div class="teams-league-teams">
-            <a class="teams-league-team" href="#">
-              <img src="" alt="" class="teams-league-team__img">
+            <a class="teams-league-team" href="../team/{{ team.url }}">
+              <img src="{{ team.image.url }}" alt="" class="teams-league-team__img">
               <div class="teams-league-team-text">
-                <p class="teams-league-team__title"></p>
-                <p class="teams-league-team__subtitle"></p>
+                <p class="teams-league-team__title">{{ team.name }}</p>
+                <p class="teams-league-team__subtitle">{{ team.city }}</p>
               </div>
             </a>
+          {% endfor %}
           </div>
         </div>
       </div>
     </div>
   </div>
+    {% endfor %}
 {% endblock %}
