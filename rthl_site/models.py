@@ -183,79 +183,21 @@ class Match(models.Model):
         return res
 
 
-    #def __str__(self): # TODO: Починить
-    #    return str(self.lineup_match.teamA) + "-" + str(self.teamB)
+    def __str__(self): # TODO: Починить
+        res = str(self.date.strftime("%Y-%m-%d %H:%M "))
+        teams = [x.team.name for x in self.lineup_match.all()]
+        res += teams[0]
+        res += "-"
+        res += teams[1]
+        return res
 
     class Meta:
         verbose_name = "Матч"
         verbose_name_plural = "Матчи"
 
-class ActionGoal(models.Model):
-    """Забитый гол"""
-    players = models.ManyToManyField(
-        Player,
-        verbose_name="Игроки, забившие гол",
-        related_name="goal_players"
-    )
-    match = models.ForeignKey(
-        Match,
-        verbose_name="Матч",
-        related_name="goal_match",
-        on_delete=models.CASCADE
-    )
-    team_side = models.CharField("Команда", max_length=1,
-                                 choices=(
-                                     ("A","A"),
-                                     ("B","B")
-                                 ))
-    time_minute = models.PositiveSmallIntegerField("Минута матча")
-    time_second = models.PositiveSmallIntegerField("Секунда матча")
 
 
-    #def __str__(self):
-        #res = "".join([str(x) + " " for x in (self.match,self.team_side,self.time_minute,self.time_second)])
-        #res = str(self.match.date.date()) + " " +\
-        #        self.match.teamA.name + " - " +\
-        #        self.match.teamB.name + " " +\
-        #        str(self.time_minute) + "мин:" +\
-        #        str(self.time_second) + "сек команда" +\
-        #        str(self.team_side)
-        #return res # TODO: Починить
 
-    class Meta:
-        verbose_name="Гол"
-        verbose_name_plural="Голы"
-
-class ActionPenalty(models.Model):
-    """Полученный штраф"""
-    # TODO: Заранее список штрафов
-    player = models.ForeignKey(
-        Player,
-        verbose_name="Игрок, получивший штраф",
-        related_name="penalty_player",
-        on_delete=models.CASCADE
-    )
-    match = models.ForeignKey(
-        Match,
-        verbose_name="Матч",
-        related_name="penalty_match",
-        on_delete=models.CASCADE
-    )
-    paragraph = models.CharField("Причина",max_length=255,blank=True)
-    team_side = models.CharField("Команда", max_length=1,
-                                 choices=(
-                                     ("A", "A"),
-                                     ("B", "B")
-                                 ))
-    time_minute = models.PositiveSmallIntegerField("Минута матча")
-    time_second = models.PositiveSmallIntegerField("Секунда матча")
-
-    def __str__(self):
-        return self.player.fullname()
-
-    class Meta:
-        verbose_name="Штраф"
-        verbose_name_plural="Штрафы"
 
 class Lineup(models.Model):
     """Конкретный состав команды в конкретном матче"""
@@ -292,3 +234,69 @@ class Lineup(models.Model):
     class Meta:
         verbose_name="Состав"
         verbose_name_plural="Составы"
+
+class ActionGoal(models.Model):
+    """Забитый гол"""
+    players = models.ManyToManyField(
+        Player,
+        verbose_name="Игроки, забившие гол",
+        related_name="goal_players"
+    )
+    match = models.ForeignKey(
+        Match,
+        verbose_name="Матч",
+        related_name="goal_match",
+        on_delete=models.CASCADE
+    )
+    team_side = models.CharField("Команда", max_length=1,
+                                 choices=(
+                                     ("A","A"),
+                                     ("B","B")
+                                 ))
+    time_minute = models.PositiveSmallIntegerField("Минута матча")
+    time_second = models.PositiveSmallIntegerField("Секунда матча")
+    type = "Гол"
+
+    def __str__(self):
+        #res = "".join([str(x) + " " for x in (self.match,self.team_side,self.time_minute,self.time_second)])
+        res = str(self.match.date.date()) + " " +\
+                str(self.time_minute) + "мин:" +\
+                str(self.time_second) + "сек команда" +\
+                str(self.team_side)
+        return res
+
+    class Meta:
+        verbose_name="Гол"
+        verbose_name_plural="Голы"
+
+class ActionPenalty(models.Model):
+    """Полученный штраф"""
+    # TODO: Заранее список штрафов
+    player = models.ForeignKey(
+        Player,
+        verbose_name="Игрок, получивший штраф",
+        related_name="penalty_player",
+        on_delete=models.CASCADE
+    )
+    match = models.ForeignKey(
+        Match,
+        verbose_name="Матч",
+        related_name="penalty_match",
+        on_delete=models.CASCADE
+    )
+    paragraph = models.CharField("Причина",max_length=255,blank=True)
+    team_side = models.CharField("Команда", max_length=1,
+                                 choices=(
+                                     ("A", "A"),
+                                     ("B", "B")
+                                 ))
+    time_minute = models.PositiveSmallIntegerField("Минута матча")
+    time_second = models.PositiveSmallIntegerField("Секунда матча")
+    type = "Штраф"
+
+    def __str__(self):
+        return str(self.time_minute) + " " + str(self.time_second) + " " + self.player.fullname()
+
+    class Meta:
+        verbose_name="Штраф"
+        verbose_name_plural="Штрафы"

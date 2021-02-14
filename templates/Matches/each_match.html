@@ -3,6 +3,9 @@
 {% block content %}
 {% load static %}
 <div class="match">
+    <b>{{ view.teamA_players }}</b>
+    <b>{{ view.teamB_players }}</b>
+    <b>{{ view.actions }}</b>
   <div class="container">
     <div class="match-block">
       <div class="match-header">
@@ -14,7 +17,7 @@
             <div class="match-header-team-left-info">
                 <h1 class="match-header-team-left__name"><a href="../team/{{ view.teamA.url }}">{{ view.teamA.name }}</a></h1>
               <span class="match-header-team-left__trainer">Тренер:<br>{{ view.teamA_coach }}</span>
-            </div>      
+            </div>
           </div>
           <div class="match-header-match">
             <div class="match-header-match-count">
@@ -56,34 +59,39 @@
         <div class="match-protocol-block">
           <p class="match-protocol-period__title"></p>
           <div class="match-protocol-period">
+              {% for action in view.actions %}
+                  {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="match-protocol-event-left-fine match-protocol-event event">
               <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item"></p>
-                <p class="match-protocol-event-left-fine-text__item"></p>
+                <p class="match-protocol-event-left-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
               </div>
               <div class="match-protocol-event-left-fine-action">
                 <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
-                <span class="match-protocol-event-left-fine-action__text"></span>
+                <span class="match-protocol-event-left-fine-action__text">2' что???</span>
               </div>
               <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text"></span>
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}:{{ action.time_second }}</span>
               </div>
             </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
-                <p class="match-protocol-event-left-goal-text__item"></p>
-                <p class="match-protocol-event-left-goal-text__item"></p>
-                <p class="match-protocol-event-left-goal-text__item"></p>
+                  {% for player in action.players.all %}
+                <p class="match-protocol-event-left-goal-text__item">{{ player.fullname }}</p>
+                  {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
                 <span class="match-protocol-event-left-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text"></span>
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}:{{ action.time_second }}</span>
               </div>
             </div>
-
+                  {% endif %}
+                  {% if action.type == "Штраф" and action.team_side == "B" %}
             <div class="match-protocol-event-right-fine match-protocol-event event">
               <div class="match-protocol-event-right-fine-time time">
                 <span class="match-protocol-event-right-fine-time__text"></span>
@@ -97,7 +105,9 @@
                 <p class="match-protocol-event-right-fine-text__item"></p>
               </div>
             </div>
-            <div class="match-protocol-event-right-goal match-protocol-event event">
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "B" %}
+             <div class="match-protocol-event-right-goal match-protocol-event event">
               <div class="match-protocol-event-right-goal-time time">
                 <span class="match-protocol-event-right-goal-time__text"></span>
               </div>
@@ -111,6 +121,8 @@
                 <p class="match-protocol-event-right-goal-text__item"></p>
               </div>
             </div>
+                  {% endif %}
+              {% endfor %}
           </div>         
         </div>
       </div>
@@ -118,21 +130,19 @@
         <div class="match-players-type">
           <h2 class="match-players-type__title">Вратари</h2>
           <div class="match-players-type-table">
-              {% for g in view.teamA_goalkeepers %}
             <div class="match-players-type-line">
               <div class="match-players-type-line-left">
-                <span class="match-players-type-line-left__num">{{ g.game_number }}</span>
-                <img src="{{ g.image.url }}" alt="" class="match-players-type-line-left__img">
-                <a href="../player/{{ g.id }}" class="match-players-type-line-left__name">{{ g.fullname }}<a href="#"></a></a>
+                <span class="match-players-type-line-left__num"></span>
+                <img src="" alt="" class="match-players-type-line-left__img">
+                <a href="" class="match-players-type-line-left__name"><a href="#"></a></a>
               </div>
 
               <div class="match-players-type-line-right">
-                <span class="match-players-type-line-right__name"><a href="#">{{ g.game_number }}</a></span>
-                <img src="{{ g.image.url }}" alt="" class="match-players-type-line-right__img">
-                <span class="match-players-type-line-right__num">{{ g.fullname }}</span>
+                <span class="match-players-type-line-right__name"><a href="#"></a></span>
+                <img src="" alt="" class="match-players-type-line-right__img">
+                <span class="match-players-type-line-right__num"></span>
               </div>
             </div>
-              {% endfor %}
 
           </div>
         </div>

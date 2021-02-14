@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 from .models import Team, Player, Match, Season, Tournament
 from django.db.models import Q
 import operator
+from itertools import chain
 
 
 
@@ -72,6 +73,27 @@ class MatchDetailView(DetailView):
 
     goalkeepers_count = lambda x: max(len(x.teamA_goalkeepers()),len(x.teamB_goalkeepers()))
     goalkeepers = lambda x:[x.teamA_goalkeepers(),x.teamB_goalkeepers()]
+
+    goals = lambda x:x.object.goal_match.all()
+    penalties = lambda x:x.object.penalty_match.all()
+
+    def actions(self):
+        _goals = self.goals()
+        _penalties = self.penalties()
+
+        res = list(_goals)
+        for i in range(len(_penalties)):
+            print(_penalties[i].time_minute)
+            if i<=len(_goals):
+                if _penalties[i].time_minute <= _goals[i].time_minute:
+                    res.insert(i,_penalties[i])
+                else:
+                    res.append(_penalties[i])
+            else:
+                res.append(_penalties[i])
+        return res
+
+
 
 class TeamDetailView(DetailView):
     model = Team
