@@ -77,6 +77,8 @@ class MatchDetailView(DetailView):
     goals = lambda x:x.object.goal_match.all()
     penalties = lambda x:x.object.penalty_match.all()
 
+
+
     def actions(self):
         _goals = self.goals()
         _penalties = self.penalties()
