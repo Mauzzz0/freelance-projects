@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from .models import Team, Player, Match, Season, Tournament
+from django.db.models import Q
+import operator
 
 
 
@@ -97,6 +99,27 @@ class TeamDetailView(DetailView):
         _matches = [x.match for x in _lineups]
         _past_matches = [x for x in _matches if x.is_past_due == True]
         return _past_matches
+
+class TeamAppDetailView(DetailView):
+    model = Team
+    template_name = "App/create_app.html"
+    context_object_name = 'team'
+    slug_field = "url"
+
+    players = lambda x: x.object.player_team.all()
+    players_outfield = lambda x:x.object.player_team.all().filter(
+        Q(role="Нападающий") | Q(role="Защитник")
+    )
+    players_goalkeepers = lambda x:x.object.player_team.all().filter(role="Вратарь")
+    players_adm = lambda x:x.object.player_team.all().filter(role="Тренер")
+
+    def nearest_match(self):
+        _lineups = self.object.lineup_team.all()
+        _matches = [x.match for x in _lineups]
+        _future_matches = [x for x in _matches if x.is_past_due == False]
+        nearest_match = sorted(_future_matches,key=lambda x:x.date)[0]
+        return nearest_match
+
 
 class PlayerDetailView(DetailView):
     model = Player

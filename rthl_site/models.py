@@ -169,10 +169,19 @@ class Match(models.Model):
 
     @property
     def is_past_due(self):
-        print(datetime.now(utc))
-        print(self.date)
-        print(datetime.now(utc) > self.date)
         return datetime.now(utc) > self.date
+
+    def info(self):
+        res = ""
+        fdate = self.date.strftime("%Y-%m-%d %H:%M")
+        res += str(fdate) + " "
+        res += str(self.place) + " "
+        teams = [x.team.name for x in self.lineup_match.all()]
+        res += teams[0]
+        res += "-"
+        res += teams[1]
+        return res
+
 
     #def __str__(self): # TODO: Починить
     #    return str(self.lineup_match.teamA) + "-" + str(self.teamB)

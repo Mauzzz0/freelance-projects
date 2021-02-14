@@ -16,80 +16,86 @@
     <div class="app-header">
       <img src="{% static 'img/logo_blue.svg' %}" alt="" class="app__logo">
       <div class="app-text">
-        <p class="app-text__title">Региональная Товарищеская Хоккейная Лига</p>
-        <p class="app-text__team">ХК СТРОЙГАЗМОНТАЖ (СГМ)</p>
-        <p class="app-text__match">23.01.2021, 18:00   ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс</p>
+        <p class="app-text__title">Российская Товарищеская Хоккейная Лига</p>
+        <p class="app-text__team">{{ team.name }}</p>
+        <p class="app-text__match">{{ view.nearest_match.info }}</p>
       </div>
-      <img src="{% static 'img/team.png' %}" alt="" class="app__team">
+      <img src="{{ team.image.url }}" alt="" class="app__team">
     </div>
     <div class="app-players">
       <div class="app-players-type">
         <p class="app-players-type__title">Выберите полевых игроков (не более 20)</p>
         <div class="app-players-type-cards">
           <div class="app-players-type-cards__line"><div>Полевые</div></div>
+            {% for player in view.players_outfield %}
           <div class="app-players-type-card">
-            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <img src="{{ player.image.url }}" alt="" class="app-players-type-card__img">
             <div class="app-players-type-card__overlay hidden"></div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">13</span>
+              <span class="app-players-type-card-param__text">{{ player.game_number }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">З</span>
+              <span class="app-players-type-card-param__text">{{ player.role.0 }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">ПР</span>
+              <span class="app-players-type-card-param__text">{{ player.qualification }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">45</span>
+              <span class="app-players-type-card-param__text">{{ player.age }}</span>
             </div>
-            <div class="app-players-type-card__name">Семенов Алексей</div>
+            <div class="app-players-type-card__name">{{ player.fullname }}</div>
           </div>
+            {% endfor %}
         </div>
       </div>
       <div class="app-players-type">
         <p class="app-players-type__title">Выберите вратарей (не более 2)</p>
         <div class="app-players-type-cards">
           <div class="app-players-type-cards__line"><div>Вратари</div></div>
+            {% for player in view.players_goalkeepers %}
           <div class="app-players-type-card">
-            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <img src="{{ player.image.url }}" alt="" class="app-players-type-card__img">
             <div class="app-players-type-card__overlay hidden"></div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">13</span>
+              <span class="app-players-type-card-param__text">{{ player.game_number }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">З</span>
+              <span class="app-players-type-card-param__text">{{ player.role.0 }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">ПР</span>
+              <span class="app-players-type-card-param__text">{{ player.qualification }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">45</span>
+              <span class="app-players-type-card-param__text">{{ player.age }}</span>
             </div>
-            <div class="app-players-type-card__name">Семенов Алексей</div>
+            <div class="app-players-type-card__name">{{ player.fullname }}</div>
           </div>
+            {% endfor %}
         </div>
       </div>
       <div class="app-players-type">
         <p class="app-players-type__title">Выберите администрацию</p>
         <div class="app-players-type-cards">
           <div class="app-players-type-cards__line"><div>Администрация</div></div>
+            {% for player in view.players_adm %}
           <div class="app-players-type-card">
-            <img src="{% static 'img/player.jpg' %}" alt="" class="app-players-type-card__img">
+            <img src="{{ player.image.url }}" alt="" class="app-players-type-card__img">
             <div class="app-players-type-card__overlay hidden"></div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">13</span>
+              <span class="app-players-type-card-param__text">{{ player.game_number }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">З</span>
+              <span class="app-players-type-card-param__text">{{ player.role.0 }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">ПР</span>
+              <span class="app-players-type-card-param__text">{{ player.qualification }}</span>
             </div>
             <div class="app-players-type-card-param">
-              <span class="app-players-type-card-param__text">45</span>
+              <span class="app-players-type-card-param__text">{{ player.age }}</span>
             </div>
-            <div class="app-players-type-card__name">Семенов Алексей</div>
+            <div class="app-players-type-card__name">{{ player.fullname }}</div>
           </div>
+            {% endfor %}
         </div>
       </div>
     </div>
