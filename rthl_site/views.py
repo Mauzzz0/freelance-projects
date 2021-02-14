@@ -83,28 +83,20 @@ class TeamDetailView(DetailView):
         "Тренер" : "Тренеры"
     }
     players = lambda x: x.object.player_team.all()
+    coach = lambda x:x.object.player_team.get(adm_role="Главный Тренер")
 
-    def VVKPI(self):
-        """ВывестиВсеКомандыПервогоИгрока"""
-        pl = Player.objects.first()
-        objects = pl.team_name.all()
-        return objects
+    #future_matches = lambda x:[ x.object.lineup_team.all() ]
+    def future_matches(self):
+        _lineups = self.object.lineup_team.all()
+        _matches = [x.match for x in _lineups]
+        _future_matches = [x for x in _matches if x.is_past_due == False]
+        return _future_matches
 
-    def VVIPK(self):
-        """ВывестиВсехИгроковПервойКоманды"""
-        obj = Team.objects.first()
-        pls = obj.player_team.all()
-        return pls
-
-    def VVITK(self):
-        """ВывестиВсехИгроковТекущейКоманды"""
-        pls = self.object.player_team.all()
-        return pls
-
-    #def get_coach(self):
-    #    for pl in self.object.player_team.all():
-    #        if pl.role == "Гл. Тренер":
-    #            return pl.surname + " " + pl.name
+    def past_matches(self):
+        _lineups = self.object.lineup_team.all()
+        _matches = [x.match for x in _lineups]
+        _past_matches = [x for x in _matches if x.is_past_due == True]
+        return _past_matches
 
 class PlayerDetailView(DetailView):
     model = Player

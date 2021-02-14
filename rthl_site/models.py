@@ -1,6 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from datetime import date
+from datetime import date, datetime
+
+from django.utils.timezone import utc
+
 
 class Team(models.Model): # TODO: Сделать PK по имени-городу
     """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
@@ -164,6 +167,12 @@ class Match(models.Model):
     #teamA_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
     #teamB_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
 
+    @property
+    def is_past_due(self):
+        print(datetime.now(utc))
+        print(self.date)
+        print(datetime.now(utc) > self.date)
+        return datetime.now(utc) > self.date
 
     #def __str__(self): # TODO: Починить
     #    return str(self.lineup_match.teamA) + "-" + str(self.teamB)
