@@ -11,8 +11,8 @@
       <div class="teams-block">
         <div class="teams-league">
           <p class="teams-league__title">{{ tournament.name }}</p>
-            {% for team in tournament.get_teams %}
           <div class="teams-league-teams">
+            {% for team in tournament.get_teams %}
             <a class="teams-league-team" href="../team/{{ team.url }}">
               <img src="{{ team.image.url }}" alt="" class="teams-league-team__img">
               <div class="teams-league-team-text">
@@ -20,11 +20,9 @@
                 <p class="teams-league-team__subtitle">{{ team.city }}</p>
               </div>
             </a>
-
+            {% endfor %}
           </div>
-
         </div>
-      {% endfor %}
       </div>
     </div>
   </div>
