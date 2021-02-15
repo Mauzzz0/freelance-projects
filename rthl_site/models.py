@@ -64,13 +64,43 @@ class Player(models.Model):
                                 ("П","Правый")),
                             default="Л"
                             )
-    qualification = models.CharField("Квалификация",max_length=20,default="Нет")
+    qualification = models.CharField("Квалификация",max_length=20,
+                                     choices=(
+                                         ("Нет","Нет"),
+                                         ("Практик","Практик"),
+                                         ("Практик 2.0", "Практик 2.0"),
+                                         ("Красный теоретик","Красный теоретик"),
+                                         ("Красный практик", "Красный практик"),
+                                         ("Теоретик", "Теоретик"),
+                                         ("Любитель", "Любитель"),
+                                         ("Юниор", "Юниор"),
+                                         ("Спортсмен", "Спортсмен"),
+                                         ("Мастер спорта", "Мастер спорта")),
+                                     default="Нет"
+                                     )
     games_count = models.PositiveSmallIntegerField("Кол-во игр",default=0)
     goals_count = models.PositiveSmallIntegerField("Кол-во голов",default=0)
     passes_count = models.PositiveSmallIntegerField("Кол-во передач",default=0)
     penalties_count = models.PositiveSmallIntegerField("Кол-во штрафов",default=0)
     disqualified_games_count = models.PositiveSmallIntegerField("Кол-во дисквал игр",default=0)
     biography = models.TextField("Биография", blank=True, default="Нет")
+
+    def two_letters_qualification(self):
+        dic = {
+            "Нет" : "NO",
+            "Практик" : "ПР",
+            "Практик 2.0" : "П2.0",
+            "Красный теоретик" : "КТР",
+            "Красный практик" : "КПР",
+            "Теоретик" : "ТР",
+            "Любитель" : "ЛБ",
+            "Юниор" : "ЮН",
+            "Спортсмен" : "СП",
+            "Мастер спорта" : "МС"
+        }
+        print(self.qualification)
+        print(dic[self.qualification])
+        return str(dic[self.qualification])
 
     def __str__(self):
         return self.name + " " + self.surname + " " + self.patronymic
