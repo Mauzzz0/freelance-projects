@@ -115,7 +115,10 @@ class TeamDetailView(DetailView):
     players = lambda x: x.object.player_team.all()
     coach = lambda x:x.object.player_team.get(adm_role="Главный Тренер")
 
-    #future_matches = lambda x:[ x.object.lineup_team.all() ]
+    lineups = lambda x:x.object.lineup_team.all()
+    matches = lambda x: [lineup.match for lineup in x.lineups()]
+    tournaments_set = lambda x: set([_match.tournament for _match in x.matches()])
+
     def future_matches(self):
         _lineups = self.object.lineup_team.all()
         _matches = [x.match for x in _lineups]
