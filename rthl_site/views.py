@@ -59,11 +59,15 @@ class MatchDetailView(DetailView):
 
     teamA_players = lambda x:x.object.lineup_match.get(team_side="A").players.all()
     teamA_goalkeepers = lambda x:x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
+    teamA_attackers = lambda x:x.object.lineup_match.get(team_side="A").players.filter(role="Нападающий")
+    teamA_defenders = lambda x:x.object.lineup_match.get(team_side="A").players.filter(role="Защитник")
     teamA_coach = lambda x:x.object.lineup_match.get(team_side="A").players.get(adm_role="Главный Тренер")
 
     teamB_players = lambda x:x.object.lineup_match.get(team_side="B").players.all()
     teamB_coach = lambda x:x.object.lineup_match.get(team_side="B").players.get(adm_role="Главный Тренер")
     teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
+    teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
+    teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
 
     goalsA = lambda x:x.object.goal_match.get(team_side="A")
     goalsB = lambda x:x.object.goal_match.get(team_side="B")

@@ -127,24 +127,103 @@
         <div class="match-players-type">
           <h2 class="match-players-type__title">Вратари</h2>
           <div class="match-players-type-table">
-
-            <div class="match-players-type-line">
-              <div class="match-players-type-line-left">
-                <span class="match-players-type-line-left__num"></span>
-                <img src="" alt="" class="match-players-type-line-left__img">
-                <a href="" class="match-players-type-line-left__name"><a href="#"></a></a>
+            <div class="match-players-type-row__left">
+              <!-- начало цикла -->
+                {% for player in view.teamA_goalkeepers %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
               </div>
-
-              <div class="match-players-type-line-right">
-                <span class="match-players-type-line-right__name"><a href="#"></a></span>
-                <img src="" alt="" class="match-players-type-line-right__img">
-                <span class="match-players-type-line-right__num"></span>
-              </div>
+                {% endfor %}
             </div>
-          </div>
 
+            <!-- конец цикла -->
+
+            <!-- начало цикла -->
+                {% for player in view.teamB_goalkeepers %}
+            <div class="match-players-type-row__right">
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% endfor %}
+            </div>
+
+            <!-- конец цикла -->
+            
+          </div>
         </div>
       </div>
+
+      <div class="match-players-type">
+          <h2 class="match-players-type__title">Защитники</h2>
+          <div class="match-players-type-table">
+            <div class="match-players-type-row__left">
+              <!-- начало цикла -->
+                {% for player in view.teamA_goalkeepers %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
+              </div>
+                {% endfor %}
+            </div>
+
+            <!-- конец цикла -->
+
+            <!-- начало цикла -->
+                {% for player in view.teamB_goalkeepers %}
+            <div class="match-players-type-row__right">
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% endfor %}
+            </div>
+
+            <!-- конец цикла -->
+
+          </div>
+        </div>
+      </div>
+
+        <div class="match-players-type">
+          <h2 class="match-players-type__title">Нападающие</h2>
+          <div class="match-players-type-table">
+            <div class="match-players-type-row__left">
+              <!-- начало цикла -->
+                {% for player in view.teamA_attackers %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
+              </div>
+                {% endfor %}
+            </div>
+
+            <!-- конец цикла -->
+
+            <!-- начало цикла -->
+                {% for player in view.teamB_attackers %}
+            <div class="match-players-type-row__right">
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% endfor %}
+            </div>
+
+            <!-- конец цикла -->
+
+          </div>
+        </div>
+      </div>
+
+    </div>
       <div id="statistics" class="match-statistics tab" id="statistics">
         <div class="match-statistics-team">
           <h2 class="match-statistics__title"></h2>
