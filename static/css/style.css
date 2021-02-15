@@ -4781,7 +4781,7 @@ a:active, a:focus {
 
 .match-players-type-row__right, .match-players-type-row__left {
   -ms-flex-preferred-size: 45%;
-      flex-basis: 45%;
+      flex-basis: 50%;
 }
 
 .match-players-type-row-left, .match-players-type-row-right {
