@@ -140,13 +140,13 @@ class Tournament(models.Model):
         null = True
         )
 
-    def get_teams(self):
+    def get_teams_set(self):
         teams_all = list()
         for _match in self.match_tournament.all():
             _lineups = _match.lineup_match.all()
             for _lineup in _lineups:
                 teams_all.append(_lineup.team)
-        return teams_all
+        return set(teams_all)
 
 
     def __str__(self):

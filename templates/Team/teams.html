@@ -12,7 +12,7 @@
         <div class="teams-league">
           <p class="teams-league__title">{{ tournament.name }}</p>
           <div class="teams-league-teams">
-            {% for team in tournament.get_teams %}
+            {% for team in tournament.get_teams_set %}
             <a class="teams-league-team" href="../team/{{ team.url }}">
               <img src="{{ team.image.url }}" alt="" class="teams-league-team__img">
               <div class="teams-league-team-text">
