@@ -183,7 +183,7 @@ class Match(models.Model):
         return res
 
 
-    def __str__(self): # TODO: Починить
+    def __str__(self):
         res = str(self.date.strftime("%Y-%m-%d %H:%M "))
         teams = [x.team.name for x in self.lineup_match.all()]
         res += teams[0]

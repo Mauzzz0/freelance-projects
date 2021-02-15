@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content%}
-    <b>{{ view.get_matches_by_team }}</b>
   <div class="player">
     <div class="container">
       <div class="player-block">
@@ -114,9 +113,10 @@
                 <th class="player-seasons-table-header__item" title="Кол-во заброшенных шайб">+/-</th>
                 <th class="player-seasons-table-header__item" title="Кол-во штрафных минут">ШТР</th>
               </tr>
+                {% for tournament,team in view.tournament_team.items %}
               <tr class="player-seasons-table-line">
-                <td class="player-seasons-table-line__item"></td>
-                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item">{{ tournament.season }} {{ tournament }}</td>
+                <td class="player-seasons-table-line__item">{{ team }}</td>
                 <td class="player-seasons-table-line__item"></td>
                 <td class="player-seasons-table-line__item"></td>
                 <td class="player-seasons-table-line__item"></td>
@@ -124,6 +124,7 @@
                 <td class="player-seasons-table-line__item"></td>
                 <td class="player-seasons-table-line__item"></td>
               </tr>
+                {% endfor %}
             </table>
           </div>
         </div>

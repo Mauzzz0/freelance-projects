@@ -154,8 +154,18 @@ class PlayerDetailView(DetailView):
     template_name = "Player/each_player.html"
     context_object_name = 'player'
 
-    #matches = lambda x:[lineup.match for lineup in x.object.lineup_player.all()]
-    teams = lambda x:[lineup.team for lineup in x.object.lineup_player.all()]
+    lineups = lambda x:x.object.lineup_player.all()
+    matches = lambda x:[lineup.match for lineup in x.lineups()]
+    tournaments = lambda x:[_match.tournament for _match in x.matches()]
+    teams = lambda x:[lineup.team for lineup in x.lineups()]
+
+    def tournament_team(self):
+        dic = dict()
+        for tournament in self.tournaments():
+            for lineup in self.lineups():
+                    if lineup.match.tournament == tournament:
+                        dic[tournament] = lineup.team
+        return dic
 
     def get_matches_by_team(self):
         dic = dict()
