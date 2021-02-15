@@ -17,7 +17,7 @@
 			{% for team in player.team_name.all %}
             <div class="player-info-team">
               <img class="player-info-team__img" src="{{ team.image.url }}" alt="">
-              <span class="player-info-team__text">{{ team.name }}</span>
+              <span class="player-info-team__text"><a href="../team/{{ team.url }}">{{ team.name }}</a></span>
             </div>
 			{% endfor %}
           </div>
@@ -88,7 +88,7 @@
               </tr>
               <tr class="player-matches-table-line">
                 <td class="player-matches-table-line__item">{{ match.date.date }}</td>
-                <td class="player-matches-table-line__item">{{ match }}</td>
+                <td class="player-matches-table-line__item"><a href="../match/{{ match.id }}">{{ match }}</a></td>
                 <td class="player-matches-table-line__item"></td>
                 <td class="player-matches-table-line__item"></td>
                 <td class="player-matches-table-line__item"></td>
@@ -116,7 +116,7 @@
                 {% for tournament,team in view.tournament_team.items %}
               <tr class="player-seasons-table-line">
                 <td class="player-seasons-table-line__item">{{ tournament.season }} {{ tournament }}</td>
-                <td class="player-seasons-table-line__item">{{ team }}</td>
+                <td class="player-seasons-table-line__item"><a href="../team/{{ team.url }}">{{ team }}</a></td>
                 <td class="player-seasons-table-line__item"></td>
                 <td class="player-seasons-table-line__item"></td>
                 <td class="player-seasons-table-line__item"></td>

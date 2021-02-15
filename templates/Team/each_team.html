@@ -124,7 +124,7 @@
               <tr class="team-players-table-line">
                 <td class="team-players-table-line__item">{{ player.game_number }}</td>
                 <td class="team-players-table-line__item"><img src="{{ player.image.url }}" alt="" class="team-players-table-line__img"></td>
-                <td class="team-players-table-line__item">{{ player.name }} {{ player.surname }}</td>
+                <td class="team-players-table-line__item"><a href="../player/{{ player.id }}">{{ player.name }} {{ player.surname }}</a></td>
                 <td class="team-players-table-line__item">{{ player.qualification }}</td>
                 <td class="team-players-table-line__item">{{ player.age }}</td>
                 <td class="team-players-table-line__item">0.5rating???</td>

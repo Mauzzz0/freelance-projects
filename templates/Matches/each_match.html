@@ -13,7 +13,7 @@
             <img src="{{ view.teamA.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
             <div class="match-header-team-left-info">
                 <h1 class="match-header-team-left__name"><a href="../team/{{ view.teamA.url }}">{{ view.teamA.name }}</a></h1>
-              <span class="match-header-team-left__trainer">Тренер:<br>{{ view.teamA_coach }}</span>
+              <span class="match-header-team-left__trainer">Тренер:<br><a href="../player/{{ view.teamA_coach.id }}">{{ view.teamA_coach }}</a></span>
             </div>
           </div>
           <div class="match-header-match">
@@ -33,7 +33,7 @@
             <img src="{{ view.teamB.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
             <div class="match-header-team-right-info">
               <h1 class="match-header-team-right__name"><a href="../team/{{ view.teamB.url }}">{{ view.teamB.name }}</a></h1>
-              <span class="match-header-team-right__trainer">Тренер:<br>{{ view.teamB_coach }}</span>
+              <span class="match-header-team-right__trainer">Тренер:<br><a href="../player/{{ view.teamB_coach.id }}">{{ view.teamB_coach }}</a></span>
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@
               <div class="match-players-type-row-left">
                 <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
-                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
@@ -144,7 +144,7 @@
                 {% for player in view.teamB_goalkeepers %}
             <div class="match-players-type-row__right">
               <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
@@ -166,7 +166,7 @@
               <div class="match-players-type-row-left">
                 <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
-                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
@@ -177,7 +177,7 @@
                 {% for player in view.teamB_goalkeepers %}
             <div class="match-players-type-row__right">
               <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
@@ -199,7 +199,7 @@
               <div class="match-players-type-row-left">
                 <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
-                <a href="#" class="match-players-type-row-left__name">{{ player.fullname }}<a href="#"></a></a>
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
@@ -210,7 +210,7 @@
                 {% for player in view.teamB_attackers %}
             <div class="match-players-type-row__right">
               <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a href="#">{{ player.fullname }}</a></span>
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
