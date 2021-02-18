@@ -83,9 +83,41 @@ class MatchDetailView(DetailView):
 
 
 
-    def actions(self):
-        _goals = self.goals()
-        _penalties = self.penalties()
+    def actions1period(self):
+        _goals = [x for x in self.goals() if x.time_minute < 20]
+        _penalties = [x for x in self.penalties() if x.time_minute < 20]
+
+        res = list(_goals)
+        for i in range(len(_penalties)):
+            print(_penalties[i].time_minute)
+            if i<=len(_goals):
+                if _penalties[i].time_minute <= _goals[i].time_minute:
+                    res.insert(i,_penalties[i])
+                else:
+                    res.append(_penalties[i])
+            else:
+                res.append(_penalties[i])
+        return res
+
+    def actions2period(self):
+        _goals = [x for x in self.goals() if 20 <= x.time_minute < 40]
+        _penalties = [x for x in self.penalties() if 20 <= x.time_minute < 40]
+
+        res = list(_goals)
+        for i in range(len(_penalties)):
+            print(_penalties[i].time_minute)
+            if i<=len(_goals):
+                if _penalties[i].time_minute <= _goals[i].time_minute:
+                    res.insert(i,_penalties[i])
+                else:
+                    res.append(_penalties[i])
+            else:
+                res.append(_penalties[i])
+        return res
+
+    def actions3period(self):
+        _goals = [x for x in self.goals() if 40 <= x.time_minute < 60]
+        _penalties = [x for x in self.penalties() if 40 <= x.time_minute < 60]
 
         res = list(_goals)
         for i in range(len(_penalties)):

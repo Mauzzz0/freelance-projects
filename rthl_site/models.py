@@ -315,6 +315,7 @@ class ActionPenalty(models.Model):
         on_delete=models.CASCADE
     )
     paragraph = models.CharField("Причина",max_length=255,blank=True)
+    removal_time = models.PositiveSmallIntegerField("Минуты удаления игрока")
     team_side = models.CharField("Команда", max_length=1,
                                  choices=(
                                      ("A", "A"),
