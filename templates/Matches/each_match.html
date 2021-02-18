@@ -91,7 +91,7 @@
                   {% if action.type == "Штраф" and action.team_side == "B" %}
             <div class="match-protocol-event-right-fine match-protocol-event event">
               <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text"></span>
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
               </div>
               <div class="match-protocol-event-right-fine-action">
                 <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
@@ -106,16 +106,16 @@
                   {% if action.type == "Гол" and action.team_side == "B" %}
              <div class="match-protocol-event-right-goal match-protocol-event event">
               <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text"></span>
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
                 <span class="match-protocol-event-right-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-right-goal-text">
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
+                  {% for player in action.players.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                  {% endfor %}
               </div>
             </div>
                   {% endif %}
