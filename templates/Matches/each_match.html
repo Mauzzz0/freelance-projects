@@ -5,7 +5,6 @@
 <div class="match">
   <div class="container">
     <div class="match-block">
-
       <div class="match-header">
         <p class="match-header__date">{{ match.date }}</p>
         <p class="match-header__place"><a href="#">{{ match.place }}<i class="fas fa-map-marker-alt"></i></a></p>
@@ -63,7 +62,7 @@
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="match-protocol-event-left-fine match-protocol-event event">
               <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                 <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
               </div>
               <div class="match-protocol-event-left-fine-action">
@@ -79,12 +78,17 @@
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
                   {% for player in action.players.all %}
-                <p class="match-protocol-event-left-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
-                <span class="match-protocol-event-left-goal-action__text"></span>
+                  <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-time time">
                 <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
@@ -101,7 +105,7 @@
                 <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
@@ -113,11 +117,16 @@
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
-                <span class="match-protocol-event-right-goal-action__text"></span>
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
                   {% for player in action.players.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
             </div>
@@ -131,7 +140,7 @@
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="match-protocol-event-left-fine match-protocol-event event">
               <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                 <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
               </div>
               <div class="match-protocol-event-left-fine-action">
@@ -147,12 +156,17 @@
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
                   {% for player in action.players.all %}
-                <p class="match-protocol-event-left-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
-                <span class="match-protocol-event-left-goal-action__text"></span>
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-time time">
                 <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
@@ -169,7 +183,7 @@
                 <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
@@ -181,11 +195,16 @@
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
-                <span class="match-protocol-event-right-goal-action__text"></span>
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
                   {% for player in action.players.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
             </div>
@@ -199,7 +218,7 @@
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="match-protocol-event-left-fine match-protocol-event event">
               <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                 <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
               </div>
               <div class="match-protocol-event-left-fine-action">
@@ -215,12 +234,17 @@
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
                   {% for player in action.players.all %}
-                <p class="match-protocol-event-left-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
-                <span class="match-protocol-event-left-goal-action__text"></span>
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-time time">
                 <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
@@ -237,7 +261,7 @@
                 <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
@@ -249,11 +273,16 @@
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
-                <span class="match-protocol-event-right-goal-action__text"></span>
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
                     {% for player in action.players.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
             </div>

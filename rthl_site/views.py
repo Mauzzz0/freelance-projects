@@ -81,6 +81,18 @@ class MatchDetailView(DetailView):
     goals = lambda x:x.object.goal_match.all()
     penalties = lambda x:x.object.penalty_match.all()
 
+    def state_for_each_goal(self):
+        _goals = sorted(self.goals(), key=operator.attrgetter('time_minute', 'time_second'))
+        res = dict()
+        a = 0
+        b = 0
+        for goal in _goals:
+            if goal.team_side == "A":
+                a += 1
+            elif goal.team_side == "B":
+                b += 1
+            res[goal] = [a,b]
+        return res
 
     def actions1period(self):
         _goals = [x for x in self.goals() if x.time_minute < 20]
