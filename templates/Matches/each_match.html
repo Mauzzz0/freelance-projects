@@ -18,9 +18,9 @@
           </div>
           <div class="match-header-match">
             <div class="match-header-match-count">
-              <span class="match-header-match-count__item">????</span>
+              <span class="match-header-match-count__item">{{ view.goalsA.count }}</span>
               <span class="match-header-match-count__item">-</span>
-              <span class="match-header-match-count__item">????</span>
+              <span class="match-header-match-count__item">{{ view.goalsB.count }}</span>
             </div>
             <div class="match-header-match-counts">
               <span class="match-header-match-counts__item"></span>
@@ -131,6 +131,8 @@
               </div>
             </div>
                   {% endif %}
+                    {% empty %}
+               <b>Нет событий</b>
               {% endfor %}
           </div>
 
@@ -209,6 +211,8 @@
               </div>
             </div>
                   {% endif %}
+              {% empty %}
+               <b>Нет событий</b>
               {% endfor %}
           </div>
 
@@ -287,6 +291,8 @@
               </div>
             </div>
                   {% endif %}
+              {% empty %}
+               <b>Нет событий</b>
               {% endfor %}
           </div>
         </div>

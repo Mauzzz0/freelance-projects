@@ -69,11 +69,10 @@ class MatchDetailView(DetailView):
     teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
     teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
 
-    goalsA = lambda x:x.object.goal_match.get(team_side="A")
-    goalsB = lambda x:x.object.goal_match.get(team_side="B")
-
-    penaltiesA = lambda x:x.object.penalty_match.get(team_side="A")
-    penaltiesB = lambda x:x.object.penalty_match.get(team_side="B")
+    goalsA = lambda x:x.object.goal_match.all().filter(team_side="A")
+    goalsB = lambda x:x.object.goal_match.all().filter(team_side="B")
+    #penaltiesA = lambda x:x.object.penalty_match.get(team_side="A")
+    #penaltiesB = lambda x:x.object.penalty_match.get(team_side="B")
 
     goalkeepers_count = lambda x: max(len(x.teamA_goalkeepers()),len(x.teamB_goalkeepers()))
     goalkeepers = lambda x:[x.teamA_goalkeepers(),x.teamB_goalkeepers()]
