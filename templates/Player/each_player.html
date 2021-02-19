@@ -36,7 +36,11 @@
             </li>
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Квалификация :</span>
+                {% if 'Красный' in player.qualification %}
+              <span style="color: red" class="player-stats-list__item-value">{{ player.qualification }}</span>
+                {% else %}
               <span class="player-stats-list__item-value">{{ player.qualification }}</span>
+                {% endif %}
             </li>
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Рейтинг :</span>
