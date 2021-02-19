@@ -71,7 +71,7 @@
                 <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
@@ -87,29 +87,29 @@
                 <span class="match-protocol-event-left-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Штраф" and action.team_side == "B" %}
             <div class="match-protocol-event-right-fine match-protocol-event event">
               <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-fine-action">
                 <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text"></span>
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item"></p>
-                <p class="match-protocol-event-right-fine-text__item"></p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
              <div class="match-protocol-event-right-goal match-protocol-event event">
               <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
@@ -139,7 +139,7 @@
                 <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
@@ -155,38 +155,38 @@
                 <span class="match-protocol-event-left-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Штраф" and action.team_side == "B" %}
             <div class="match-protocol-event-right-fine match-protocol-event event">
               <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text"></span>
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-fine-action">
                 <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text"></span>
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item"></p>
-                <p class="match-protocol-event-right-fine-text__item"></p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
              <div class="match-protocol-event-right-goal match-protocol-event event">
               <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text"></span>
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
                 <span class="match-protocol-event-right-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-right-goal-text">
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
+                  {% for player in action.players.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                  {% endfor %}
               </div>
             </div>
                   {% endif %}
@@ -207,7 +207,7 @@
                 <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
@@ -223,38 +223,38 @@
                 <span class="match-protocol-event-left-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}</span>
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Штраф" and action.team_side == "B" %}
             <div class="match-protocol-event-right-fine match-protocol-event event">
               <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text"></span>
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-fine-action">
                 <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text"></span>
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
               <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item"></p>
-                <p class="match-protocol-event-right-fine-text__item"></p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
              <div class="match-protocol-event-right-goal match-protocol-event event">
               <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text"></span>
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
               <div class="match-protocol-event-right-goal-action">
                 <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
                 <span class="match-protocol-event-right-goal-action__text"></span>
               </div>
               <div class="match-protocol-event-right-goal-text">
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
-                <p class="match-protocol-event-right-goal-text__item"></p>
+                    {% for player in action.players.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }}</p>
+                  {% endfor %}
               </div>
             </div>
                   {% endif %}
