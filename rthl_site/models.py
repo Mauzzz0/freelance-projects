@@ -267,10 +267,22 @@ class Lineup(models.Model):
 
 class ActionGoal(models.Model):
     """Забитый гол"""
-    players = models.ManyToManyField(
+    #players = models.ManyToManyField(
+    #    Player,
+    #    verbose_name="Игроки, забившие гол",
+    #    related_name="goal_players"
+    #)
+    player_score = models.ForeignKey(
         Player,
-        verbose_name="Игроки, забившие гол",
-        related_name="goal_players"
+        verbose_name="Игрок, забивший гол",
+        related_name="goal_main_player",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    players_passes = models.ManyToManyField(
+        Player,
+        verbose_name="Игроки, сделавшие пас",
+        related_name="goal_notmain_players"
     )
     match = models.ForeignKey(
         Match,
