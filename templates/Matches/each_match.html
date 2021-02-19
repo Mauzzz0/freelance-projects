@@ -77,7 +77,8 @@
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
-                  {% for player in action.players.all %}
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
@@ -125,7 +126,8 @@
                     {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
-                  {% for player in action.players.all %}
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                  {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
@@ -157,7 +159,8 @@
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
-                  {% for player in action.players.all %}
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
@@ -205,7 +208,8 @@
                     {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
-                  {% for player in action.players.all %}
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                  {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
@@ -237,7 +241,8 @@
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="match-protocol-event-left-goal match-protocol-event event">
               <div class="match-protocol-event-left-goal-text">
-                  {% for player in action.players.all %}
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
@@ -285,7 +290,8 @@
                     {% endfor %}
               </div>
               <div class="match-protocol-event-right-goal-text">
-                    {% for player in action.players.all %}
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                    {% for player in action.players_passes.all %}
                 <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
