@@ -80,6 +80,56 @@ class MatchDetailView(DetailView):
     goals = lambda x:x.object.goal_match.all()
     penalties = lambda x:x.object.penalty_match.all()
 
+    def teamA_statistics_for_attackers(self):
+        _attackers = [x for x in self.teamA_attackers()]
+        template = [[0],     [0],      [0],     [0]]
+        #         [goals,passes,scores,penalties]
+
+        res = dict()
+        for player in _attackers:
+            res[player] = [0,0,0,0]
+        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x in _attackers]
+        teamA_notmain_goals_players = []
+        for goal in self.goalsA():
+            for player in goal.players_passes.all():
+                if player in _attackers:
+                    teamA_notmain_goals_players.append(player)
+
+        for player in teamA_main_goals_players:
+            res[player][0] += 1
+        for player in teamA_notmain_goals_players:
+            res[player][1] += 1
+        for player in res.keys():
+            res[player][2] = res[player][0] + res[player][1]
+        for player in [x.player for x in self.penalties().filter(team_side="A") if x.player in _attackers]:
+            res[player][3] += 1
+        return res
+
+    def teamA_statistics_for_defenders(self):
+        _defenders = [x for x in self.teamA_defenders()]
+        template = [[0],     [0],      [0],     [0]]
+        #         [goals,passes,scores,penalties]
+
+        res = dict()
+        for player in _defenders:
+            res[player] = [0,0,0,0]
+        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x in _defenders]
+        teamA_notmain_goals_players = []
+        for goal in self.goalsA():
+            for player in goal.players_passes.all():
+                if player in _defenders:
+                    teamA_notmain_goals_players.append(player)
+
+        for player in teamA_main_goals_players:
+            res[player][0] += 1
+        for player in teamA_notmain_goals_players:
+            res[player][1] += 1
+        for player in res.keys():
+            res[player][2] = res[player][0] + res[player][1]
+        for player in [x.player for x in self.penalties().filter(team_side="A") if x.player in _defenders]:
+            res[player][3] += 1
+        return res
+
     def state_for_each_goal(self):
         _goals = sorted(self.goals(), key=operator.attrgetter('time_minute', 'time_second'))
         res = dict()
