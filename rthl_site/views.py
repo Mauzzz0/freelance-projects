@@ -220,6 +220,21 @@ class MatchDetailView(DetailView):
         res = sorted(res, key=operator.attrgetter('time_minute', 'time_second'))
         return res
 
+    def result1period(self):
+        _goalsA = [x for x in self.goals() if x.time_minute < 20 and x.team_side == "A"]
+        _goalsB = [x for x in self.goals() if x.time_minute < 20 and x.team_side == "B"]
+        return str(len(_goalsA)) + ":" + str(len(_goalsB))
+
+    def result2period(self):
+        _goalsA = [x for x in self.goals() if 20 <= x.time_minute < 40 and x.team_side == "A"]
+        _goalsB = [x for x in self.goals() if 20 <=x.time_minute < 40 and x.team_side == "B"]
+        return str(len(_goalsA)) + ":" + str(len(_goalsB))
+
+    def result3period(self):
+        _goalsA = [x for x in self.goals() if 40 <= x.time_minute < 60 and x.team_side == "A"]
+        _goalsB = [x for x in self.goals() if 40 <= x.time_minute < 60 and x.team_side == "B"]
+        return str(len(_goalsA)) + ":" + str(len(_goalsB))
+
 class TeamDetailView(DetailView):
     model = Team
     template_name = "Team/each_team.html"
