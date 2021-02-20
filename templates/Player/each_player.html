@@ -50,19 +50,19 @@
           <ul class="player-stats-list">
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Игры :</span>
-              <span class="player-stats-list__item-value">{{ player.games_count }}</span>
+              <span class="player-stats-list__item-value">{{ view.get_games_count }}</span>
             </li>
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Голы :</span>
-              <span class="player-stats-list__item-value">{{ player.goals_count }}</span>
+              <span class="player-stats-list__item-value">{{ view.get_goals_count }}</span>
             </li>
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Передачи :</span>
-              <span class="player-stats-list__item-value">{{ player.passes_count }}</span>
+              <span class="player-stats-list__item-value">{{ view.get_passes_count }}</span>
             </li>
             <li class="player-stats-list__item">
               <span class="player-stats-list__item-text">Штрафы :</span>
-              <span class="player-stats-list__item-value">{{ player.penalties_count }}</span>
+              <span class="player-stats-list__item-value">{{ view.get_penalties_count }}</span>
             </li>
           </ul>
           <div class="player-stats-extra">

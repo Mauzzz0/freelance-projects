@@ -220,8 +220,6 @@ class MatchDetailView(DetailView):
         res = sorted(res, key=operator.attrgetter('time_minute', 'time_second'))
         return res
 
-
-
 class TeamDetailView(DetailView):
     model = Team
     template_name = "Team/each_team.html"
@@ -272,7 +270,6 @@ class TeamAppDetailView(DetailView):
         nearest_match = sorted(_future_matches,key=lambda x:x.date)[0]
         return nearest_match
 
-
 class PlayerDetailView(DetailView):
     model = Player
     template_name = "Player/each_player.html"
@@ -282,6 +279,43 @@ class PlayerDetailView(DetailView):
     matches = lambda x:[lineup.match for lineup in x.lineups()]
     tournaments = lambda x:[_match.tournament for _match in x.matches()]
     teams = lambda x:[lineup.team for lineup in x.lineups()]
+
+    def get_games_count(self):
+        #self.object.games_count = self.lineups().count()
+        #self.object.save()
+        return self.lineups().count()
+
+    def get_goals_count(self):
+        # self.object.games_count = self.lineups().count()
+        # self.object.save()
+        count = 0
+        for lineup in self.lineups():
+            for goal in lineup.match.goal_match.all():
+                if goal.player_score == self.object:
+                    count += 1
+            return count
+
+    def get_passes_count(self):
+        # self.object.games_count = self.lineups().count()
+        # self.object.save()
+        count = 0
+        for lineup in self.lineups():
+            for goal in lineup.match.goal_match.all():
+                for player in goal.players_passes.all():
+                    if player == self.object:
+                        count +=1
+        return count
+
+    def get_penalties_count(self):
+        # self.object.games_count = self.lineups().count()
+        # self.object.save()
+        count = 0
+        for lineup in self.lineups():
+            for penalty in lineup.match.penalty_match.all():
+                print(penalty)
+                if penalty.player == self.object:
+                    count += 1
+        return count
 
     def tournament_team(self):
         dic = dict()
