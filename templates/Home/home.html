@@ -5,125 +5,60 @@
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   <div class="home">
     <div class="container">
+        {% for tournament in tournaments %}
       <div class="home-league">
-        <h1 class="home-league__title">Дивизион “Хрустальный - Север”</h1>
+        <h1 class="home-league__title">{{ tournament }}</h1>
         <div class="home-matches">
-          <a href="#" class="home-matches-block">
+            {% for match in tournament.get_2past_matches %}
+          <a href="/match/{{ match.id }}" class="home-matches-block">
             <div class="home-matches-card">
               <div class="home-matches-card-teams">
                 <div class="home-matches-card-team1">
-                  <div class="home-matches-card-team1__name">Команда 1</div>
-                  <div class="home-matches-card-team1__from">Москва</div>
+                  <div class="home-matches-card-team1__name">{{ match.teamA.name }}</div>
+                  <div class="home-matches-card-team1__from">{{ match.teamA.city }}</div>
                 </div>
                 <div class="home-matches-card-team2">
-                  <div class="home-matches-card-team2__name">Команда 2 с длинным названием</div>
-                  <div class="home-matches-card-team2__from">омск</div>
+                  <div class="home-matches-card-team2__name">{{ match.teamB.name }}</div>
+                  <div class="home-matches-card-team2__from">{{ match.teamB.city }}</div>
                 </div>
               </div>
               <div class="home-matches-card-info">
-                <img src="{% static 'img/team.png' %}" alt="Команда 1" class="home-matches-card__img">
+                <img src="{{ match.teamA.image.url }}" alt="Команда 1" class="home-matches-card__img">
                 <div class="home-matches-card-match">
-                  <span class="home-matches-card__first">23.11, 18:00</span>
-                  <span class="home-matches-card__second">3 : 4</span>
-                  <span class="home-matches-card__third">Янтарь</span>
+                  <span class="home-matches-card__first">{{ match.date }}</span>
+                  <span class="home-matches-card__second">{{ match.get_result_str }}</span>
+                  <span class="home-matches-card__third">{{ match.place }}</span>
                 </div>
-                <img src="{% static 'img/team.png' %}" alt="Команда 2" class="home-matches-card__img">
+                <img src="{{ match.teamB.image.url }}" alt="Команда 2" class="home-matches-card__img">
               </div>
             </div>
           </a>
-          <a href="#" class="home-matches-block">
+            {% endfor %}
+            {% for match in tournament.get_3nearest_matches %}
+          <a href="/match/{{ match.id }}" class="home-matches-block">
             <div class="home-matches-card">
               <div class="home-matches-card-teams">
                 <div class="home-matches-card-team1">
-                  <div class="home-matches-card-team1__name">Команда 1</div>
-                  <div class="home-matches-card-team1__from">Москва</div>
+                  <div class="home-matches-card-team1__name">{{ match.teamA.name }}</div>
+                  <div class="home-matches-card-team1__from">{{ match.temA.city }}</div>
                 </div>
                 <div class="home-matches-card-team2">
-                  <div class="home-matches-card-team2__name">Команда 2 с длинным названием</div>
-                  <div class="home-matches-card-team2__from">омск</div>
+                  <div class="home-matches-card-team2__name">{{ match.teamB.name }}</div>
+                  <div class="home-matches-card-team2__from">{{ match.teamB.city }}</div>
                 </div>
               </div>
               <div class="home-matches-card-info">
-                <img src="{% static 'img/team.png' %}" alt="Команда 1" class="home-matches-card__img">
+                <img src="{{ match.teamA.image.url }}" alt="Команда 1" class="home-matches-card__img">
                 <div class="home-matches-card-match">
-                  <span class="home-matches-card__first">23.11, 18:00</span>
-                  <span class="home-matches-card__second">3 : 4</span>
-                  <span class="home-matches-card__third">Янтарь</span>
+                  <span class="home-matches-card__first">{{ match.date }}</span>
+                  <span class="home-matches-card__second">{{ match.get_result_str }}</span>
+                  <span class="home-matches-card__third">{{ match.place }}</span>
                 </div>
-                <img src="{% static 'img/team.png' %}" alt="Команда 2" class="home-matches-card__img">
+                <img src="{{ match.teamB.image.url }}" alt="Команда 2" class="home-matches-card__img">
               </div>
             </div>
           </a>
-          <a href="#" class="home-matches-block">
-            <div class="home-matches-card">
-              <div class="home-matches-card-teams">
-                <div class="home-matches-card-team1">
-                  <div class="home-matches-card-team1__name">Команда 1</div>
-                  <div class="home-matches-card-team1__from">Москва</div>
-                </div>
-                <div class="home-matches-card-team2">
-                  <div class="home-matches-card-team2__name">Команда 2 с длинным названием</div>
-                  <div class="home-matches-card-team2__from">омск</div>
-                </div>
-              </div>
-              <div class="home-matches-card-info">
-                <img src="{% static 'img/team.png' %}" alt="Команда 1" class="home-matches-card__img">
-                <div class="home-matches-card-match">
-                  <span class="home-matches-card__first">23.11, 18:00</span>
-                  <span class="home-matches-card__second">3 : 4</span>
-                  <span class="home-matches-card__third">Янтарь</span>
-                </div>
-                <img src="{% static 'img/team.png' %}" alt="Команда 2" class="home-matches-card__img">
-              </div>
-            </div>
-          </a>
-          <a href="#" class="home-matches-block">
-            <div class="home-matches-card">
-              <div class="home-matches-card-teams">
-                <div class="home-matches-card-team1">
-                  <div class="home-matches-card-team1__name">Команда 1</div>
-                  <div class="home-matches-card-team1__from">Москва</div>
-                </div>
-                <div class="home-matches-card-team2">
-                  <div class="home-matches-card-team2__name">Команда 2 с длинным названием</div>
-                  <div class="home-matches-card-team2__from">омск</div>
-                </div>
-              </div>
-              <div class="home-matches-card-info">
-                <img src="{% static 'img/team.png' %}" alt="Команда 1" class="home-matches-card__img">
-                <div class="home-matches-card-match">
-                  <span class="home-matches-card__first">23.11, 18:00</span>
-                  <span class="home-matches-card__second">3 : 4</span>
-                  <span class="home-matches-card__third">Янтарь</span>
-                </div>
-                <img src="{% static 'img/team.png' %}" alt="Команда 2" class="home-matches-card__img">
-              </div>
-            </div>
-          </a>
-          <a href="#" class="home-matches-block">
-            <div class="home-matches-card">
-              <div class="home-matches-card-teams">
-                <div class="home-matches-card-team1">
-                  <div class="home-matches-card-team1__name">Команда 1</div>
-                  <div class="home-matches-card-team1__from">Москва</div>
-                </div>
-                <div class="home-matches-card-team2">
-                  <div class="home-matches-card-team2__name">Команда 2 с длинным названием</div>
-                  <div class="home-matches-card-team2__from">омск</div>
-                </div>
-              </div>
-              <div class="home-matches-card-info">
-                <img src="{% static 'img/team.png' %}" alt="Команда 1" class="home-matches-card__img">
-                <div class="home-matches-card-match">
-                  <span class="home-matches-card__first">23.11, 18:00</span>
-                  <span class="home-matches-card__second">3 : 4</span>
-                  <span class="home-matches-card__third">Янтарь</span>
-                </div>
-                <img src="{% static 'img/team.png' %}" alt="Команда 2" class="home-matches-card__img">
-              </div>
-            </div>
-          </a>
-            
+            {% endfor %}
         </div>
         <div class="home-tournament">
           <div class="home-nav">
@@ -389,6 +324,7 @@
           </div>
         </div>
       </div>
+        {% endfor %}
     </div>
   </div>
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

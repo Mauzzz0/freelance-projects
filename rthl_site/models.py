@@ -1,3 +1,5 @@
+import operator
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import date, datetime
@@ -148,6 +150,22 @@ class Tournament(models.Model):
                 teams_all.append(_lineup.team)
         return set(teams_all)
 
+    def get_2past_matches(self):
+        _matches = [x for x in self.match_tournament.all()]
+        for match in _matches:
+            if not match.is_past_due:
+                _matches.remove(match)
+        _matches = sorted(_matches, key=operator.attrgetter('date'))[:2]
+        return _matches
+
+    def get_3nearest_matches(self):
+        _matches = [x for x in self.match_tournament.all()]
+        for match in _matches:
+            if match.is_past_due:
+                _matches.remove(match)
+        _matches = sorted(_matches, key=operator.attrgetter('date'))[:3]
+        return _matches
+
 
     def __str__(self):
         return self.name
@@ -201,6 +219,20 @@ class Match(models.Model):
     def is_past_due(self):
         return datetime.now(utc) > self.date
 
+    @property
+    def teamA(self):
+        return self.lineup_match.get(team_side="A").team
+
+    @property
+    def teamB(self):
+        return self.lineup_match.get(team_side="B").team
+
+    @property
+    def get_result_str(self):
+        goalsA = [i for i in self.goal_match.all().filter(team_side="A")]
+        goalsB = [i for i in self.goal_match.all().filter(team_side="B")]
+        return str(len(goalsA)) + ":" + str(len(goalsB))
+
     def info(self):
         res = ""
         fdate = self.date.strftime("%Y-%m-%d %H:%M")
@@ -216,9 +248,9 @@ class Match(models.Model):
     def __str__(self):
         res = str(self.date.strftime("%Y-%m-%d %H:%M "))
         teams = [x.team.name for x in self.lineup_match.all()]
-        res += teams[0]
-        res += "-"
-        res += teams[1]
+        for i in range(len(teams)):
+            res += teams[i]
+            res += " "
         return res
 
     class Meta:

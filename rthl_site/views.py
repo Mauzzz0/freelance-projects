@@ -32,7 +32,12 @@ def teams(request):
     return render(request, "Team/teams.html", data)
 
 def Home(request):
-    return render(request, "Home/home.html")
+    tournaments = Tournament.objects.all()
+
+    data = {
+        "tournaments": tournaments
+    }
+    return render(request, "Home/home.html", data)
 
 def create_app(request):
     return render(request, "App/create_app.html")
