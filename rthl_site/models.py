@@ -151,20 +151,28 @@ class Tournament(models.Model):
         return set(teams_all)
 
     def get_2past_matches(self):
+        # Короче, эта штука долджна быть умной и понимать сколько предыдущих
+        # и будущих выводить, а то весь слайдер ломается
+        # TODO:
         _matches = [x for x in self.match_tournament.all()]
+        res = list()
         for match in _matches:
-            if not match.is_past_due:
-                _matches.remove(match)
-        _matches = sorted(_matches, key=operator.attrgetter('date'))[:2]
-        return _matches
+            if match.is_past_due and match not in res:
+                res.append(match)
+        res = sorted(res, key=operator.attrgetter('date'),reverse=False)[:2]
+        return res
 
     def get_3nearest_matches(self):
+        # Короче, эта штука долджна быть умной и понимать сколько предыдущих
+        # и будущих выводить, а то весь слайдер ломается
+        # TODO: 
         _matches = [x for x in self.match_tournament.all()]
+        res = list()
         for match in _matches:
-            if match.is_past_due:
-                _matches.remove(match)
-        _matches = sorted(_matches, key=operator.attrgetter('date'))[:3]
-        return _matches
+            if not match.is_past_due and match not in res:
+                res.append(match)
+        res = sorted(res, key=operator.attrgetter('date'))[:3]
+        return res
 
 
     def __str__(self):

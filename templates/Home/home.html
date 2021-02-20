@@ -6,6 +6,9 @@
   <div class="home">
     <div class="container">
         {% for tournament in tournaments %}
+            {{ tournament.get_2past_matches }}
+            <br>
+            {{ tournament.get_3nearest_matches }}
       <div class="home-league">
         <h1 class="home-league__title">{{ tournament }}</h1>
         <div class="home-matches">
