@@ -48,6 +48,12 @@ def match(request):
 def scoreboard(request):
     return render(request, "Scoreboard/scoreboard.html")
 
+def dev_zip(request):
+    if request.method == 'POST':
+        file = request.POST.get('archive')
+        print(file)
+    return render(request, "dev_zip.html")
+
 class MatchDetailView(DetailView):
     model = Match
     template_name = "Matches/each_match.html"
