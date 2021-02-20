@@ -6,10 +6,12 @@
 </head>
 <body>
 <b>awdwa</b>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-<input type="file" id="archive" name="archive" accept=".zip">
+<input type="file" id="archive1" name="archive" accept=".zip" >
 <button>Submit</button>
 </form>
+{% for image in images %}
+{% endfor %}
 </body>
 </html>
