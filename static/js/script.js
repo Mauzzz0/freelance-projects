@@ -54,5 +54,5 @@ $('.footer__partner__img').mouseout(function(){
 });
 
 
-document.getElementById("defaultOpen").click();
+
 
