@@ -82,13 +82,13 @@ class MatchDetailView(DetailView):
 
     def teamA_statistics_for_attackers(self):
         _attackers = [x for x in self.teamA_attackers()]
-        template = [[0],     [0],      [0],     [0]]
+        #template = [[0],     [0],      [0],     [0]]
         #         [goals,passes,scores,penalties]
 
         res = dict()
         for player in _attackers:
             res[player] = [0,0,0,0]
-        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x in _attackers]
+        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x.player_score in _attackers]
         teamA_notmain_goals_players = []
         for goal in self.goalsA():
             for player in goal.players_passes.all():
@@ -105,15 +105,40 @@ class MatchDetailView(DetailView):
             res[player][3] += 1
         return res
 
+    def teamB_statistics_for_attackers(self):
+        _attackers = [x for x in self.teamB_attackers()]
+        #template = [[0],     [0],      [0],     [0]]
+        #         [goals,passes,scores,penalties]
+
+        res = dict()
+        for player in _attackers:
+            res[player] = [0,0,0,0]
+        teamB_main_goals_players = [x.player_score for x in self.goalsB() if x.player_score in _attackers]
+        teamB_notmain_goals_players = []
+        for goal in self.goalsB():
+            for player in goal.players_passes.all():
+                if player in _attackers:
+                    teamB_notmain_goals_players.append(player)
+
+        for player in teamB_main_goals_players:
+            res[player][0] += 1
+        for player in teamB_notmain_goals_players:
+            res[player][1] += 1
+        for player in res.keys():
+            res[player][2] = res[player][0] + res[player][1]
+        for player in [x.player for x in self.penalties().filter(team_side="B") if x.player in _attackers]:
+            res[player][3] += 1
+        return res
+
     def teamA_statistics_for_defenders(self):
         _defenders = [x for x in self.teamA_defenders()]
-        template = [[0],     [0],      [0],     [0]]
+        #template = [[0],     [0],      [0],     [0]]
         #         [goals,passes,scores,penalties]
 
         res = dict()
         for player in _defenders:
             res[player] = [0,0,0,0]
-        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x in _defenders]
+        teamA_main_goals_players = [x.player_score for x in self.goalsA() if x.player_score in _defenders]
         teamA_notmain_goals_players = []
         for goal in self.goalsA():
             for player in goal.players_passes.all():
@@ -127,6 +152,31 @@ class MatchDetailView(DetailView):
         for player in res.keys():
             res[player][2] = res[player][0] + res[player][1]
         for player in [x.player for x in self.penalties().filter(team_side="A") if x.player in _defenders]:
+            res[player][3] += 1
+        return res
+
+    def teamB_statistics_for_defenders(self):
+        _defenders = [x for x in self.teamB_defenders()]
+        #template = [[0], [0], [0], [0]]
+        #         [goals,passes,scores,penalties]
+
+        res = dict()
+        for player in _defenders:
+            res[player] = [0, 0, 0, 0]
+        teamB_main_goals_players = [x.player_score for x in self.goalsB() if x.player_score in _defenders]
+        teamB_notmain_goals_players = []
+        for goal in self.goalsB():
+            for player in goal.players_passes.all():
+                if player in _defenders:
+                    teamB_notmain_goals_players.append(player)
+
+        for player in teamB_main_goals_players:
+            res[player][0] += 1
+        for player in teamB_notmain_goals_players:
+            res[player][1] += 1
+        for player in res.keys():
+            res[player][2] = res[player][0] + res[player][1]
+        for player in [x.player for x in self.penalties().filter(team_side="B") if x.player in _defenders]:
             res[player][3] += 1
         return res
 

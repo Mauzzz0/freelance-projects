@@ -457,6 +457,80 @@
             </table>
           </div>
         </div>
+
+        <div class="match-statistics-team">
+          <h2 class="match-statistics__title">{{ view.teamB }}</h2>
+          <div class="match-statistics-table-block">
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Вратари</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for player in view.teamB_goalkeepers %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ player.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ player.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="#"></a>{{ player.fullname }}</td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+              </tr>
+                {% endfor %}
+            </table>
+
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Нападающие</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamB_statistics_for_attackers.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="#"></a>{{ key.fullname }}</td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+
+                <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Защитники</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamB_statistics_for_defenders.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="#"></a>{{ key.fullname }}</td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
