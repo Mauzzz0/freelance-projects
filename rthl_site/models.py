@@ -165,7 +165,7 @@ class Tournament(models.Model):
     def get_3nearest_matches(self):
         # Короче, эта штука долджна быть умной и понимать сколько предыдущих
         # и будущих выводить, а то весь слайдер ломается
-        # TODO: 
+        # TODO:
         _matches = [x for x in self.match_tournament.all()]
         res = list()
         for match in _matches:
