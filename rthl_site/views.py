@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView
 from .models import Team, Player, Match, Season, Tournament
 from django.db.models import Q
 import operator
-from .forms import ZipForm
+from .forms import UploadFileForm
 from itertools import chain
 
 
@@ -53,17 +53,21 @@ class ZipView(TemplateView):
     template_name = "dev_zip.html"
 
     def get(self, request,  *args, **kwargs):
-        form = ZipForm()
+        form = UploadFileForm()
         return render(request, self.template_name, { "form" : form })
 
     def post(self, request):
-        form = ZipForm(request.POST)
-        text = ''
+        form = UploadFileForm(request.POST, request.FILES)
+
         if form.is_valid():
-            text = form.cleaned_data['post']
-        
-        args = {'form':form, 'text' : text}
-        return render(request, self.template_name, args)
+            form.save()
+            img_obj = form.instance
+
+            return render(request, self.template_name, {'form': form, 'img_obj': img_obj})
+        else:
+            form = UploadFileForm()
+
+        return render(request, self.template_name, {'form': form})
 
 
 class MatchDetailView(DetailView):

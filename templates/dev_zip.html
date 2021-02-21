@@ -7,11 +7,15 @@
 <body>
 <div class="container">
     <h1>Input page</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+    {% if img_obj %}
+    <h3>File title: {{ img_obj.name }}</h3>
+    <img src="{{ img_obj.image.url }}" alt="Загруженное изображение">
+    {% endif %}
 </div>
 </body>
 </html>

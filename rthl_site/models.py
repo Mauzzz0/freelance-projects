@@ -6,6 +6,9 @@ from datetime import date, datetime
 
 from django.utils.timezone import utc
 
+class FileUploadModel(models.Model):
+    name = models.CharField(max_length=40)
+    image = models.ImageField(upload_to='images/test')
 
 class Team(models.Model): # TODO: Сделать PK по имени-городу
     """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
