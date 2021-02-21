@@ -80,7 +80,6 @@
           <h2 class="player-matches__title">Матчи</h2>
             {% for team,matches in view.get_matches_by_team.items %}
           <button class="player-matches__header"><span>{{ team.name }}</span><i class="fas fa-angle-down"></i></button>
-            {% for match in matches %}
           <div class="player-matches-table-block hidden">
             <table class="player-matches-table ">
               <tr class="player-matches-table-header">
@@ -90,6 +89,7 @@
                 <th class="player-matches-table-header__item" title="Кол-во голевых передач">А</th>
                 <th class="player-matches-table-header__item" title="Кол-во штрафных минут">ШТР</th>
               </tr>
+                {% for match in matches %}
               <tr class="player-matches-table-line">
                 <td class="player-matches-table-line__item">{{ match.date.date }}</td>
                 <td class="player-matches-table-line__item"><a href="../match/{{ match.id }}">{{ match }}</a></td>
@@ -97,9 +97,9 @@
                 <td class="player-matches-table-line__item"></td>
                 <td class="player-matches-table-line__item"></td>
               </tr>
+                    {% endfor %}
             </table>
           </div>
-                {% endfor %}
         {% endfor %}
         </div>
 
