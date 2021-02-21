@@ -287,6 +287,37 @@ class MatchScoreboardDetailView(DetailView):
     teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
     teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
 
+    penalties = lambda x: x.object.penalty_match.all()
+    goals = lambda x: x.object.goal_match.all()
+    goalsA = lambda x: x.object.goal_match.all().filter(team_side="A")
+    goalsB = lambda x: x.object.goal_match.all().filter(team_side="B")
+
+    def actions1period(self):
+        _goals = [x for x in self.goals() if x.time_minute < 20]
+        _penalties = [x for x in self.penalties() if x.time_minute < 20]
+        res = list()
+        res.extend(_goals)
+        res.extend(_penalties)
+        res = sorted(res, key=operator.attrgetter('time_minute', 'time_second'))
+        return res
+
+    def actions2period(self):
+        _goals = [x for x in self.goals() if 20 <= x.time_minute < 40]
+        _penalties = [x for x in self.penalties() if 20 <= x.time_minute < 40]
+        res = list()
+        res.extend(_goals)
+        res.extend(_penalties)
+        res = sorted(res, key=operator.attrgetter('time_minute', 'time_second'))
+        return res
+
+    def actions3period(self):
+        _goals = [x for x in self.goals() if 40 <= x.time_minute < 60]
+        _penalties = [x for x in self.penalties() if 40 <= x.time_minute < 60]
+        res = list()
+        res.extend(_goals)
+        res.extend(_penalties)
+        res = sorted(res, key=operator.attrgetter('time_minute', 'time_second'))
+        return res
 
 class TeamDetailView(DetailView):
     model = Team
