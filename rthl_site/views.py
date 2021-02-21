@@ -262,6 +262,28 @@ class MatchDetailView(DetailView):
         _goalsB = [x for x in self.goals() if 40 <= x.time_minute < 60 and x.team_side == "B"]
         return str(len(_goalsA)) + ":" + str(len(_goalsB))
 
+class MatchScoreboardDetailView(DetailView):
+    model = Match
+    template_name = "Scoreboard/scoreboard.html"
+    context_object_name = "match"
+    ampluas = {
+        "Вратарь": "Вратари",
+        "Защитник": "Защитники",
+        "Нападающий": "Нападающие"
+    }
+
+    teamA = lambda x: x.object.lineup_match.get(team_side="A").team
+    teamB = lambda x: x.object.lineup_match.get(team_side="B").team
+
+    teamA_goalkeepers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
+    teamA_attackers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Нападающий")
+    teamA_defenders = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Защитник")
+
+    teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
+    teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
+    teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
+
+
 class TeamDetailView(DetailView):
     model = Team
     template_name = "Team/each_team.html"

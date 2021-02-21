@@ -14,6 +14,7 @@ urlpatterns = [
     path('dev_scoreboard', views.scoreboard, name="scoreboard"),
     path('dev_zip', views.ZipView.as_view(), name="zip"),
 
+    path('match/<int:pk>/scoreboard', views.MatchScoreboardDetailView.as_view()),
     path('match/<int:pk>', views.MatchDetailView.as_view()),
     path('team/<slug:slug>', views.TeamDetailView.as_view()),
     path('team/<slug:slug>/create_app', views.TeamAppDetailView.as_view()),
