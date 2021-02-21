@@ -275,10 +275,14 @@ class MatchScoreboardDetailView(DetailView):
     teamA = lambda x: x.object.lineup_match.get(team_side="A").team
     teamB = lambda x: x.object.lineup_match.get(team_side="B").team
 
+    teamA_players = lambda x: x.object.lineup_match.get(team_side="A").players.all()
+    teamA_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamA_players()], key=operator.attrgetter('game_number'))
     teamA_goalkeepers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
     teamA_attackers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Нападающий")
     teamA_defenders = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Защитник")
 
+    teamB_players = lambda x: x.object.lineup_match.get(team_side="B").players.all()
+    teamB_players_sorted_by_game_number = lambda x: [pl for pl in x.teamB_players()]
     teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
     teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
     teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")

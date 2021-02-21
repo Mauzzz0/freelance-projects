@@ -18,24 +18,34 @@
         <h1 class="modal-goal__team"></h1>
       </div>
       <div class="modal-goal-players">
+
         <div class="modal-goal-part">
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
-            <button class="modal-goal-part-players__btn">1</button>
+              {% for player in view.teamA_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
           </div>
         </div>
+
         <div class="modal-goal-part">
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
-            <button class="modal-goal-part-players__btn">1</button>
+              {% for player in view.teamA_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
           </div>
         </div>
+
         <div class="modal-goal-part">
-          <h2 class="modal-goal-part__title">Гол</h2>
+          <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
-            <button class="modal-goal-part-players__btn">1</button>
+              {% for player in view.teamA_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -50,7 +60,9 @@
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn">1</button>
+              {% for player in view.teamA_players_sorted_by_game_number %}
+            <button class="modal-del-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
