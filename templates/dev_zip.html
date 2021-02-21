@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<b>awdwa</b>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-<input type="file" id="archive1" name="archive" accept=".zip" >
-<button>Submit</button>
-</form>
-{% for image in images %}
-{% endfor %}
+<div class="container">
+    <h1>Input page</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
 </html>

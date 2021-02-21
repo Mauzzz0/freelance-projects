@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from .models import Team, Player, Match, Season, Tournament
 from django.db.models import Q
 import operator
+from .forms import ZipForm
 from itertools import chain
 
 
@@ -47,6 +48,22 @@ def match(request):
 
 def scoreboard(request):
     return render(request, "Scoreboard/scoreboard.html")
+
+class ZipView(TemplateView):
+    template_name = "dev_zip.html"
+
+    def get(self, request,  *args, **kwargs):
+        form = ZipForm()
+        return render(request, self.template_name, { "form" : form })
+
+    def post(self, request):
+        form = ZipForm(request.POST)
+        text = ''
+        if form.is_valid():
+            text = form.cleaned_data['post']
+        
+        args = {'form':form, 'text' : text}
+        return render(request, self.template_name, args)
 
 
 class MatchDetailView(DetailView):

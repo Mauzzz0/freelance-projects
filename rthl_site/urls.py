@@ -12,7 +12,7 @@ urlpatterns = [
 
     path('dev_news', views.news, name="news"),
     path('dev_scoreboard', views.scoreboard, name="scoreboard"),
-    path('dev_zip', views.dev_zip, name="zip"),
+    path('dev_zip', views.ZipView.as_view(), name="zip"),
 
     path('match/<int:pk>', views.MatchDetailView.as_view()),
     path('team/<slug:slug>', views.TeamDetailView.as_view()),
