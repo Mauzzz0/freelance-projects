@@ -12,7 +12,7 @@
 </head>
 <body>
   <form method="post">
-
+    {% csrf_token %}
   <div class="modal-goal modal modal-goal-left">
     <div class="modal-goal-block">
       <div class="modal-goal-header">
@@ -24,7 +24,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_assistant1" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -32,7 +32,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_assistant2" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -40,7 +40,7 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_player" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -60,7 +60,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_assistant1" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -68,7 +68,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_assistant2" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -76,7 +76,7 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_player" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
@@ -148,8 +148,8 @@
     <div id="board" class="board-board tab">
       <div class="board-header">
         <div class="board-header-team">
-          <p class="board-header-team__name">Команда 1</p>
-          <span class="board-header-team__goals">1</span>
+          <p class="board-header-team__name">{{ view.teamA }}</p>
+          <span class="board-header-team__goals">{{ view.goalsA.count }}</span>
         </div>
         <div class="board-header-time">
           <button id="minus" class="board-header-time__minus"><span>-</span><p>(C\C)</p></button>
@@ -157,8 +157,8 @@
           <button id="plus" class="board-header-time__plus"><span>+</span><p>(M\Ь)</p></button>
         </div>
         <div class="board-header-team">
-          <p class="board-header-team__name">Команда 2</p>
-          <span class="board-header-team__goals">2</span>
+          <p class="board-header-team__name">{{ view.teamB }}</p>
+          <span class="board-header-team__goals">{{ view.goalsB.count }}</span>
         </div>
       </div>
       <div class="board-buttons">
@@ -167,7 +167,7 @@
           <button id="leftDel" class="board-buttons-left-del">УДАЛЕНИЕ<p>(Левый Alt)</p></button>
         </div>
         <button id="stop" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
-        <div class="board-buttons-right">
+          <div class="board-buttons-right">
           <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
           <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
         </div>
@@ -539,7 +539,7 @@
       function createDelRight(){
         $('.modal-del-right').css({'display' : 'flex'});
       }
-  
+
       $('#stop').mousedown(function(){
         $(this).css({
           'background-color': '#b9c0ea',

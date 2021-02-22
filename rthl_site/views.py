@@ -276,13 +276,13 @@ class MatchScoreboardDetailView(DetailView):
     teamB = lambda x: x.object.lineup_match.get(team_side="B").team
 
     teamA_players = lambda x: x.object.lineup_match.get(team_side="A").players.all()
-    teamA_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamA_players()], key=operator.attrgetter('game_number'))
+    teamA_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamA_players()], key=operator.attrgetter('game_number'))[:10]
     teamA_goalkeepers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
     teamA_attackers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Нападающий")
     teamA_defenders = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Защитник")
 
     teamB_players = lambda x: x.object.lineup_match.get(team_side="B").players.all()
-    teamB_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamB_players()], key=operator.attrgetter('game_number'))
+    teamB_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamB_players()], key=operator.attrgetter('game_number'))[:10]
     teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
     teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
     teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
@@ -291,6 +291,39 @@ class MatchScoreboardDetailView(DetailView):
     goals = lambda x: x.object.goal_match.all()
     goalsA = lambda x: x.object.goal_match.all().filter(team_side="A")
     goalsB = lambda x: x.object.goal_match.all().filter(team_side="B")
+
+    def post(self, request, *args, **kwargs):
+        print("ПОЛУЧЕН ПОСТ")
+        A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
+        A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
+        A_goal_player = request.POST.get('teamA_goal_player')
+
+        B_goal_assistant1 = request.POST.get('teamB_goal_assistant1')
+        B_goal_assistant2 = request.POST.get('teamB_goal_assistant2')
+        B_goal_player = request.POST.get('teamB_goal_player')
+
+        if A_goal_assistant1 is not None and \
+            A_goal_assistant2 is not None and \
+            A_goal_player is not None:
+            print("_____DEV_____")
+            print("Создание гола команды А")
+            print(request.POST.get('dev_timer'))
+            print(A_goal_assistant1)
+            print(A_goal_assistant2)
+            print(A_goal_player)
+
+        if B_goal_assistant1 is not None and \
+            B_goal_assistant2 is not None and \
+            B_goal_player is not None:
+            print("_____DEV_____")
+            print("Создание гола команды B")
+            print(B_goal_assistant1)
+            print(B_goal_assistant2)
+            print(B_goal_player)
+
+
+
+        return HttpResponse(status=201)
 
     def actions1period(self):
         _goals = [x for x in self.goals() if x.time_minute < 20]
