@@ -11,6 +11,8 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
+  <form method="post">
+
   <div class="modal-goal modal modal-goal-left">
     <div class="modal-goal-block">
       <div class="modal-goal-header">
@@ -22,7 +24,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -30,7 +32,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -38,12 +40,12 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
       </div>
-      <button class="modal-goal-left__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-goal-left__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -58,7 +60,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -66,7 +68,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -74,12 +76,12 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
       </div>
-      <button class="modal-goal-right__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-goal-right__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -94,18 +96,18 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <button type="button" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
           </div>
         </div>
       </div>
-      <button class="modal-del-left__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-del-left__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -120,21 +122,21 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
+            <button type="button" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <button type="button" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
           </div>
         </div>
       </div>
-      <button class="modal-del-right__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-del-right__submit modal__submit">Готово</button>
     </div>
   </div>
-
+  </form>
 
   <div class="board-nav">
     <button id="playersBtn" class="board-nav-item tablink" onclick="openBlock(event, 'players')">Составы (1)</button>
