@@ -22,7 +22,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -30,7 +30,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -38,7 +38,7 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -58,7 +58,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -66,7 +66,7 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -74,7 +74,7 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
@@ -94,14 +94,14 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button class="modal-del-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <button class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
           </div>
         </div>
       </div>
@@ -120,14 +120,14 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button class="modal-del-part-players__btn">{{ player.game_number }}</button>
+            <button class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <button class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
           </div>
         </div>
       </div>
@@ -692,19 +692,38 @@
           document.getElementById("protocolBtn").click();
         }
       })
+
+      document.addEventListener('keyup', (event) =>{
+        event.preventDefault();
+        let keyName = event.code;
+        if(keyName === "esc"){
+          $('.modal-goal-right').css({"display":"none"});
+          $('.modal-goal-left').css({"display":"none"});
+          $('.modal-del-left').css({"display":"none"});
+          $('.modal-del-right').css({"display":"none"});
+        }
+      })
   
       $('.modal-goal-left__submit').on('click', function(){
         $('.modal-goal-left').css({"display":"none"});
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-goal-right__submit').on('click', function(){
         $('.modal-goal-right').css({"display":"none"});
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-del-left__submit').on('click', function(){
         $('.modal-del-left').css({"display":"none"});
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-del-right__submit').on('click', function(){
-        $('.modal-del-right').css({"display":"none"});
+        $('.modal-del-right').css({"display":"none"});        
+        $('.modal-select').removeClass('modal-select-active')
       })
+
+      $('.modal-select').click( function(){
+      $(this).toggleClass('modal-select-active')
+    });
     </script>
 </body>
 </html>

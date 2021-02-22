@@ -5255,7 +5255,7 @@ a:active, a:focus {
 .modal-goal-block, .modal-del-block {
   margin: 0 auto;
   width: 800px;
-  height: 550px;
+  height: auto;
   background-color: #fff;
   padding: 30px;
 }
@@ -5314,8 +5314,8 @@ a:active, a:focus {
 }
 
 .modal-goal-part-players__btn, .modal-del-part-players__btn {
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -5338,6 +5338,10 @@ a:active, a:focus {
   margin-bottom: 10px;
 }
 
+.modal-select-active{
+  border: 1px solid rgb(20, 36, 138);
+  background: rgba(20, 36, 138, .2);
+}
 .modal-goal-part-players__btn:nth-child(4n), .modal-del-part-players__btn:nth-child(4n) {
   margin-right: 0;
 }
@@ -6628,4 +6632,5 @@ a:active, a:focus {
 .modal__submit:hover{
   background-color: rgb(20, 36, 138);
 }
+
 
