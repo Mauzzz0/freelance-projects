@@ -11,8 +11,9 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
-  <form method="post">
+  <form name="ProtocolForm" method="post">
     {% csrf_token %}
+  <input name='stopwatch' size=10 value="00:00:00.00" readonly="true">
   <div class="modal-goal modal modal-goal-left">
     <div class="modal-goal-block">
       <div class="modal-goal-header">
@@ -166,7 +167,8 @@
           <button id="leftGoal" class="board-buttons-left-goal">ГОЛ<p>(Левый Shift)</p></button>
           <button id="leftDel" class="board-buttons-left-del">УДАЛЕНИЕ<p>(Левый Alt)</p></button>
         </div>
-        <button id="stop" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
+        <button id="stop" onclick="StartStop()" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
+
           <div class="board-buttons-right">
           <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
           <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
@@ -510,6 +512,108 @@
       </div>
     </div>
     <script>
+        //объявляем переменные
+var base = 60;
+var clocktimer, dateObj, dh, dm, ds, ms;
+var readout = '';
+var h = 1,
+  m = 1,
+  tm = 1,
+  s = 0,
+  ts = 0,
+  ms = 0,
+  init = 0;
+
+//функция для очистки поля
+function ClearСlock() {
+  clearTimeout(clocktimer);
+  h = 1;
+  m = 1;
+  tm = 1;
+  s = 0;
+  ts = 0;
+  ms = 0;
+  init = 0;
+  readout = '00:00:00';
+  document.ProtocolForm.stopwatch.value = readout;
+}
+
+//функция для старта секундомера
+function StartTIME() {
+  var cdateObj = new Date();
+  var t = (cdateObj.getTime() - dateObj.getTime()) - (s * 1000);
+  if (t > 999) {
+    s++;
+  }
+  if (s >= (m * base)) {
+    ts = 0;
+    m++;
+  } else {
+    ts = parseInt((ms / 100) + s);
+    if (ts >= base) {
+      ts = ts - ((m - 1) * base);
+    }
+  }
+  if (m > (h * base)) {
+    tm = 1;
+    h++;
+  } else {
+    tm = parseInt((ms / 100) + m);
+    if (tm >= base) {
+      tm = tm - ((h - 1) * base);
+    }
+  }
+  ms = Math.round(t / 10);
+  if (ms > 99) {
+    ms = 0;
+  }
+  if (ms == 0) {
+    ms = '00';
+  }
+  if (ms > 0 && ms <= 9) {
+    ms = '0' + ms;
+  }
+  if (ts > 0) {
+    ds = ts;
+    if (ts < 10) {
+      ds = '0' + ts;
+    }
+  } else {
+    ds = '00';
+  }
+  dm = tm - 1;
+  if (dm > 0) {
+    if (dm < 10) {
+      dm = '0' + dm;
+    }
+  } else {
+    dm = '00';
+  }
+  dh = h - 1;
+  if (dh > 0) {
+    if (dh < 10) {
+      dh = '0' + dh;
+    }
+  } else {
+    dh = '00';
+  }
+  readout = dh + ':' + dm + ':' + ds;
+  document.ProtocolForm.stopwatch.value = readout;
+  clocktimer = setTimeout("StartTIME()", 1);
+}
+
+//Функция запуска и остановки
+function StartStop() {
+  if (init == 0) {
+    ClearСlock();
+    dateObj = new Date();
+    StartTIME();
+    init = 1;
+  } else {
+    clearTimeout(clocktimer);
+    init = 0;
+  }
+}
       document.getElementById("defaultOpen").click();
       function openBlock(event, blockName) {
         var i, tabcontent, tablinks;

@@ -294,6 +294,9 @@ class MatchScoreboardDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
+        # Stopwatch readonly="true"
+        post_time = request.POST.get('stopwatch')
+
         A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
         A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
         A_goal_player = request.POST.get('teamA_goal_player')
@@ -307,10 +310,10 @@ class MatchScoreboardDetailView(DetailView):
             A_goal_player is not None:
             print("_____DEV_____")
             print("Создание гола команды А")
-            print(request.POST.get('dev_timer'))
             print(A_goal_assistant1)
             print(A_goal_assistant2)
             print(A_goal_player)
+            print(post_time)
 
         if B_goal_assistant1 is not None and \
             B_goal_assistant2 is not None and \
