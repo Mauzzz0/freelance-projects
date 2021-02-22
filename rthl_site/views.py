@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView
-from .models import Team, Player, Match, Season, Tournament
+from .models import Team, Player, Match, Season, Tournament, ActionGoal
 from django.db.models import Q
 import operator
 from .forms import UploadFileForm
@@ -294,6 +294,7 @@ class MatchScoreboardDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
+        self.object = self.get_object()
         # Stopwatch readonly="true"
         post_time = request.POST.get('stopwatch')
 
@@ -314,6 +315,35 @@ class MatchScoreboardDetailView(DetailView):
             print(A_goal_assistant2)
             print(A_goal_player)
             print(post_time)
+
+            A_goal_ass1_id = -1
+            A_goal_ass2_id = -1
+            A_goal_player_id = -1
+
+            for player in self.teamA_players():
+                if str(player.game_number) == str(A_goal_assistant1):
+                    A_goal_ass1_id = player.pk
+                elif str(player.game_number) == str(A_goal_assistant2):
+                    A_goal_ass2_id = player.pk
+                elif str(player.game_number) == str(A_goal_player):
+                    A_goal_player_id = player.pk
+
+
+            new_goal = ActionGoal(
+                player_score_id = A_goal_player_id,
+                match_id = self.object.id,
+                team_side="A",
+                time_minute=45,
+                time_second=45
+            )
+            print(new_goal)
+            new_goal.save()
+            #new_goal.players_passes.add()
+            new_goal.players_passes.add(
+                Player.objects.get(id=A_goal_ass1_id),
+                Player.objects.get(id=A_goal_ass2_id))
+
+            #new_goal.save()
 
         if B_goal_assistant1 is not None and \
             B_goal_assistant2 is not None and \
