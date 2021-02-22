@@ -97,14 +97,14 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <button type="button" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamA_penalty_player" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button type="button" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <input type="radio" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</input>
           </div>
         </div>
       </div>
@@ -123,14 +123,14 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <button type="button" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</button>
+            <input type="radio" value="{{ player.game_number }}" name="teamB_penalty_player" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</input>
               {% endfor %}
           </div>
         </div>
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button type="button" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</button>
+            <input type="radio" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</input>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView
-from .models import Team, Player, Match, Season, Tournament, ActionGoal
+from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionPenalty
 from django.db.models import Q
 import operator
 from .forms import UploadFileForm
@@ -301,10 +301,13 @@ class MatchScoreboardDetailView(DetailView):
         A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
         A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
         A_goal_player = request.POST.get('teamA_goal_player')
+        A_penalty_player = request.POST.get('teamA_penalty_player')
 
         B_goal_assistant1 = request.POST.get('teamB_goal_assistant1')
         B_goal_assistant2 = request.POST.get('teamB_goal_assistant2')
         B_goal_player = request.POST.get('teamB_goal_player')
+        B_penalty_player = request.POST.get('teamB_penalty_player')
+
 
         if A_goal_assistant1 is not None and \
             A_goal_assistant2 is not None and \
@@ -374,6 +377,52 @@ class MatchScoreboardDetailView(DetailView):
             new_goal.players_passes.add(
                 Player.objects.get(id=B_goal_ass1_id),
                 Player.objects.get(id=B_goal_ass2_id))
+
+        if A_penalty_player is not None:
+            print("_____DEV_____")
+            print("Создание штрафа команды А")
+            print(A_penalty_player)
+            print(post_time)
+
+            A_penalty_player_id = -1
+
+            for player in self.teamA_players():
+                if str(player.game_number) == str(A_penalty_player):
+                    A_penalty_player_id = player.pk
+
+            new_penalty = ActionPenalty(
+                player_id=A_penalty_player_id,
+                match_id=self.object.id,
+                paragraph="ПРЕКОЛ ХАХА",
+                team_side="A",
+                removal_time=7,
+                time_minute=40,
+                time_second=40
+            )
+            new_penalty.save()
+
+        if B_penalty_player is not None:
+            print("_____DEV_____")
+            print("Создание штрафа команды B")
+            print(B_penalty_player)
+            print(post_time)
+
+            B_penalty_player_id = -1
+
+            for player in self.teamB_players():
+                if str(player.game_number) == str(B_penalty_player):
+                    B_penalty_player_id = player.pk
+
+            new_penalty = ActionPenalty(
+                player_id=B_penalty_player_id,
+                match_id=self.object.id,
+                paragraph="ПРЕКОЛ ХАХА",
+                team_side="B",
+                removal_time=7,
+                time_minute=40,
+                time_second=40
+            )
+            new_penalty.save()
 
 
 
