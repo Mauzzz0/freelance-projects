@@ -295,7 +295,7 @@ class MatchScoreboardDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
         self.object = self.get_object()
-        # Stopwatch readonly="true"
+
         post_time = request.POST.get('stopwatch')
 
         A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
@@ -336,14 +336,10 @@ class MatchScoreboardDetailView(DetailView):
                 time_minute=45,
                 time_second=45
             )
-            print(new_goal)
             new_goal.save()
-            #new_goal.players_passes.add()
             new_goal.players_passes.add(
                 Player.objects.get(id=A_goal_ass1_id),
                 Player.objects.get(id=A_goal_ass2_id))
-
-            #new_goal.save()
 
         if B_goal_assistant1 is not None and \
             B_goal_assistant2 is not None and \
@@ -353,6 +349,31 @@ class MatchScoreboardDetailView(DetailView):
             print(B_goal_assistant1)
             print(B_goal_assistant2)
             print(B_goal_player)
+            print(post_time)
+
+            B_goal_ass1_id = -1
+            B_goal_ass2_id = -1
+            B_goal_player_id = -1
+
+            for player in self.teamB_players():
+                if str(player.game_number) == str(B_goal_assistant1):
+                    B_goal_ass1_id = player.pk
+                elif str(player.game_number) == str(B_goal_assistant2):
+                    B_goal_ass2_id = player.pk
+                elif str(player.game_number) == str(B_goal_player):
+                    B_goal_player_id = player.pk
+
+            new_goal = ActionGoal(
+                player_score_id=B_goal_player_id,
+                match_id=self.object.id,
+                team_side="B",
+                time_minute=45,
+                time_second=45
+            )
+            new_goal.save()
+            new_goal.players_passes.add(
+                Player.objects.get(id=B_goal_ass1_id),
+                Player.objects.get(id=B_goal_ass2_id))
 
 
 
