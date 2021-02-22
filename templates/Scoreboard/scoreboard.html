@@ -11,14 +11,13 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
-  <div class="modal-goal modal">
+  <div class="modal-goal modal modal-goal-left">
     <div class="modal-goal-block">
       <div class="modal-goal-header">
         <h1 class="modal-goal__title">Гол</h1>
-        <h1 class="modal-goal__team"></h1>
+        <h1 class="modal-goal__team">{{ view.teamA }}</h1>
       </div>
       <div class="modal-goal-players">
-
         <div class="modal-goal-part">
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
@@ -27,7 +26,6 @@
               {% endfor %}
           </div>
         </div>
-
         <div class="modal-goal-part">
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
@@ -36,25 +34,60 @@
               {% endfor %}
           </div>
         </div>
-
         <div class="modal-goal-part">
-          <h2 class="modal-goal-part__title">Ассистент</h2>
+          <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
             <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
               {% endfor %}
           </div>
         </div>
-
       </div>
+      <button class="modal-goal-left__submit modal__submit">Готово</button>
     </div>
   </div>
 
-  <div class="modal-del modal">
+  <div class="modal-goal modal modal-goal-right">
+    <div class="modal-goal-block">
+      <div class="modal-goal-header">
+        <h1 class="modal-goal__title">Гол</h1>
+        <h1 class="modal-goal__team">{{ view.teamB }}</h1>
+      </div>
+      <div class="modal-goal-players">
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Ассистент</h2>
+          <div class="modal-goal-part-players">
+              {% for player in view.teamB_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Ассистент</h2>
+          <div class="modal-goal-part-players">
+              {% for player in view.teamB_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="modal-goal-part">
+          <h2 class="modal-goal-part__title">Гол</h2>
+          <div class="modal-goal-part-players">
+              {% for player in view.teamB_players_sorted_by_game_number %}
+            <button class="modal-goal-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+      <button class="modal-goal-right__submit modal__submit">Готово</button>
+    </div>
+  </div>
+
+  <div class="modal-del modal modal-del-left">
     <div class="modal-del-block">
       <div class="modal-del-header">
         <h1 class="modal-del__title">Удаление</h1>
-        <h1 class="modal-del__team"></h1>
+        <h1 class="modal-del__team">{{ view.teamA }}</h1>
       </div>
       <div class="modal-del-players">
         <div class="modal-del-part">
@@ -68,12 +101,40 @@
         <div class="modal-del-part">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <button class="modal-del-part-players__btn">1</button>
+            <button class="modal-del-part-players__btn">НАРУШЕНИЕ 1,2,3,4,5...</button>
           </div>
         </div>
       </div>
+      <button class="modal-del-left__submit modal__submit">Готово</button>
     </div>
   </div>
+
+  <div class="modal-del modal modal-del-right">
+    <div class="modal-del-block">
+      <div class="modal-del-header">
+        <h1 class="modal-del__title">Удаление</h1>
+        <h1 class="modal-del__team">{{ view.teamB }}</h1>
+      </div>
+      <div class="modal-del-players">
+        <div class="modal-del-part">
+          <h2 class="modal-del-part__title">Игрок</h2>
+          <div class="modal-del-part-players">
+              {% for player in view.teamB_players_sorted_by_game_number %}
+            <button class="modal-del-part-players__btn">{{ player.game_number }}</button>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="modal-del-part">
+          <h2 class="modal-del-part__title">Нарушение</h2>
+          <div class="modal-del-part-players">
+            <button class="modal-del-part-players__btn">НАРУШЕНИЕ 1,2,3,4,5...</button>
+          </div>
+        </div>
+      </div>
+      <button class="modal-del-right__submit modal__submit">Готово</button>
+    </div>
+  </div>
+
 
   <div class="board-nav">
     <button id="playersBtn" class="board-nav-item tablink" onclick="openBlock(event, 'players')">Составы (1)</button>
@@ -446,174 +507,204 @@
 
       </div>
     </div>
-  <script>
-    document.getElementById("defaultOpen").click();
-    function openBlock(event, blockName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tab");
-      for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
+    <script>
+      document.getElementById("defaultOpen").click();
+      function openBlock(event, blockName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            tablinks[i].style.backgroundColor = "#3241A5";
+        }
+        document.getElementById(blockName).style.display = "block";
+        event.currentTarget.className += " active";
+        event.currentTarget.style.backgroundColor = "#14248A";
       }
-      tablinks = document.getElementsByClassName("tablink");
-      for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-          tablinks[i].style.backgroundColor = "#3241A5";
+  
+      function createGoalLeft (){
+        $('.modal-goal-left').css({'display' : 'flex'});
       }
-      document.getElementById(blockName).style.display = "block";
-      event.currentTarget.className += " active";
-      event.currentTarget.style.backgroundColor = "#14248A";
-    }
-
-    function createGoal (team){
-      $('.modal-goal').css({'display' : 'flex'});
-      $('.modal-goal__team').text(team)
-    }
-    function createDel (team){
-      $('.modal-del').css({'display' : 'flex'});
-      $('.modal-del__team').text(team)
-    }
-
-    $('#stop').mousedown(function(){
-      $(this).css({
-        'background-color': '#b9c0ea',
+      function createGoalRight (){
+        $('.modal-goal-right').css({'display' : 'flex'});
+      }
+      function createDelLeft(){
+        $('.modal-del-left').css({'display' : 'flex'});
+      }
+      function createDelRight(){
+        $('.modal-del-right').css({'display' : 'flex'});
+      }
+  
+      $('#stop').mousedown(function(){
+        $(this).css({
+          'background-color': '#b9c0ea',
+        });
       });
-    });
-    $('#stop').mouseup(function(){
-      $(this).css({
-        'background-color': '#fff',
+      $('#stop').mouseup(function(){
+        $(this).css({
+          'background-color': '#fff',
+        });
       });
-    });
-    $('#leftGoal').mousedown(function(){
-      $(this).css({
-        'background-color': '#b9c0ea',
+      $('#leftGoal').mousedown(function(){
+        $(this).css({
+          'background-color': '#b9c0ea',
+        });
       });
-    });
-    $('#leftGoal').mouseup(function(){
-      $(this).css({
-        'background-color': '#fff',
+      $('#leftGoal').mouseup(function(){
+        $(this).css({
+          'background-color': '#fff',
+        });
+        createGoalLeft();
       });
-      createGoal('Команда 1');
-    });
-    $('#leftDel').mousedown(function(){
-      $(this).css({
-        'background-color': '#b9c0ea',
+      $('#leftDel').mousedown(function(){
+        $(this).css({
+          'background-color': '#b9c0ea',
+        });
       });
-    });
-    $('#leftDel').mouseup(function(){
-      $(this).css({
-        'background-color': '#fff',
+      $('#leftDel').mouseup(function(){
+        $(this).css({
+          'background-color': '#fff',
+        });
+        createDelLeft();
       });
-      createDel('Команда 1');
-    });
-    $('#rightGoal').mousedown(function(){
-      $(this).css({
-        'background-color': '#b9c0ea',
+      $('#rightGoal').mousedown(function(){
+        $(this).css({
+          'background-color': '#b9c0ea',
+        });
       });
-    });
-    $('#rightGoal').mouseup(function(){
-      $(this).css({
-        'background-color': '#fff',
+      $('#rightGoal').mouseup(function(){
+        $(this).css({
+          'background-color': '#fff',
+        });
+        createGoalRight();
       });
-      createGoal('Команда 2');
-    });
-    $('#rightDel').mousedown(function(){
-      $(this).css({
-        'background-color': '#b9c0ea',
+      $('#rightDel').mousedown(function(){
+        $(this).css({
+          'background-color': '#b9c0ea',
+        });
       });
-    });
-    $('#rightDel').mouseup(function(){
-      $(this).css({
-        'background-color': '#fff',
+      $('#rightDel').mouseup(function(){
+        $(this).css({
+          'background-color': '#fff',
+        });
+        createDelRight();
       });
-      createDel('Команда 2');
-    });
-    $('#minus').mousedown(function(){
-      $(this).css({
-        'background-color': 'rgb(20, 36, 138)',
+      $('#minus').mousedown(function(){
+        $(this).css({
+          'background-color': 'rgb(20, 36, 138)',
+        });
       });
-    });
-    $('#minus').mouseup(function(){
-      $(this).css({
-        'background-color': '#3241A5',
+      $('#minus').mouseup(function(){
+        $(this).css({
+          'background-color': '#3241A5',
+        });
       });
-    });
-    $('#plus').mousedown(function(){
-      $(this).css({
-        'background-color': 'rgb(20, 36, 138)',
+      $('#plus').mousedown(function(){
+        $(this).css({
+          'background-color': 'rgb(20, 36, 138)',
+        });
       });
-    });
-    $('#plus').mouseup(function(){
-      $(this).css({
-        'background-color': '#3241A5',
+      $('#plus').mouseup(function(){
+        $(this).css({
+          'background-color': '#3241A5',
+        });
       });
-    });
-    document.addEventListener('keydown', (event) => {
-      event.preventDefault();
-      let keyName = event.code;
-      if (keyName === 'Space') {
-        $('#stop').mousedown();
-      }
-      else if(keyName === 'ShiftLeft'){
-        $('#leftGoal').mousedown();
-      }
-      else if(keyName === 'AltLeft'){
-        $('#leftDel').mousedown();
-      }
-      else if(keyName === 'ShiftRight'){
-        $('#rightGoal').mousedown();
-      }
-      else if(keyName === 'AltRight'){
-        $('#rightDel').mousedown();
-      }
-      else if(keyName === 'KeyC'){
-        $('#minus').mousedown();
-      }
-      else if(keyName === 'KeyM'){
-        $('#plus').mousedown();
-      }
-    });
-    document.addEventListener('keyup', (event) => {
-      event.preventDefault();
-      let keyName = event.code;
-      if (keyName === 'Space') {
-        $('#stop').mouseup();
-      }
-      else if(keyName === 'ShiftLeft'){
-        $('#leftGoal').mouseup();
-      }
-      else if(keyName === 'AltLeft'){
-        $('#leftDel').mouseup();
-      }
-      else if(keyName === 'ShiftRight'){
-        $('#rightGoal').mouseup();
-      }
-      else if(keyName === 'AltRight'){
-        $('#rightDel').mouseup();
-      }
-      else if(keyName === 'AltRight'){
-        $('#rightDel').mouseup();
-      }
-      else if(keyName === 'KeyC'){
-        $('#minus').mouseup();
-      }
-      else if(keyName === 'KeyM'){
-        $('#plus').mouseup();
-      }
-    });
-
-    document.addEventListener('keyup', (event) => {
-      event.preventDefault();
-      let keyName = event.code;
-      if (keyName === 'Digit1') {
-        document.getElementById("playersBtn").click();
-      }
-      else if (keyName === 'Digit2'){
-        document.getElementById("defaultOpen").click();
-      }
-      else if (keyName === 'Digit3'){
-        document.getElementById("protocolBtn").click();
-      }
-    })
-  </script>
+      document.addEventListener('keydown', (event) => {
+        let keyName = event.code;
+        if (keyName === 'Space') {
+          event.preventDefault();
+          $('#stop').mousedown();
+        }
+        else if(keyName === 'ShiftLeft'){
+          event.preventDefault();
+          $('#leftGoal').mousedown();
+        }
+        else if(keyName === 'AltLeft'){
+          event.preventDefault();
+          $('#leftDel').mousedown();
+        }
+        else if(keyName === 'ShiftRight'){
+          event.preventDefault();
+          $('#rightGoal').mousedown();
+        }
+        else if(keyName === 'AltRight'){
+          event.preventDefault();
+          $('#rightDel').mousedown();
+        }
+        else if(keyName === 'KeyC'){
+          event.preventDefault();
+          $('#minus').mousedown();
+        }
+        else if(keyName === 'KeyM'){
+          event.preventDefault();
+          $('#plus').mousedown();
+        }
+      });
+      document.addEventListener('keyup', (event) => {
+        let keyName = event.code;
+        if (keyName === 'Space') {
+          event.preventDefault();
+          $('#stop').mouseup();
+        }
+        else if(keyName === 'ShiftLeft'){
+          event.preventDefault();
+          $('#leftGoal').mouseup();
+        }
+        else if(keyName === 'AltLeft'){
+          event.preventDefault();
+          $('#leftDel').mouseup();
+        }
+        else if(keyName === 'ShiftRight'){
+          event.preventDefault();
+          $('#rightGoal').mouseup();
+        }
+        else if(keyName === 'AltRight'){
+          event.preventDefault();
+          $('#rightDel').mouseup();
+        }
+        else if(keyName === 'AltRight'){
+          event.preventDefault();
+          $('#rightDel').mouseup();
+        }
+        else if(keyName === 'KeyC'){
+          event.preventDefault();
+          $('#minus').mouseup();
+        }
+        else if(keyName === 'KeyM'){
+          event.preventDefault();
+          $('#plus').mouseup();
+        }
+      });
+  
+      document.addEventListener('keyup', (event) => {
+        event.preventDefault();
+        let keyName = event.code;
+        if (keyName === 'Digit1') {
+          document.getElementById("playersBtn").click();
+        }
+        else if (keyName === 'Digit2'){
+          document.getElementById("defaultOpen").click();
+        }
+        else if (keyName === 'Digit3'){
+          document.getElementById("protocolBtn").click();
+        }
+      })
+  
+      $('.modal-goal-left__submit').on('click', function(){
+        $('.modal-goal-left').css({"display":"none"});
+      })
+      $('.modal-goal-right__submit').on('click', function(){
+        $('.modal-goal-right').css({"display":"none"});
+      })
+      $('.modal-del-left__submit').on('click', function(){
+        $('.modal-del-left').css({"display":"none"});
+      })
+      $('.modal-del-right__submit').on('click', function(){
+        $('.modal-del-right').css({"display":"none"});
+      })
+    </script>
 </body>
 </html>
