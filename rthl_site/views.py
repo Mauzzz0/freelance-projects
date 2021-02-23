@@ -5,7 +5,7 @@ from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionP
 from django.db.models import Q
 import operator
 from django.contrib import messages
-from .forms import UploadFileForm, GoalForm, CreatePlayerForm
+from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm
 from itertools import chain
 
 
@@ -84,6 +84,25 @@ class CreatePlayerDetailView(DetailView):
         if form.is_valid():
             form.save()
             messages.success(request, "Игрок добавлен")
+            return HttpResponseRedirect(request.path)
+        else:
+            messages.success(request, "Форма некорректна")
+            return HttpResponseRedirect(request.path)
+
+class CreateTeamDetailView(DetailView):
+    model = Team
+    template_name = "Team/create_team.html"
+    context_object_name = "team"
+
+    def get(self, request, *args, **kwargs):
+        form = CreateTeamForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateTeamForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Команда добавлен")
             return HttpResponseRedirect(request.path)
         else:
             messages.success(request, "Форма некорректна")
