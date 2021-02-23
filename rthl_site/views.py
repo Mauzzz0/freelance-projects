@@ -346,11 +346,11 @@ class MatchScoreboardDetailView(DetailView):
         print("ПОЛУЧЕН ПОСТ")
         self.object = self.get_object()
 
-        A_time_minute = request.POST.get('A_time_minute')
-        A_time_second = request.POST.get('A_time_second')
+        A_time_minute = request.POST.get('A_goal_time_minute')
+        A_time_second = request.POST.get('A_goal_time_second')
 
-        B_time_minute = request.POST.get('B_time_second')
-        B_time_second = request.POST.get('B_time_second')
+        B_time_minute = request.POST.get('B_goal_time_second')
+        B_time_second = request.POST.get('B_goal_time_second')
 
         A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
         A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
@@ -475,13 +475,14 @@ class MatchScoreboardDetailView(DetailView):
             new_penalty = ActionPenalty(
                 player_id=A_penalty_player_id,
                 match_id=self.object.id,
-                paragraph="ПРЕКОЛ ХАХА",
+                paragraph="A example paragraph",
                 team_side="A",
                 removal_time=7,
-                time_minute=40,
-                time_second=40
+                time_minute=request.POST['A_penalty_time_minute'],
+                time_second=request.POST['A_penalty_time_second']
             )
             new_penalty.save()
+            messages.success(self.request, 'Штраф A добавлен')
 
         if B_penalty_player is not None:
             print("_____DEV_____")
@@ -497,13 +498,14 @@ class MatchScoreboardDetailView(DetailView):
             new_penalty = ActionPenalty(
                 player_id=B_penalty_player_id,
                 match_id=self.object.id,
-                paragraph="ПРЕКОЛ ХАХА",
+                paragraph="B example paragraph",
                 team_side="B",
                 removal_time=7,
-                time_minute=40,
-                time_second=40
+                time_minute=request.POST['B_penalty_time_minute'],
+                time_second=request.POST['B_penalty_time_second']
             )
             new_penalty.save()
+            messages.success(self.request, 'Штраф B добавлен')
 
         return HttpResponseRedirect(request.path)
 
