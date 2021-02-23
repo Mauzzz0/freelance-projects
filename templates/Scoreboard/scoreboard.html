@@ -11,6 +11,15 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
   <form name="MyForm" method="post">
     {% csrf_token %}
   <div class="modal-goal modal modal-goal-left">
@@ -18,12 +27,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-left-goal">Минуты</label>
-          <input type="number" class="modal-time__mins" id="modal-time__mins-left-goal" value="20">
+          <input name="A_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-left-goal" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-left-goal">Секунды</label>
-          <input type="number" class="modal-time__secs" is="modal-time__secs-left-goal" value="30">
+          <input name="A_time_second" type="number" class="modal-time__secs" is="modal-time__secs-left-goal" value="30">
         </div>
       </div>
       <div class="modal-goal-header">
@@ -68,12 +77,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-right-goal">Минуты</label>
-          <input type="number" class="modal-time__mins" id="modal-time__mins-right-goal" value="20">
+          <input name="B_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-right-goal" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-right-goal">Секунды</label>
-          <input type="number" class="modal-time__secs" is="modal-time__secs-right-goal" value="30">
+          <input name="B_time_second" type="number" class="modal-time__secs" is="modal-time__secs-right-goal" value="30">
         </div>
       </div>
       <div class="modal-goal-header">
@@ -226,8 +235,10 @@
             </div>
           </div>
 
-          <div id="protocol" class="board-protocol tab">
-            <div class="board-protocol-block">
+    <form method="post">
+    {% csrf_token %}
+    <div id="protocol" class="board-protocol tab">
+         <div class="board-protocol-block">
               <p class="board-protocol-period__title">1 период</p>
               <div class="board-protocol-period">
                 {% for action in view.actions1period %}
@@ -249,7 +260,7 @@
                 {% endif %}
                 {% if action.type == "Гол" and action.team_side == "A" %}
                 <div class="board-protocol-event-left-goal board-protocol-event event">
-                  <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                  <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
                   <div class="board-protocol-event-left-goal-text">
                     <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                     {% for player in action.players_passes.all %}
@@ -306,7 +317,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                 {% endfor %}
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
             {% endif %}
             {% empty %}
@@ -314,8 +325,8 @@
             {% endfor %}
           </div>
 
-          <p class="board-protocol-period__title">2 период</p>
-          <div class="board-protocol-period">
+              <p class="board-protocol-period__title">2 период</p>
+              <div class="board-protocol-period">
             {% for action in view.actions2period %}
             {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
@@ -335,7 +346,7 @@
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="board-protocol-event-left-goal board-protocol-event event">
-              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-goal-text">
               <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
@@ -392,7 +403,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}
@@ -400,8 +411,8 @@
               {% endfor %}
           </div>
 
-            <p class="board-protocol-period__title">3 период</p>
-          <div class="board-protocol-period">
+              <p class="board-protocol-period__title">3 период</p>
+              <div class="board-protocol-period">
                 {% for action in view.actions3period %}
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
@@ -421,7 +432,7 @@
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="board-protocol-event-left-goal board-protocol-event event">
-              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-goal-text">
               <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
@@ -478,7 +489,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}
@@ -487,6 +498,7 @@
           </div>
         </div>
     </div>
+    </form>
 
     <div id="players" class="board-players tab">
       <div class="board-players-teams">

@@ -312,6 +312,7 @@ class MatchDetailView(DetailView):
         return str(len(_goalsA)) + ":" + str(len(_goalsB))
 
 class MatchScoreboardDetailView(DetailView):
+    http_method_names = ['get', 'post', 'delete']
     model = Match
     template_name = "Scoreboard/scoreboard.html"
     context_object_name = "match"
@@ -320,19 +321,18 @@ class MatchScoreboardDetailView(DetailView):
         "Защитник": "Защитники",
         "Нападающий": "Нападающие"
     }
-    message=""
 
     teamA = lambda x: x.object.lineup_match.get(team_side="A").team
     teamB = lambda x: x.object.lineup_match.get(team_side="B").team
 
     teamA_players = lambda x: x.object.lineup_match.get(team_side="A").players.all()
-    teamA_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamA_players()], key=operator.attrgetter('game_number'))[:10]
+    teamA_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamA_players()], key=operator.attrgetter('game_number'))
     teamA_goalkeepers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Вратарь")
     teamA_attackers = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Нападающий")
     teamA_defenders = lambda x: x.object.lineup_match.get(team_side="A").players.filter(role="Защитник")
 
     teamB_players = lambda x: x.object.lineup_match.get(team_side="B").players.all()
-    teamB_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamB_players()], key=operator.attrgetter('game_number'))[:10]
+    teamB_players_sorted_by_game_number = lambda x: sorted([pl for pl in x.teamB_players()], key=operator.attrgetter('game_number'))
     teamB_goalkeepers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Вратарь")
     teamB_attackers = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Нападающий")
     teamB_defenders = lambda x: x.object.lineup_match.get(team_side="B").players.filter(role="Защитник")
@@ -346,7 +346,11 @@ class MatchScoreboardDetailView(DetailView):
         print("ПОЛУЧЕН ПОСТ")
         self.object = self.get_object()
 
-        post_time = request.POST.get('stopwatch')
+        A_time_minute = request.POST.get('A_time_minute')
+        A_time_second = request.POST.get('A_time_second')
+
+        B_time_minute = request.POST.get('B_time_second')
+        B_time_second = request.POST.get('B_time_second')
 
         A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
         A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
@@ -358,6 +362,17 @@ class MatchScoreboardDetailView(DetailView):
         B_goal_player = request.POST.get('teamB_goal_player')
         B_penalty_player = request.POST.get('teamB_penalty_player')
 
+        if 'goalA_button' in request.POST:
+            print("ПОСТ С goalA_button")
+            print(request.POST['goalA_button'])
+            print(ActionGoal.objects.get(id=request.POST['goalA_button']))
+            ActionGoal.objects.get(id=request.POST['goalA_button']).delete()
+
+        if 'goalB_button' in request.POST:
+            print("ПОСТ С goalB_button")
+            print(request.POST['goalB_button'])
+            print(ActionGoal.objects.get(id=request.POST['goalB_button']))
+            ActionGoal.objects.get(id=request.POST['goalB_button']).delete()
 
         if A_goal_assistant1 is not None and \
             A_goal_assistant2 is not None and \
@@ -367,7 +382,8 @@ class MatchScoreboardDetailView(DetailView):
             print(A_goal_assistant1)
             print(A_goal_assistant2)
             print(A_goal_player)
-            print(post_time)
+            print(A_time_minute)
+            print(A_time_second)
 
             A_goal_ass1_id = -1
             A_goal_ass2_id = -1
@@ -386,8 +402,8 @@ class MatchScoreboardDetailView(DetailView):
                 player_score_id = A_goal_player_id,
                 match_id = self.object.id,
                 team_side="A",
-                time_minute=45,
-                time_second=45
+                time_minute=A_time_minute,
+                time_second=A_time_second
             )
             new_goal.save()
             new_goal.players_passes.add(
@@ -404,7 +420,8 @@ class MatchScoreboardDetailView(DetailView):
             print(B_goal_assistant1)
             print(B_goal_assistant2)
             print(B_goal_player)
-            print(post_time)
+            print(B_time_minute)
+            print(B_time_second)
 
             B_goal_ass1_id = -1
             B_goal_ass2_id = -1
@@ -422,8 +439,8 @@ class MatchScoreboardDetailView(DetailView):
                 player_score_id=B_goal_player_id,
                 match_id=self.object.id,
                 team_side="B",
-                time_minute=45,
-                time_second=45
+                time_minute=B_time_minute,
+                time_second=B_time_second
             )
             new_goal.save()
             new_goal.players_passes.add(
@@ -436,7 +453,6 @@ class MatchScoreboardDetailView(DetailView):
             print("_____DEV_____")
             print("Создание штрафа команды А")
             print(A_penalty_player)
-            print(post_time)
 
             A_penalty_player_id = -1
 
@@ -459,7 +475,6 @@ class MatchScoreboardDetailView(DetailView):
             print("_____DEV_____")
             print("Создание штрафа команды B")
             print(B_penalty_player)
-            print(post_time)
 
             B_penalty_player_id = -1
 
@@ -479,6 +494,9 @@ class MatchScoreboardDetailView(DetailView):
             new_penalty.save()
 
         return HttpResponseRedirect(request.path)
+
+    def delete(self, request, *args, **kwargs):
+        print("ПОЛУЧЕН DELETE")
 
     def actions1period(self):
         _goals = [x for x in self.goals() if x.time_minute < 20]
