@@ -212,7 +212,7 @@
                   {% endfor %}
               </div>
               <div class="match-protocol-event-left-goal-action">
-                <a href="../../goal/{{ action.id }}"><img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img"></a>
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
                   <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
                   {% for key, value in view.state_for_each_goal.items %}
                         {% if key == action %}

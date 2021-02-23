@@ -2,5 +2,9 @@
 {% block title %}{{ team.name }} | РТХЛ{% endblock %}
 {% block content %}
 {% load static %}
+    <form method="post">
 {{ form.as_p }}
+    <span>{{ error }}</span>
+    <button class="btn btn-success" type="submit">Добавить</button>
+    </form>
 {% endblock %}
