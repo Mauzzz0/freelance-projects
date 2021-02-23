@@ -345,57 +345,29 @@ class MatchScoreboardDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
         self.object = self.get_object()
-
-        A_time_minute = request.POST.get('A_goal_time_minute')
-        A_time_second = request.POST.get('A_goal_time_second')
-
-        B_time_minute = request.POST.get('B_goal_time_second')
-        B_time_second = request.POST.get('B_goal_time_second')
-
-        A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
-        A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
-        A_goal_player = request.POST.get('teamA_goal_player')
-        A_penalty_player = request.POST.get('teamA_penalty_player')
-
-        B_goal_assistant1 = request.POST.get('teamB_goal_assistant1')
-        B_goal_assistant2 = request.POST.get('teamB_goal_assistant2')
-        B_goal_player = request.POST.get('teamB_goal_player')
-        B_penalty_player = request.POST.get('teamB_penalty_player')
-
+        print(request.POST)
         if 'goalA_button_remove' in request.POST:
-            print("ПОСТ С goalA_button_remove")
-            print(request.POST['goalA_button_remove'])
-            print(ActionGoal.objects.get(id=request.POST['goalA_button_remove']))
             ActionGoal.objects.get(id=request.POST['goalA_button_remove']).delete()
 
-        if 'goalB_button_remove' in request.POST:
-            print("ПОСТ С goalB_button_remove")
-            print(request.POST['goalB_button_remove'])
-            print(ActionGoal.objects.get(id=request.POST['goalB_button_remove']))
+        elif 'goalB_button_remove' in request.POST:
             ActionGoal.objects.get(id=request.POST['goalB_button_remove']).delete()
 
-        if 'penaltyA_button_remove' in request.POST:
-            print("ПОСТ С penaltyA_button_remove")
-            print(request.POST['penaltyA_button_remove'])
-            print(ActionPenalty.objects.get(id=request.POST['penaltyA_button_remove']))
+        elif 'penaltyA_button_remove' in request.POST:
             ActionPenalty.objects.get(id=request.POST['penaltyA_button_remove']).delete()
 
-        if 'penaltyB_button_remove' in request.POST:
-            print("ПОСТ С penaltyB_button_remove")
-            print(request.POST['penaltyB_button_remove'])
-            print(ActionPenalty.objects.get(id=request.POST['penaltyB_button_remove']))
+        elif 'penaltyB_button_remove' in request.POST:
             ActionPenalty.objects.get(id=request.POST['penaltyB_button_remove']).delete()
 
-        if A_goal_assistant1 is not None and \
-            A_goal_assistant2 is not None and \
-            A_goal_player is not None:
-            print("_____DEV_____")
-            print("Создание гола команды А")
-            print(A_goal_assistant1)
-            print(A_goal_assistant2)
-            print(A_goal_player)
-            print(A_time_minute)
-            print(A_time_second)
+        elif 'teamA_goal_assistant1' in request.POST and \
+            'teamA_goal_assistant2' in request.POST and \
+            'teamA_goal_player' in request.POST:
+
+            A_time_minute = request.POST.get('A_goal_time_minute')
+            A_time_second = request.POST.get('A_goal_time_second')
+
+            A_goal_assistant1 = request.POST.get('teamA_goal_assistant1')
+            A_goal_assistant2 = request.POST.get('teamA_goal_assistant2')
+            A_goal_player = request.POST.get('teamA_goal_player')
 
             A_goal_ass1_id = -1
             A_goal_ass2_id = -1
@@ -424,16 +396,16 @@ class MatchScoreboardDetailView(DetailView):
 
             messages.success(self.request, 'Гол А добавлен')
 
-        if B_goal_assistant1 is not None and \
-            B_goal_assistant2 is not None and \
-            B_goal_player is not None:
-            print("_____DEV_____")
-            print("Создание гола команды B")
-            print(B_goal_assistant1)
-            print(B_goal_assistant2)
-            print(B_goal_player)
-            print(B_time_minute)
-            print(B_time_second)
+        elif 'teamB_goal_assistant1' in request.POST and \
+            'teamB_goal_assistant2' in request.POST and \
+            'teamB_goal_player' in request.POST:
+
+            B_time_minute = request.POST.get('B_goal_time_minute')
+            B_time_second = request.POST.get('B_goal_time_second')
+
+            B_goal_assistant1 = request.POST.get('teamB_goal_assistant1')
+            B_goal_assistant2 = request.POST.get('teamB_goal_assistant2')
+            B_goal_player = request.POST.get('teamB_goal_player')
 
             B_goal_ass1_id = -1
             B_goal_ass2_id = -1
@@ -461,11 +433,9 @@ class MatchScoreboardDetailView(DetailView):
 
             messages.success(self.request, 'Гол B добавлен')
 
-        if A_penalty_player is not None:
-            print("_____DEV_____")
-            print("Создание штрафа команды А")
-            print(A_penalty_player)
+        elif 'teamA_penalty_player' in request.POST:
 
+            A_penalty_player = request.POST.get('teamA_penalty_player')
             A_penalty_player_id = -1
 
             for player in self.teamA_players():
@@ -484,11 +454,9 @@ class MatchScoreboardDetailView(DetailView):
             new_penalty.save()
             messages.success(self.request, 'Штраф A добавлен')
 
-        if B_penalty_player is not None:
-            print("_____DEV_____")
-            print("Создание штрафа команды B")
-            print(B_penalty_player)
+        elif 'teamB_penalty_player' in request.POST:
 
+            B_penalty_player = request.POST.get('teamB_penalty_player')
             B_penalty_player_id = -1
 
             for player in self.teamB_players():
@@ -508,9 +476,6 @@ class MatchScoreboardDetailView(DetailView):
             messages.success(self.request, 'Штраф B добавлен')
 
         return HttpResponseRedirect(request.path)
-
-    def delete(self, request, *args, **kwargs):
-        print("ПОЛУЧЕН DELETE")
 
     def actions1period(self):
         _goals = [x for x in self.goals() if x.time_minute < 20]
