@@ -4,7 +4,8 @@ from django.views.generic import DetailView, TemplateView
 from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionPenalty
 from django.db.models import Q
 import operator
-from .forms import UploadFileForm
+from django.contrib import messages
+from .forms import UploadFileForm, GoalForm
 from itertools import chain
 
 
@@ -69,6 +70,16 @@ class ZipView(TemplateView):
 
         return render(request, self.template_name, {'form': form})
 
+class GoalDetailView(DetailView):
+    model = ActionGoal
+    template_name = "Scoreboard/each_goal.html"
+    context_object_name = "goal"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        _goal = ActionGoal.objects.get(id=self.object.id)
+        form = GoalForm(instance=_goal)
+        return render(request, self.template_name, {"form": form})
 
 class MatchDetailView(DetailView):
     model = Match
@@ -271,6 +282,7 @@ class MatchScoreboardDetailView(DetailView):
         "Защитник": "Защитники",
         "Нападающий": "Нападающие"
     }
+    message=""
 
     teamA = lambda x: x.object.lineup_match.get(team_side="A").team
     teamB = lambda x: x.object.lineup_match.get(team_side="B").team
@@ -344,6 +356,8 @@ class MatchScoreboardDetailView(DetailView):
                 Player.objects.get(id=A_goal_ass1_id),
                 Player.objects.get(id=A_goal_ass2_id))
 
+            messages.success(self.request, 'Гол А добавлен')
+
         if B_goal_assistant1 is not None and \
             B_goal_assistant2 is not None and \
             B_goal_player is not None:
@@ -377,6 +391,8 @@ class MatchScoreboardDetailView(DetailView):
             new_goal.players_passes.add(
                 Player.objects.get(id=B_goal_ass1_id),
                 Player.objects.get(id=B_goal_ass2_id))
+
+            messages.success(self.request, 'Гол B добавлен')
 
         if A_penalty_player is not None:
             print("_____DEV_____")
@@ -424,9 +440,7 @@ class MatchScoreboardDetailView(DetailView):
             )
             new_penalty.save()
 
-
-
-        return HttpResponse(status=201)
+        return HttpResponseRedirect(request.path)
 
     def actions1period(self):
         _goals = [x for x in self.goals() if x.time_minute < 20]
