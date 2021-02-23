@@ -244,7 +244,7 @@
                 {% for action in view.actions1period %}
                 {% if action.type == "Штраф" and action.team_side == "A" %}
                 <div class="board-protocol-event-left-fine board-protocol-event event">
-                  <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                  <button type="submit" name="penaltyA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
                   <div class="board-protocol-event-left-fine-text">
                     <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                     <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
@@ -260,7 +260,7 @@
                 {% endif %}
                 {% if action.type == "Гол" and action.team_side == "A" %}
                 <div class="board-protocol-event-left-goal board-protocol-event event">
-                  <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                  <button type="submit" name="goalA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
                   <div class="board-protocol-event-left-goal-text">
                     <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                     {% for player in action.players_passes.all %}
@@ -294,7 +294,7 @@
                 <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="penaltyB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
             {% endif %}
             {% if action.type == "Гол" and action.team_side == "B" %}
@@ -317,7 +317,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                 {% endfor %}
               </div>
-              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
             {% endif %}
             {% empty %}
@@ -330,7 +330,7 @@
             {% for action in view.actions2period %}
             {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
-              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="penaltyA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-fine-text">
                 <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                 <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
@@ -346,7 +346,7 @@
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="board-protocol-event-left-goal board-protocol-event event">
-              <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-goal-text">
               <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
@@ -380,7 +380,7 @@
                 <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="penaltyB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
@@ -403,7 +403,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
-              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}
@@ -416,7 +416,7 @@
                 {% for action in view.actions3period %}
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
-              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="penaltyA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-fine-text">
                 <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
                 <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
@@ -432,7 +432,7 @@
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
             <div class="board-protocol-event-left-goal board-protocol-event event">
-              <button type="submit" name="goalA_button" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalA_button_remove" value="{{ action.id }}" class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
               <div class="board-protocol-event-left-goal-text">
               <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
@@ -466,7 +466,7 @@
                 <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
                 <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
-              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="penaltyB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
@@ -489,7 +489,7 @@
                 <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
-              <button type="submit" name="goalB_button" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <button type="submit" name="goalB_button_remove" value="{{ action.id }}" class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}

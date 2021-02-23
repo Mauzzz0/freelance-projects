@@ -362,17 +362,29 @@ class MatchScoreboardDetailView(DetailView):
         B_goal_player = request.POST.get('teamB_goal_player')
         B_penalty_player = request.POST.get('teamB_penalty_player')
 
-        if 'goalA_button' in request.POST:
-            print("ПОСТ С goalA_button")
-            print(request.POST['goalA_button'])
-            print(ActionGoal.objects.get(id=request.POST['goalA_button']))
-            ActionGoal.objects.get(id=request.POST['goalA_button']).delete()
+        if 'goalA_button_remove' in request.POST:
+            print("ПОСТ С goalA_button_remove")
+            print(request.POST['goalA_button_remove'])
+            print(ActionGoal.objects.get(id=request.POST['goalA_button_remove']))
+            ActionGoal.objects.get(id=request.POST['goalA_button_remove']).delete()
 
-        if 'goalB_button' in request.POST:
-            print("ПОСТ С goalB_button")
-            print(request.POST['goalB_button'])
-            print(ActionGoal.objects.get(id=request.POST['goalB_button']))
-            ActionGoal.objects.get(id=request.POST['goalB_button']).delete()
+        if 'goalB_button_remove' in request.POST:
+            print("ПОСТ С goalB_button_remove")
+            print(request.POST['goalB_button_remove'])
+            print(ActionGoal.objects.get(id=request.POST['goalB_button_remove']))
+            ActionGoal.objects.get(id=request.POST['goalB_button_remove']).delete()
+
+        if 'penaltyA_button_remove' in request.POST:
+            print("ПОСТ С penaltyA_button_remove")
+            print(request.POST['penaltyA_button_remove'])
+            print(ActionPenalty.objects.get(id=request.POST['penaltyA_button_remove']))
+            ActionPenalty.objects.get(id=request.POST['penaltyA_button_remove']).delete()
+
+        if 'penaltyB_button_remove' in request.POST:
+            print("ПОСТ С penaltyB_button_remove")
+            print(request.POST['penaltyB_button_remove'])
+            print(ActionPenalty.objects.get(id=request.POST['penaltyB_button_remove']))
+            ActionPenalty.objects.get(id=request.POST['penaltyB_button_remove']).delete()
 
         if A_goal_assistant1 is not None and \
             A_goal_assistant2 is not None and \
