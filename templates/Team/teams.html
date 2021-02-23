@@ -5,10 +5,10 @@
 {% load static %}
 
 {% block content %}
-    {% for tournament in tournaments %}
   <div class="teams">
     <div class="container">
       <div class="teams-block">
+    {% for tournament in tournaments %}
         <div class="teams-league">
           <p class="teams-league__title">{{ tournament.name }}</p>
           <div class="teams-league-teams">
@@ -23,8 +23,8 @@
             {% endfor %}
           </div>
         </div>
+        {% endfor %}
       </div>
     </div>
   </div>
-    {% endfor %}
 {% endblock %}

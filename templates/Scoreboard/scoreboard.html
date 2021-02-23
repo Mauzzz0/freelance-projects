@@ -11,18 +11,21 @@
   <script src="{% static 'js/jquery.min.js' %}"></script>
 </head>
 <body>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-    {% endfor %}
-</ul>
-{% endif %}
-  <form action="" name="ProtocolForm" method="post">
+  <form name="MyForm" method="post">
     {% csrf_token %}
-  <input name='stopwatch' size=10 value="00:00:00.00" readonly="true">
   <div class="modal-goal modal modal-goal-left">
     <div class="modal-goal-block">
+      <div class="modal-time">
+        <div class="modal-time-mins">
+          <label for="modal-time__mins-left-goal">Минуты</label>
+          <input type="number" class="modal-time__mins" id="modal-time__mins-left-goal" value="20">
+        </div>
+        <span class="modal-time-dots"> : </span>
+        <div class="modal-time-secs">
+          <label for="modal-time__secs-left-goal">Секунды</label>
+          <input type="number" class="modal-time__secs" is="modal-time__secs-left-goal" value="30">
+        </div>
+      </div>
       <div class="modal-goal-header">
         <h1 class="modal-goal__title">Гол</h1>
         <h1 class="modal-goal__team">{{ view.teamA }}</h1>
@@ -32,7 +35,8 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_assistant1" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="leftGoalAssist1{{ player.game_number }}" name="teamA_goal_assistant1" class="modal-select">
+              <label class="modal-select-label" for="leftGoalAssist1{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -40,7 +44,8 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_assistant2" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="leftGoalAssist2{{ player.game_number }}" name="teamA_goal_assistant2" class="modal-select">
+              <label class="modal-select-label" for="leftGoalAssist2{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -48,7 +53,8 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamA_goal_player" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="leftGoalPlayer{{ player.game_number }}" name="teamA_goal_player" class="modal-select">
+              <label class="modal-select-label" for="leftGoalPlayer{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -59,6 +65,17 @@
 
   <div class="modal-goal modal modal-goal-right">
     <div class="modal-goal-block">
+      <div class="modal-time">
+        <div class="modal-time-mins">
+          <label for="modal-time__mins-right-goal">Минуты</label>
+          <input type="number" class="modal-time__mins" id="modal-time__mins-right-goal" value="20">
+        </div>
+        <span class="modal-time-dots"> : </span>
+        <div class="modal-time-secs">
+          <label for="modal-time__secs-right-goal">Секунды</label>
+          <input type="number" class="modal-time__secs" is="modal-time__secs-right-goal" value="30">
+        </div>
+      </div>
       <div class="modal-goal-header">
         <h1 class="modal-goal__title">Гол</h1>
         <h1 class="modal-goal__team">{{ view.teamB }}</h1>
@@ -68,7 +85,8 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_assistant1" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="rightGoalAssist1{{ player.game_number }}" name="teamB_goal_assistant1" class="modal-select">
+              <label class="modal-select-label" for="rightGoalAssist1{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -76,7 +94,8 @@
           <h2 class="modal-goal-part__title">Ассистент</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_assistant2" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="rightGoalAssist2{{ player.game_number }}" name="teamB_goal_assistant2" class="modal-select">
+              <label class="modal-select-label" for="rightGoalAssist2{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -84,7 +103,8 @@
           <h2 class="modal-goal-part__title">Гол</h2>
           <div class="modal-goal-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamB_goal_player" class="modal-goal-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="rightGoalPlayer{{ player.game_number }}" name="teamB_goal_player" class="modal-select">
+              <label class="modal-select-label" for="rightGoalPlayer{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
@@ -95,6 +115,17 @@
 
   <div class="modal-del modal modal-del-left">
     <div class="modal-del-block">
+      <div class="modal-time">
+        <div class="modal-time-mins">
+          <label for="modal-time__mins-left-fine">Минуты</label>
+          <input type="number" class="modal-time__mins" id="modal-time__mins-left-fine" value="20">
+        </div>
+        <span class="modal-time-dots"> : </span>
+        <div class="modal-time-secs">
+          <label for="modal-time__secs-left-fine">Секунды</label>
+          <input type="number" class="modal-time__secs" is="modal-time__secs-left-fine" value="30">
+        </div>
+      </div>
       <div class="modal-del-header">
         <h1 class="modal-del__title">Удаление</h1>
         <h1 class="modal-del__team">{{ view.teamA }}</h1>
@@ -104,14 +135,15 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamA_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamA_penalty_player" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="leftDel{{ player.game_number }}" name="teamA_penalty_player" class="modal-select">
+              <label class="modal-select-label" for="leftDel{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
-        <div class="modal-del-part">
+        <div class="modal-del-del">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <input type="radio" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</input>
+            <input type="radio" class="modal-select" id="leftFine1" value="leftFine1" name="leftFineNum"><label for="leftFine1" class="modal-select-label" html="1">1</label><input type="radio" class="modal-select" id="leftFine2" value="leftFine2" name="leftFineNum"><label for="leftFine2" class="modal-select-label" html="2">2</label><input type="radio" class="modal-select" id="leftFine3" value="leftFine3" name="leftFineNum"><label for="leftFine3" class="modal-select-label" html="3">3</label><input type="radio" class="modal-select" id="leftFine4" value="leftFine4" name="leftFineNum"><label for="leftFine4" class="modal-select-label" html="4">4</label><input type="radio" class="modal-select" id="leftFine5" value="leftFine5" name="leftFineNum"><label for="leftFine5" class="modal-select-label" html="5">5</label><input type="radio" class="modal-select" id="leftFine6" value="leftFine6" name="leftFineNum"><label for="leftFine6" class="modal-select-label" html="6">6</label><input type="radio" class="modal-select" id="leftFine7" value="leftFine7" name="leftFineNum"><label for="leftFine7" class="modal-select-label" html="7">7</label><input type="radio" class="modal-select" id="leftFine8" value="leftFine8" name="leftFineNum"><label for="leftFine8" class="modal-select-label" html="8">8</label><input type="radio" class="modal-select" id="leftFine9" value="leftFine9" name="leftFineNum"><label for="leftFine9" class="modal-select-label" html="9">9</label><input type="radio" class="modal-select" id="leftFine10" value="leftFine10" name="leftFineNum"><label for="leftFine10" class="modal-select-label" html="10">10</label><input type="radio" class="modal-select" id="leftFine11" value="leftFine11" name="leftFineNum"><label for="leftFine11" class="modal-select-label" html="11">11</label><input type="radio" class="modal-select" id="leftFine12" value="leftFine12" name="leftFineNum"><label for="leftFine12" class="modal-select-label" html="12">12</label><input type="radio" class="modal-select" id="leftFine13" value="leftFine13" name="leftFineNum"><label for="leftFine13" class="modal-select-label" html="13">13</label><input type="radio" class="modal-select" id="leftFine14" value="leftFine14" name="leftFineNum"><label for="leftFine14" class="modal-select-label" html="14">14</label><input type="radio" class="modal-select" id="leftFine15" value="leftFine15" name="leftFineNum"><label for="leftFine15" class="modal-select-label" html="15">15</label><input type="radio" class="modal-select" id="leftFine16" value="leftFine16" name="leftFineNum"><label for="leftFine16" class="modal-select-label" html="16">16</label><input type="radio" class="modal-select" id="leftFine17" value="leftFine17" name="leftFineNum"><label for="leftFine17" class="modal-select-label" html="17">17</label><input type="radio" class="modal-select" id="leftFine18" value="leftFine18" name="leftFineNum"><label for="leftFine18" class="modal-select-label" html="18">18</label><input type="radio" class="modal-select" id="leftFine19" value="leftFine19" name="leftFineNum"><label for="leftFine19" class="modal-select-label" html="19">19</label><input type="radio" class="modal-select" id="leftFine20" value="leftFine20" name="leftFineNum"><label for="leftFine20" class="modal-select-label" html="20">20</label><input type="radio" class="modal-select" id="leftFine21" value="leftFine21" name="leftFineNum"><label for="leftFine21" class="modal-select-label" html="21">21</label><input type="radio" class="modal-select" id="leftFine22" value="leftFine22" name="leftFineNum"><label for="leftFine22" class="modal-select-label" html="22">22</label><input type="radio" class="modal-select" id="leftFine23" value="leftFine23" name="leftFineNum"><label for="leftFine23" class="modal-select-label" html="23">23</label><input type="radio" class="modal-select" id="leftFine24" value="leftFine24" name="leftFineNum"><label for="leftFine24" class="modal-select-label" html="24">24</label><input type="radio" class="modal-select" id="leftFine25" value="leftFine25" name="leftFineNum"><label for="leftFine25" class="modal-select-label" html="25">25</label><input type="radio" class="modal-select" id="leftFine26" value="leftFine26" name="leftFineNum"><label for="leftFine26" class="modal-select-label" html="26">26</label><input type="radio" class="modal-select" id="leftFine27" value="leftFine27" name="leftFineNum"><label for="leftFine27" class="modal-select-label" html="27">27</label><input type="radio" class="modal-select" id="leftFine28" value="leftFine28" name="leftFineNum"><label for="leftFine28" class="modal-select-label" html="28">28</label><input type="radio" class="modal-select" id="leftFine29" value="leftFine29" name="leftFineNum"><label for="leftFine29" class="modal-select-label" html="29">29</label><input type="radio" class="modal-select" id="leftFine30" value="leftFine30" name="leftFineNum"><label for="leftFine30" class="modal-select-label" html="30">30</label><input type="radio" class="modal-select" id="leftFine31" value="leftFine31" name="leftFineNum"><label for="leftFine31" class="modal-select-label" html="31">31</label><input type="radio" class="modal-select" id="leftFine32" value="leftFine32" name="leftFineNum"><label for="leftFine32" class="modal-select-label" html="32">32</label><input type="radio" class="modal-select" id="leftFine33" value="leftFine33" name="leftFineNum"><label for="leftFine33" class="modal-select-label" html="33">33</label><input type="radio" class="modal-select" id="leftFine34" value="leftFine34" name="leftFineNum"><label for="leftFine34" class="modal-select-label" html="34">34</label><input type="radio" class="modal-select" id="leftFine35" value="leftFine35" name="leftFineNum"><label for="leftFine35" class="modal-select-label" html="35">35</label><input type="radio" class="modal-select" id="leftFine36" value="leftFine36" name="leftFineNum"><label for="leftFine36" class="modal-select-label" html="36">36</label><input type="radio" class="modal-select" id="leftFine37" value="leftFine37" name="leftFineNum"><label for="leftFine37" class="modal-select-label" html="37">37</label><input type="radio" class="modal-select" id="leftFine38" value="leftFine38" name="leftFineNum"><label for="leftFine38" class="modal-select-label" html="38">38</label><input type="radio" class="modal-select" id="leftFine39" value="leftFine39" name="leftFineNum"><label for="leftFine39" class="modal-select-label" html="39">39</label><input type="radio" class="modal-select" id="leftFine40" value="leftFine40" name="leftFineNum"><label for="leftFine40" class="modal-select-label" html="40">40</label><input type="radio" class="modal-select" id="leftFine41" value="leftFine41" name="leftFineNum"><label for="leftFine41" class="modal-select-label" html="41">41</label><input type="radio" class="modal-select" id="leftFine42" value="leftFine42" name="leftFineNum"><label for="leftFine42" class="modal-select-label" html="42">42</label><input type="radio" class="modal-select" id="leftFine43" value="leftFine43" name="leftFineNum"><label for="leftFine43" class="modal-select-label" html="43">43</label>
           </div>
         </div>
       </div>
@@ -121,6 +153,17 @@
 
   <div class="modal-del modal modal-del-right">
     <div class="modal-del-block">
+      <div class="modal-time">
+        <div class="modal-time-mins">
+          <label for="modal-time__mins-right-fine">Минуты</label>
+          <input type="number" class="modal-time__mins" id="modal-time__mins-right-fine" value="20">
+        </div>
+        <span class="modal-time-dots"> : </span>
+        <div class="modal-time-secs">
+          <label for="modal-time__secs-right-fine">Секунды</label>
+          <input type="number" class="modal-time__secs" is="modal-time__secs-right-fine" value="30">
+        </div>
+      </div>
       <div class="modal-del-header">
         <h1 class="modal-del__title">Удаление</h1>
         <h1 class="modal-del__team">{{ view.teamB }}</h1>
@@ -130,21 +173,22 @@
           <h2 class="modal-del-part__title">Игрок</h2>
           <div class="modal-del-part-players">
               {% for player in view.teamB_players_sorted_by_game_number %}
-            <input type="radio" value="{{ player.game_number }}" name="teamB_penalty_player" class="modal-del-part-players__btn modal-select">{{ player.game_number }}</input>
+              <input type="radio" value="{{ player.game_number }}" id="rightDel{{ player.game_number }}" name="teamB_penalty_player" class="modal-select">
+              <label class="modal-select-label" for="rightDel{{ player.game_number }}">{{ player.game_number }}</label>
               {% endfor %}
           </div>
         </div>
-        <div class="modal-del-part">
+        <div class="modal-del-del">
           <h2 class="modal-del-part__title">Нарушение</h2>
           <div class="modal-del-part-players">
-            <input type="radio" class="modal-del-part-players__btn modal-select">НАРУШЕНИЕ 1,2,3,4,5...</input>
+            <input type="radio" class="modal-select" id="rightFine1" value="rightFine1" name="rightFineNum"><label for="rightFine1" class="modal-select-label" html="1">1</label><input type="radio" class="modal-select" id="rightFine2" value="rightFine2" name="rightFineNum"><label for="rightFine2" class="modal-select-label" html="2">2</label><input type="radio" class="modal-select" id="rightFine3" value="rightFine3" name="rightFineNum"><label for="rightFine3" class="modal-select-label" html="3">3</label><input type="radio" class="modal-select" id="rightFine4" value="rightFine4" name="rightFineNum"><label for="rightFine4" class="modal-select-label" html="4">4</label><input type="radio" class="modal-select" id="rightFine5" value="rightFine5" name="rightFineNum"><label for="rightFine5" class="modal-select-label" html="5">5</label><input type="radio" class="modal-select" id="rightFine6" value="rightFine6" name="rightFineNum"><label for="rightFine6" class="modal-select-label" html="6">6</label><input type="radio" class="modal-select" id="rightFine7" value="rightFine7" name="rightFineNum"><label for="rightFine7" class="modal-select-label" html="7">7</label><input type="radio" class="modal-select" id="rightFine8" value="rightFine8" name="rightFineNum"><label for="rightFine8" class="modal-select-label" html="8">8</label><input type="radio" class="modal-select" id="rightFine9" value="rightFine9" name="rightFineNum"><label for="rightFine9" class="modal-select-label" html="9">9</label><input type="radio" class="modal-select" id="rightFine10" value="rightFine10" name="rightFineNum"><label for="rightFine10" class="modal-select-label" html="10">10</label><input type="radio" class="modal-select" id="rightFine11" value="rightFine11" name="rightFineNum"><label for="rightFine11" class="modal-select-label" html="11">11</label><input type="radio" class="modal-select" id="rightFine12" value="rightFine12" name="rightFineNum"><label for="rightFine12" class="modal-select-label" html="12">12</label><input type="radio" class="modal-select" id="rightFine13" value="rightFine13" name="rightFineNum"><label for="rightFine13" class="modal-select-label" html="13">13</label><input type="radio" class="modal-select" id="rightFine14" value="rightFine14" name="rightFineNum"><label for="rightFine14" class="modal-select-label" html="14">14</label><input type="radio" class="modal-select" id="rightFine15" value="rightFine15" name="rightFineNum"><label for="rightFine15" class="modal-select-label" html="15">15</label><input type="radio" class="modal-select" id="rightFine16" value="rightFine16" name="rightFineNum"><label for="rightFine16" class="modal-select-label" html="16">16</label><input type="radio" class="modal-select" id="rightFine17" value="rightFine17" name="rightFineNum"><label for="rightFine17" class="modal-select-label" html="17">17</label><input type="radio" class="modal-select" id="rightFine18" value="rightFine18" name="rightFineNum"><label for="rightFine18" class="modal-select-label" html="18">18</label><input type="radio" class="modal-select" id="rightFine19" value="rightFine19" name="rightFineNum"><label for="rightFine19" class="modal-select-label" html="19">19</label><input type="radio" class="modal-select" id="rightFine20" value="rightFine20" name="rightFineNum"><label for="rightFine20" class="modal-select-label" html="20">20</label><input type="radio" class="modal-select" id="rightFine21" value="rightFine21" name="rightFineNum"><label for="rightFine21" class="modal-select-label" html="21">21</label><input type="radio" class="modal-select" id="rightFine22" value="rightFine22" name="rightFineNum"><label for="rightFine22" class="modal-select-label" html="22">22</label><input type="radio" class="modal-select" id="rightFine23" value="rightFine23" name="rightFineNum"><label for="rightFine23" class="modal-select-label" html="23">23</label><input type="radio" class="modal-select" id="rightFine24" value="rightFine24" name="rightFineNum"><label for="rightFine24" class="modal-select-label" html="24">24</label><input type="radio" class="modal-select" id="rightFine25" value="rightFine25" name="rightFineNum"><label for="rightFine25" class="modal-select-label" html="25">25</label><input type="radio" class="modal-select" id="rightFine26" value="rightFine26" name="rightFineNum"><label for="rightFine26" class="modal-select-label" html="26">26</label><input type="radio" class="modal-select" id="rightFine27" value="rightFine27" name="rightFineNum"><label for="rightFine27" class="modal-select-label" html="27">27</label><input type="radio" class="modal-select" id="rightFine28" value="rightFine28" name="rightFineNum"><label for="rightFine28" class="modal-select-label" html="28">28</label><input type="radio" class="modal-select" id="rightFine29" value="rightFine29" name="rightFineNum"><label for="rightFine29" class="modal-select-label" html="29">29</label><input type="radio" class="modal-select" id="rightFine30" value="rightFine30" name="rightFineNum"><label for="rightFine30" class="modal-select-label" html="30">30</label><input type="radio" class="modal-select" id="rightFine31" value="rightFine31" name="rightFineNum"><label for="rightFine31" class="modal-select-label" html="31">31</label><input type="radio" class="modal-select" id="rightFine32" value="rightFine32" name="rightFineNum"><label for="rightFine32" class="modal-select-label" html="32">32</label><input type="radio" class="modal-select" id="rightFine33" value="rightFine33" name="rightFineNum"><label for="rightFine33" class="modal-select-label" html="33">33</label><input type="radio" class="modal-select" id="rightFine34" value="rightFine34" name="rightFineNum"><label for="rightFine34" class="modal-select-label" html="34">34</label><input type="radio" class="modal-select" id="rightFine35" value="rightFine35" name="rightFineNum"><label for="rightFine35" class="modal-select-label" html="35">35</label><input type="radio" class="modal-select" id="rightFine36" value="rightFine36" name="rightFineNum"><label for="rightFine36" class="modal-select-label" html="36">36</label><input type="radio" class="modal-select" id="rightFine37" value="rightFine37" name="rightFineNum"><label for="rightFine37" class="modal-select-label" html="37">37</label><input type="radio" class="modal-select" id="rightFine38" value="rightFine38" name="rightFineNum"><label for="rightFine38" class="modal-select-label" html="38">38</label><input type="radio" class="modal-select" id="rightFine39" value="rightFine39" name="rightFineNum"><label for="rightFine39" class="modal-select-label" html="39">39</label><input type="radio" class="modal-select" id="rightFine40" value="rightFine40" name="rightFineNum"><label for="rightFine40" class="modal-select-label" html="40">40</label><input type="radio" class="modal-select" id="rightFine41" value="rightFine41" name="rightFineNum"><label for="rightFine41" class="modal-select-label" html="41">41</label><input type="radio" class="modal-select" id="rightFine42" value="rightFine42" name="rightFineNum"><label for="rightFine42" class="modal-select-label" html="42">42</label><input type="radio" class="modal-select" id="rightFine43" value="rightFine43" name="rightFineNum"><label for="rightFine43" class="modal-select-label" html="43">43</label>
           </div>
         </div>
       </div>
       <button type="submit" class="modal-del-right__submit modal__submit">Готово</button>
     </div>
   </div>
-  </form>
+</form>
 
   <div class="board-nav">
     <button id="playersBtn" class="board-nav-item tablink" onclick="openBlock(event, 'players')">Составы (1)</button>
@@ -161,7 +205,6 @@
         </div>
         <div class="board-header-time">
           <button id="minus" class="board-header-time__minus"><span>-</span><p>(C\C)</p></button>
-          <span class="board-header-time__time">20:00</span>
           <button id="plus" class="board-header-time__plus"><span>+</span><p>(M\Ь)</p></button>
         </div>
         <div class="board-header-team">
@@ -177,171 +220,179 @@
         <button id="stop" onclick="StartStop()" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
 
           <div class="board-buttons-right">
-          <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
-          <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
-        </div>
-      </div>
-    </div>
-    
-    <div id="protocol" class="board-protocol-block tab">
-      <div class="match-protocol-block">
-          <p class="match-protocol-period__title">1 период</p>
-          <div class="match-protocol-period">
-                {% for action in view.actions1period %}
-                  {% if action.type == "Штраф" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-fine match-protocol-event event">
-              <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
-                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
-              </div>
-              <div class="match-protocol-event-left-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
-                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
-              </div>
-              <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+            <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
+              <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
               </div>
             </div>
-                  {% endif %}
-                  {% if action.type == "Гол" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-goal match-protocol-event event">
-              <div class="match-protocol-event-left-goal-text">
-              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
-                  {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
-                  {% endfor %}
-              </div>
-              <div class="match-protocol-event-left-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
-                  <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
-                  {% for key, value in view.state_for_each_goal.items %}
-                        {% if key == action %}
-                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
-                            {% endif %}
-                    {% endfor %}
-              </div>
-              <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
-              </div>
-            </div>
-                  {% endif %}
-                  {% if action.type == "Штраф" and action.team_side == "B" %}
-            <div class="match-protocol-event-right-fine match-protocol-event event">
-              <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
-              </div>
-              <div class="match-protocol-event-right-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
-              </div>
-              <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
-                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
-              </div>
-            </div>
-                  {% endif %}
-                  {% if action.type == "Гол" and action.team_side == "B" %}
-             <div class="match-protocol-event-right-goal match-protocol-event event">
-              <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
-              </div>
-              <div class="match-protocol-event-right-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
-                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
-                  {% for key, value in view.state_for_each_goal.items %}
-                        {% if key == action %}
-                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
-                            {% endif %}
-                    {% endfor %}
-              </div>
-              <div class="match-protocol-event-right-goal-text">
-              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
-                  {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
-                  {% endfor %}
-              </div>
-            </div>
-                  {% endif %}
-                    {% empty %}
-               <b>Нет событий</b>
-              {% endfor %}
           </div>
 
-            <p class="match-protocol-period__title">2 период</p>
-          <div class="match-protocol-period">
-                {% for action in view.actions2period %}
-                  {% if action.type == "Штраф" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-fine match-protocol-event event">
-              <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
-                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+          <div id="protocol" class="board-protocol tab">
+            <div class="board-protocol-block">
+              <p class="board-protocol-period__title">1 период</p>
+              <div class="board-protocol-period">
+                {% for action in view.actions1period %}
+                {% if action.type == "Штраф" and action.team_side == "A" %}
+                <div class="board-protocol-event-left-fine board-protocol-event event">
+                  <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                  <div class="board-protocol-event-left-fine-text">
+                    <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                    <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+                  </div>
+                  <div class="board-protocol-event-left-fine-action">
+                    <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-left-fine-action__img">
+                    <span class="board-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+                  </div>
+                  <div class="board-protocol-event-left-fine-time time">
+                    <span class="board-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+                  </div>
+                </div>
+                {% endif %}
+                {% if action.type == "Гол" and action.team_side == "A" %}
+                <div class="board-protocol-event-left-goal board-protocol-event event">
+                  <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                  <div class="board-protocol-event-left-goal-text">
+                    <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                    {% for player in action.players_passes.all %}
+                    <p class="board-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                    {% endfor %}
               </div>
-              <div class="match-protocol-event-left-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
-                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              <div class="board-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-left-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                {% for key, value in view.state_for_each_goal.items %}
+                {% if key == action %}
+                <span class="board-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                {% endif %}
+                {% endfor %}
               </div>
-              <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              <div class="board-protocol-event-left-goal-time time">
+                <span class="board-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+            {% endif %}
+            {% if action.type == "Штраф" and action.team_side == "B" %}
+            <div class="board-protocol-event-right-fine board-protocol-event event">
+              <div class="board-protocol-event-right-fine-time time">
+                <span class="board-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="board-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-right-fine-action__img">
+                <span class="board-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="board-protocol-event-right-fine-text">
+                <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+            </div>
+            {% endif %}
+            {% if action.type == "Гол" and action.team_side == "B" %}
+            <div class="board-protocol-event-right-goal board-protocol-event event">
+              <div class="board-protocol-event-right-goal-time time">
+                <span class="board-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="board-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-right-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                {% for key, value in view.state_for_each_goal.items %}
+                {% if key == action %}
+                <span class="board-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                {% endif %}
+                {% endfor %}
+              </div>
+              <div class="board-protocol-event-right-goal-text">
+                <p class="board-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                {% for player in action.players_passes.all %}
+                <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                {% endfor %}
+              </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+            </div>
+            {% endif %}
+            {% empty %}
+            <b>Нет событий</b>
+            {% endfor %}
+          </div>
+
+          <p class="board-protocol-period__title">2 период</p>
+          <div class="board-protocol-period">
+            {% for action in view.actions2period %}
+            {% if action.type == "Штраф" and action.team_side == "A" %}
+            <div class="board-protocol-event-left-fine board-protocol-event event">
+              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <div class="board-protocol-event-left-fine-text">
+                <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+              <div class="board-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-left-fine-action__img">
+                <span class="board-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="board-protocol-event-left-fine-time time">
+                <span class="board-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-goal match-protocol-event event">
-              <div class="match-protocol-event-left-goal-text">
-              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+            <div class="board-protocol-event-left-goal board-protocol-event event">
+              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <div class="board-protocol-event-left-goal-text">
+              <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                <p class="board-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
-              <div class="match-protocol-event-left-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
+              <div class="board-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-left-goal-action__img">
                 <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
                   {% for key, value in view.state_for_each_goal.items %}
                         {% if key == action %}
-                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                  <span class="board-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
                             {% endif %}
                     {% endfor %}
               </div>
-              <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              <div class="board-protocol-event-left-goal-time time">
+                <span class="board-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Штраф" and action.team_side == "B" %}
-            <div class="match-protocol-event-right-fine match-protocol-event event">
-              <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+            <div class="board-protocol-event-right-fine board-protocol-event event">
+              <div class="board-protocol-event-right-fine-time time">
+                <span class="board-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
-              <div class="match-protocol-event-right-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              <div class="board-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-right-fine-action__img">
+                <span class="board-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
-              <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
-                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              <div class="board-protocol-event-right-fine-text">
+                <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
-             <div class="match-protocol-event-right-goal match-protocol-event event">
-              <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+             <div class="board-protocol-event-right-goal board-protocol-event event">
+              <div class="board-protocol-event-right-goal-time time">
+                <span class="board-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
-              <div class="match-protocol-event-right-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
+              <div class="board-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-right-goal-action__img">
                 <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
                   {% for key, value in view.state_for_each_goal.items %}
                         {% if key == action %}
-                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                  <span class="board-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
                             {% endif %}
                     {% endfor %}
               </div>
-              <div class="match-protocol-event-right-goal-text">
-              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+              <div class="board-protocol-event-right-goal-text">
+              <p class="board-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
                   {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}
@@ -349,81 +400,85 @@
               {% endfor %}
           </div>
 
-            <p class="match-protocol-period__title">3 период</p>
-          <div class="match-protocol-period">
+            <p class="board-protocol-period__title">3 период</p>
+          <div class="board-protocol-period">
                 {% for action in view.actions3period %}
                   {% if action.type == "Штраф" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-fine match-protocol-event event">
-              <div class="match-protocol-event-left-fine-text">
-                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
-                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+            <div class="board-protocol-event-left-fine board-protocol-event event">
+              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <div class="board-protocol-event-left-fine-text">
+                <p class="board-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                <p class="board-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
               </div>
-              <div class="match-protocol-event-left-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
-                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              <div class="board-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-left-fine-action__img">
+                <span class="board-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
               </div>
-              <div class="match-protocol-event-left-fine-time time">
-                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              <div class="board-protocol-event-left-fine-time time">
+                <span class="board-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "A" %}
-            <div class="match-protocol-event-left-goal match-protocol-event event">
-              <div class="match-protocol-event-left-goal-text">
-              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+            <div class="board-protocol-event-left-goal board-protocol-event event">
+              <button class="board-protocol-del-left"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+              <div class="board-protocol-event-left-goal-text">
+              <p class="board-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
                   {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                <p class="board-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
                   {% endfor %}
               </div>
-              <div class="match-protocol-event-left-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
+              <div class="board-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-left-goal-action__img">
                 <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
                   {% for key, value in view.state_for_each_goal.items %}
                         {% if key == action %}
-                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                  <span class="board-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
                             {% endif %}
                     {% endfor %}
               </div>
-              <div class="match-protocol-event-left-goal-time time">
-                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              <div class="board-protocol-event-left-goal-time time">
+                <span class="board-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
             </div>
                   {% endif %}
                   {% if action.type == "Штраф" and action.team_side == "B" %}
-            <div class="match-protocol-event-right-fine match-protocol-event event">
-              <div class="match-protocol-event-right-fine-time time">
-                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+            <div class="board-protocol-event-right-fine board-protocol-event event">
+              <div class="board-protocol-event-right-fine-time time">
+                <span class="board-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
-              <div class="match-protocol-event-right-fine-action">
-                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
-                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              <div class="board-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="board-protocol-event-right-fine-action__img">
+                <span class="board-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
               </div>
-              <div class="match-protocol-event-right-fine-text">
-                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
-                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              <div class="board-protocol-event-right-fine-text">
+                <p class="board-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="board-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
               </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
                   {% if action.type == "Гол" and action.team_side == "B" %}
-             <div class="match-protocol-event-right-goal match-protocol-event event">
-              <div class="match-protocol-event-right-goal-time time">
-                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+             <div class="board-protocol-event-right-goal board-protocol-event event">
+              <div class="board-protocol-event-right-goal-time time">
+                <span class="board-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
               </div>
-              <div class="match-protocol-event-right-goal-action">
-                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
+              <div class="board-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="board-protocol-event-right-goal-action__img">
                 <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
                   {% for key, value in view.state_for_each_goal.items %}
                         {% if key == action %}
-                  <span class="match-protocol-event-left-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                  <span class="board-protocol-event-left-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
                             {% endif %}
                     {% endfor %}
               </div>
-              <div class="match-protocol-event-right-goal-text">
-              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+              <div class="board-protocol-event-right-goal-text">
+              <p class="board-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
                     {% for player in action.players_passes.all %}
-                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                <p class="board-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
                   {% endfor %}
               </div>
+              <button class="board-protocol-del-right"><img src="{% static 'img/delete.svg' %}" alt=""></button>
             </div>
                   {% endif %}
               {% empty %}
@@ -432,84 +487,84 @@
           </div>
         </div>
     </div>
-  
+
     <div id="players" class="board-players tab">
       <div class="board-players-teams">
         <p class="board-players__team">{{ view.teamA }}</p>
         <p class="board-players__team">{{ view.teamB }}</p>
       </div>
 
-      <div class="match-players-type">
+      <div class="board-players-type">
         <h2 class="board-players-type__title">Вратари</h2>
-        <div class="match-players-type-table">
-            <div class="match-players-type-row__left">
+        <div class="board-players-type-table">
+            <div class="board-players-type-row__left">
               <!-- начало цикла -->
                 {% for player in view.teamA_goalkeepers %}
-              <div class="match-players-type-row-left">
-                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
-                <a class="match-players-type-row-left__name">{{ player.fullname }}</a>
+              <div class="board-players-type-row-left">
+                <span class="board-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-left__img">
+                <a class="board-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
 
-            <div class="match-players-type-row__right">
+            <div class="board-players-type-row__right">
                 {% for player in view.teamB_goalkeepers %}
-              <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
-                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              <div class="board-players-type-row-right">
+                <span class="board-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-right__img">
+                <span class="board-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
                 {% endfor %}
             </div>
           </div>
         </div>
 
-      <div class="match-players-type">
-          <h2 class="match-players-type__title">Защитники</h2>
-          <div class="match-players-type-table">
-            <div class="match-players-type-row__left">
+      <div class="board-players-type">
+          <h2 class="board-players-type__title">Защитники</h2>
+          <div class="board-players-type-table">
+            <div class="board-players-type-row__left">
                 {% for player in view.teamA_defenders %}
-              <div class="match-players-type-row-left">
-                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
-                <a class="match-players-type-row-left__name">{{ player.fullname }}</a>
+              <div class="board-players-type-row-left">
+                <span class="board-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-left__img">
+                <a class="board-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
 
-            <div class="match-players-type-row__right">
+            <div class="board-players-type-row__right">
                 {% for player in view.teamB_defenders %}
-              <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
-                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              <div class="board-players-type-row-right">
+                <span class="board-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-right__img">
+                <span class="board-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
                 {% endfor %}
             </div>
           </div>
         </div>
 
-      <div class="match-players-type">
-          <h2 class="match-players-type__title">Нападающие</h2>
-          <div class="match-players-type-table">
-            <div class="match-players-type-row__left">
+      <div class="board-players-type">
+          <h2 class="board-players-type__title">Нападающие</h2>
+          <div class="board-players-type-table">
+            <div class="board-players-type-row__left">
               <!-- начало цикла -->
                 {% for player in view.teamA_attackers %}
-              <div class="match-players-type-row-left">
-                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+              <div class="board-players-type-row-left">
+                <span class="board-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-left__img">
                 <a>{{ player.fullname }}</a>
               </div>
                 {% endfor %}
             </div>
 
-            <div class="match-players-type-row__right">
+            <div class="board-players-type-row__right">
                 {% for player in view.teamB_attackers %}
-              <div class="match-players-type-row-right">
-                <span class="match-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
-                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
-                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              <div class="board-players-type-row-right">
+                <span class="board-players-type-row-right__name"><a>{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="board-players-type-row-right__img">
+                <span class="board-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
                 {% endfor %}
             </div>
@@ -519,108 +574,6 @@
       </div>
     </div>
     <script>
-        //объявляем переменные
-var base = 60;
-var clocktimer, dateObj, dh, dm, ds, ms;
-var readout = '';
-var h = 1,
-  m = 1,
-  tm = 1,
-  s = 0,
-  ts = 0,
-  ms = 0,
-  init = 0;
-
-//функция для очистки поля
-function ClearСlock() {
-  clearTimeout(clocktimer);
-  h = 1;
-  m = 1;
-  tm = 1;
-  s = 0;
-  ts = 0;
-  ms = 0;
-  init = 0;
-  readout = '00:00:00';
-  document.ProtocolForm.stopwatch.value = readout;
-}
-
-//функция для старта секундомера
-function StartTIME() {
-  var cdateObj = new Date();
-  var t = (cdateObj.getTime() - dateObj.getTime()) - (s * 1000);
-  if (t > 999) {
-    s++;
-  }
-  if (s >= (m * base)) {
-    ts = 0;
-    m++;
-  } else {
-    ts = parseInt((ms / 100) + s);
-    if (ts >= base) {
-      ts = ts - ((m - 1) * base);
-    }
-  }
-  if (m > (h * base)) {
-    tm = 1;
-    h++;
-  } else {
-    tm = parseInt((ms / 100) + m);
-    if (tm >= base) {
-      tm = tm - ((h - 1) * base);
-    }
-  }
-  ms = Math.round(t / 10);
-  if (ms > 99) {
-    ms = 0;
-  }
-  if (ms == 0) {
-    ms = '00';
-  }
-  if (ms > 0 && ms <= 9) {
-    ms = '0' + ms;
-  }
-  if (ts > 0) {
-    ds = ts;
-    if (ts < 10) {
-      ds = '0' + ts;
-    }
-  } else {
-    ds = '00';
-  }
-  dm = tm - 1;
-  if (dm > 0) {
-    if (dm < 10) {
-      dm = '0' + dm;
-    }
-  } else {
-    dm = '00';
-  }
-  dh = h - 1;
-  if (dh > 0) {
-    if (dh < 10) {
-      dh = '0' + dh;
-    }
-  } else {
-    dh = '00';
-  }
-  readout = dh + ':' + dm + ':' + ds;
-  document.ProtocolForm.stopwatch.value = readout;
-  clocktimer = setTimeout("StartTIME()", 1);
-}
-
-//Функция запуска и остановки
-function StartStop() {
-  if (init == 0) {
-    ClearСlock();
-    dateObj = new Date();
-    StartTIME();
-    init = 1;
-  } else {
-    clearTimeout(clocktimer);
-    init = 0;
-  }
-}
       document.getElementById("defaultOpen").click();
       function openBlock(event, blockName) {
         var i, tabcontent, tablinks;
@@ -637,7 +590,7 @@ function StartStop() {
         event.currentTarget.className += " active";
         event.currentTarget.style.backgroundColor = "#14248A";
       }
-  
+
       function createGoalLeft (){
         $('.modal-goal-left').css({'display' : 'flex'});
       }
@@ -725,6 +678,20 @@ function StartStop() {
           'background-color': '#3241A5',
         });
       });
+      $(".modal").on('click', (event) =>{
+        if(event.target.className == "modal-del modal modal-del-left"){
+          $('.modal-del-left').css({"display":"none"});
+        }
+        if(event.target.className == "modal-del modal modal-del-right"){
+          $('.modal-del-right').css({"display":"none"});
+        }
+        if(event.target.className == "modal-goal modal modal-goal-left"){
+          $('.modal-goal-left').css({"display":"none"});
+        }
+        if(event.target.className == "modal-goal modal modal-goal-right"){
+          $('.modal-goal-right').css({"display":"none"});
+        }
+      })
       document.addEventListener('keydown', (event) => {
         let keyName = event.code;
         if (keyName === 'Space') {
@@ -755,7 +722,14 @@ function StartStop() {
           event.preventDefault();
           $('#plus').mousedown();
         }
+        else if(keyName === "Escape"){
+          $('.modal-goal-left').css({"display":"none"});
+          $('.modal-goal-right').css({"display":"none"});
+          $('.modal-del-left').css({"display":"none"});
+          $('.modal-del-right').css({"display":"none"});
+        }
       });
+
       document.addEventListener('keyup', (event) => {
         let keyName = event.code;
         if (keyName === 'Space') {
@@ -791,7 +765,7 @@ function StartStop() {
           $('#plus').mouseup();
         }
       });
-  
+
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         let keyName = event.code;
@@ -803,17 +777,6 @@ function StartStop() {
         }
         else if (keyName === 'Digit3'){
           document.getElementById("protocolBtn").click();
-        }
-      })
-
-      document.addEventListener('keyup', (event) =>{
-        event.preventDefault();
-        let keyName = event.code;
-        if(keyName === "esc"){
-          $('.modal-goal-right').css({"display":"none"});
-          $('.modal-goal-left').css({"display":"none"});
-          $('.modal-del-left').css({"display":"none"});
-          $('.modal-del-right').css({"display":"none"});
         }
       })
   
