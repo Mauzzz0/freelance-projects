@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import DetailView, TemplateView
-from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionPenalty
+from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionPenalty, Lineup
 from django.db.models import Q
+from django.db.utils import IntegrityError
 import operator
 from django.contrib import messages
 from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm
@@ -109,7 +110,6 @@ class EditPlayerDetailView(DetailView):
         else:
             messages.success(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
-
 
 class CreateTeamDetailView(DetailView):
     model = Team
@@ -554,10 +554,14 @@ class TeamDetailView(DetailView):
         return HttpResponseRedirect(request.path)
 
     def future_matches(self):
-        _lineups = self.object.lineup_team.all()
-        _matches = [x.match for x in _lineups]
-        _future_matches = [x for x in _matches if x.is_past_due == False]
-        return _future_matches
+        _matches_teamA = [m for m in self.object.match_teamA.all()]
+        _matches_teamB = [m for m in self.object.match_teamB.all()]
+        matches = _matches_teamA + _matches_teamB
+        matches = sorted(matches, key=operator.attrgetter('date'), reverse=True)
+        return matches
+        #_matches = [x.match for x in _lineups]
+        #_future_matches = [x for x in _matches if x.is_past_due == False]
+        #return _future_matches
 
     def past_matches(self):
         _lineups = self.object.lineup_team.all()
@@ -578,12 +582,42 @@ class TeamAppDetailView(DetailView):
     players_goalkeepers = lambda x:x.object.player_team.all().filter(role="Вратарь")
     players_adm = lambda x:x.object.player_team.all().filter(role="Тренер")
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print("ПОЛУЧЕН ПОСТ с ЭМУЛИРОВАННЫМ СПИСКОМ НОМЕРОВ")
+        print(request.POST)
+        emulated_list_of_players_gn = [3,7,13,39,40,55,70,96,8,9,34,60,100,101]
+        players_to_match = [x for x in self.players() if x.game_number in emulated_list_of_players_gn]
+        team_side = "A" if self.nearest_match().team_A == self.object else "B"
+        lineup = Lineup(
+            match_id=self.nearest_match().id,
+            team = self.object,
+            team_side=team_side
+        )
+        try:
+            lineup.save()
+            for player in players_to_match:
+                lineup.players.add(
+                    Player.objects.get(id=player.id)
+                )
+        except IntegrityError:
+            messages.error(request,'Состав команды для данного матча уже утверждён')
+
+        #lineup.players.add(x for x in players_to_match)
+
+        #new_goal.save()
+        #new_goal.players_passes.add(
+        #    Player.objects.get(id=A_goal_ass1_id),
+        #    Player.objects.get(id=A_goal_ass2_id))
+
+        return HttpResponseRedirect(request.path)
+
     def nearest_match(self):
-        _lineups = self.object.lineup_team.all()
-        _matches = [x.match for x in _lineups]
-        _future_matches = [x for x in _matches if x.is_past_due == False]
-        nearest_match = sorted(_future_matches,key=lambda x:x.date)[0]
-        return nearest_match
+        _matches_teamA = [m for m in self.object.match_teamA.all()]
+        _matches_teamB = [m for m in self.object.match_teamB.all()]
+        matches = _matches_teamA + _matches_teamB
+        matches = sorted(matches, key=operator.attrgetter('date'), reverse=True)
+        return matches[0]
 
 class PlayerDetailView(DetailView):
     model = Player

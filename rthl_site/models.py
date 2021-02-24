@@ -103,8 +103,6 @@ class Player(models.Model):
             "Спортсмен" : "СП",
             "Мастер спорта" : "МС"
         }
-        print(self.qualification)
-        print(dic[self.qualification])
         return str(dic[self.qualification])
 
     def __str__(self):
@@ -190,12 +188,12 @@ class Tournament(models.Model):
 class Match(models.Model):
     """Матч"""
     # TODO: Результаты для трёх раундов
-    name = models.CharField("Название",max_length=50)
-    date = models.DateTimeField("Дата и время")
+    name = models.CharField("Title",max_length=50)
+    date = models.DateTimeField("Date and time")
 
     tournament = models.ForeignKey(
         Tournament,
-        verbose_name="В рамках турнира",
+        verbose_name="In tournament",
         related_name="match_tournament",
         on_delete=models.SET_NULL,
         null=True
@@ -203,7 +201,7 @@ class Match(models.Model):
 
     team_A = models.ForeignKey(
         Team,
-        verbose_name="Команда А",
+        verbose_name="team А",
         related_name="match_teamA",
         on_delete=models.SET_NULL,
         null=True
@@ -211,13 +209,13 @@ class Match(models.Model):
 
     team_B = models.ForeignKey(
         Team,
-        verbose_name="Команда B",
+        verbose_name="team B",
         related_name="match_teamB",
         on_delete=models.SET_NULL,
         null=True
     )
 
-    place = models.CharField("Место проведения",max_length=50,blank=True)
+    place = models.CharField("Place",max_length=50,blank=True)
 
     @property
     def is_past_due(self):
@@ -242,10 +240,9 @@ class Match(models.Model):
         fdate = self.date.strftime("%Y-%m-%d %H:%M")
         res += str(fdate) + " "
         res += str(self.place) + " "
-        teams = [x.team.name for x in self.lineup_match.all()]
-        res += teams[0]
+        res += self.team_A.name
         res += "-"
-        res += teams[1]
+        res += self.team_B.name
         return res
 
 
@@ -300,6 +297,7 @@ class Lineup(models.Model):
     class Meta:
         verbose_name="Состав"
         verbose_name_plural="Составы"
+        unique_together = (('match','team_side', 'team'),)
 
 class ActionGoal(models.Model):
     """Забитый гол"""

@@ -12,7 +12,17 @@
   <title>Создать заявку</title>
 </head>
 <body>
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
   <div class="app">
+  <form method="post"> {% csrf_token %}
     <div class="app-header">
       <img src="{% static 'img/logo_blue.svg' %}" alt="" class="app__logo">
       <div class="app-text">
@@ -99,7 +109,9 @@
         </div>
       </div>
     </div>
-    <button class="app-submit" onClick="window.print()">Готово</button>
+    <button type="button" class="app-submit" onClick="window.print()">Создать PDF документ</button>
+    <button type="submit" class="app-submit">Подтвердить состав команды на игру</button>
+  </form>
   </div>
   <script>
     $('.app-players-type-card').click( function(){
