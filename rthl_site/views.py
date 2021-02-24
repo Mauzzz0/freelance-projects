@@ -585,22 +585,25 @@ class TeamAppDetailView(DetailView):
         self.object = self.get_object()
         print("ПОЛУЧЕН ПОСТ")
         if 'selected_game_numbers' in request.POST:
-            game_numbers = [int(x) for x in request.POST.getlist('selected_game_numbers')]
-            players_to_match = [x for x in self.players() if x.game_number in game_numbers]
-            team_side = "A" if self.nearest_match().team_A == self.object else "B"
-            lineup = Lineup(
-                match_id=self.nearest_match().id,
-                team = self.object,
-                team_side=team_side
-            )
-            try:
-                lineup.save()
-                for player in players_to_match:
-                    lineup.players.add(
-                        Player.objects.get(id=player.id)
-                    )
-            except IntegrityError:
-                messages.error(request,'Состав команды для данного матча уже утверждён')
+            if self.nearest_match() is None:
+                messages.error(request,"Ближайший матч не найден")
+            else:
+                game_numbers = [int(x) for x in request.POST.getlist('selected_game_numbers')]
+                players_to_match = [x for x in self.players() if x.game_number in game_numbers]
+                team_side = "A" if self.nearest_match().team_A == self.object else "B"
+                lineup = Lineup(
+                    match_id=self.nearest_match().id,
+                    team = self.object,
+                    team_side=team_side
+                )
+                try:
+                    lineup.save()
+                    for player in players_to_match:
+                        lineup.players.add(
+                            Player.objects.get(id=player.id)
+                        )
+                except IntegrityError:
+                    messages.error(request,'Состав команды для данного матча уже утверждён')
 
         return HttpResponseRedirect(request.path)
 
@@ -609,7 +612,7 @@ class TeamAppDetailView(DetailView):
         _matches_teamB = [m for m in self.object.match_teamB.all() if not m.is_past_due]
         matches = _matches_teamA + _matches_teamB
         matches = sorted(matches, key=operator.attrgetter('date'), reverse=False)
-        return matches[0]
+        return matches[0] if len(matches) >0 else None
 
 class PlayerDetailView(DetailView):
     model = Player

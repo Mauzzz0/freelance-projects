@@ -316,6 +316,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
                 <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
 
@@ -326,6 +328,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
           </div>
@@ -341,6 +345,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
                 <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
 
@@ -351,6 +357,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
           </div>
@@ -367,6 +375,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
                 <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
 
@@ -377,6 +387,8 @@
                 <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
                 <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
               </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
                 {% endfor %}
             </div>
           </div>
@@ -385,7 +397,7 @@
 
       <div id="statistics" class="match-statistics tab">
         <div class="match-statistics-team">
-          <h2 class="match-statistics__title">{{ view.teamA }}</h2>
+          <h2 class="match-statistics__title">{{ match.team_A.name }}</h2>
           <div class="match-statistics-table-block">
             <table class="match-statistics-table">
               <tr class="match-statistics-table-header">
@@ -459,7 +471,7 @@
         </div>
 
         <div class="match-statistics-team">
-          <h2 class="match-statistics__title">{{ view.teamB }}</h2>
+          <h2 class="match-statistics__title">{{ match.team_B.name }}</h2>
           <div class="match-statistics-table-block">
             <table class="match-statistics-table">
               <tr class="match-statistics-table-header">
