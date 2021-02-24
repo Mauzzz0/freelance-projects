@@ -147,9 +147,8 @@ class Tournament(models.Model):
     def get_teams_set(self):
         teams_all = list()
         for _match in self.match_tournament.all():
-            _lineups = _match.lineup_match.all()
-            for _lineup in _lineups:
-                teams_all.append(_lineup.team)
+            teams_all.append(_match.team_A)
+            teams_all.append(_match.team_B)
         return set(teams_all)
 
     def get_2past_matches(self):
@@ -183,7 +182,6 @@ class Tournament(models.Model):
     class Meta:
         verbose_name = "Турнир"
         verbose_name_plural = "Турниры"
-
 
 class Match(models.Model):
     """Матч"""
@@ -257,10 +255,6 @@ class Match(models.Model):
     class Meta:
         verbose_name = "Матч"
         verbose_name_plural = "Матчи"
-
-
-
-
 
 class Lineup(models.Model):
     """Конкретный состав команды в конкретном матче"""
