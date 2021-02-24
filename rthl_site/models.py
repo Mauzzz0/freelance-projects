@@ -121,6 +121,7 @@ class Player(models.Model):
     class Meta:
         verbose_name = "Игрок"
         verbose_name_plural = "Игроки"
+        unique_together = (("name", "surname","patronymic", "birth_date"),)
 
 class Season(models.Model):
     """Сезон"""

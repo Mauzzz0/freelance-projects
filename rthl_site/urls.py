@@ -21,4 +21,5 @@ urlpatterns = [
     path('team/<slug:slug>', views.TeamDetailView.as_view()),
     path('team/<slug:slug>/create_app', views.TeamAppDetailView.as_view()),
     path('player/<int:pk>', views.PlayerDetailView.as_view()),
+    path('player/<int:pk>/edit', views.EditPlayerDetailView.as_view())
 ]

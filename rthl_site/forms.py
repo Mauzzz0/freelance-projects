@@ -13,6 +13,17 @@ class CreatePlayerForm(forms.ModelForm):
             'qualification', 'biography'
         ]
 
+class EditPlayerForm(forms.ModelForm):
+    class Meta:
+        model = Player
+        fields = [
+            'name', 'surname', 'patronymic',
+            'game_number', 'role', 'adm_role',
+            'team_name', 'image', 'growth',
+            'weight', 'birth_date', 'grip',
+            'qualification', 'biography'
+        ]
+
 class CreateTeamForm(forms.ModelForm):
     class Meta:
         model = Team

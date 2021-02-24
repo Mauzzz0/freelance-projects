@@ -3,6 +3,15 @@
 {% block content %}
 {% load static %}
 <div class="team">
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
   <div class="container">
     <div class="team-block">
       <div class="team-header">
@@ -121,13 +130,15 @@
               </tr>
         {% for player in view.players %}
         {% if player.role == singular %}
+            <form method="post"> {% csrf_token %}
               <tr class="team-players-table-line">
                 <td class="team-players-table-line__item">{{ player.game_number }}</td>
                 <td class="team-players-table-line__item"><img src="{{ player.image.url }}" alt="" class="team-players-table-line__img"></td>
                 <td class="team-players-table-line__item"><a href="../player/{{ player.id }}">{{ player.name }} {{ player.surname }}</a></td>
                 <td class="team-players-table-line__item">{{ player.qualification }}</td>
-                <td class="team-players-table-line__item">{{ player.age }}</td>
+                <button type="submit" name="delete_player_id" value="{{ player.id }}" class="team-players-table-line__item">{{ player.age }}</button>
                 <td class="team-players-table-line__item">0.5rating???</td>
+            </form>
         {% endif %}
         {% endfor %}
               </tr>

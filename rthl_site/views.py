@@ -5,7 +5,7 @@ from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionP
 from django.db.models import Q
 import operator
 from django.contrib import messages
-from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm
+from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm
 from itertools import chain
 
 
@@ -88,6 +88,28 @@ class CreatePlayerDetailView(DetailView):
         else:
             messages.success(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
+
+class EditPlayerDetailView(DetailView):
+    model = Player
+    template_name = "Player/edit_player.html"
+    context_object_name = "player"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EditPlayerForm(instance=self.object)
+        return render(request, self.template_name, {"form" : form})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EditPlayerForm(request.POST, request.FILES, instance=self.object)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Игрок обновлён")
+            return HttpResponseRedirect(request.path)
+        else:
+            messages.success(request, "Форма некорректна")
+            return HttpResponseRedirect(request.path)
+
 
 class CreateTeamDetailView(DetailView):
     model = Team
@@ -521,6 +543,15 @@ class TeamDetailView(DetailView):
     lineups = lambda x:x.object.lineup_team.all()
     matches = lambda x: [lineup.match for lineup in x.lineups()]
     tournaments_set = lambda x: set([_match.tournament for _match in x.matches()])
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        print("ПОЛУЧЕН ПОСТ")
+        if 'delete_player_id' in request.POST:
+            player = Player.objects.get(id = request.POST['delete_player_id'])
+            player.team_name.remove(self.object)
+            messages.success(self.request, 'Игрок {} удалён из команды'.format(player))
+        return HttpResponseRedirect(request.path)
 
     def future_matches(self):
         _lineups = self.object.lineup_team.all()
