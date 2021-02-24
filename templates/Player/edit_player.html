@@ -11,7 +11,7 @@
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 {{ form.as_p }}
-    <span>{{ error }}</span>
+    <span>{{ error }}</span>p
     <button class="btn btn-success" type="submit">Обновить</button>
     </form>
 {% endblock %}
