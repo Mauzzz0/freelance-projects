@@ -28,8 +28,7 @@ class CreateTeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = [
-            'name', 'image', 'city',
-            'division', 'url'
+            'name', 'image', 'city', 'url'
         ]
 
 class UploadFileForm(forms.ModelForm):
