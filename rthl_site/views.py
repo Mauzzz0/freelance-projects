@@ -584,31 +584,24 @@ class TeamAppDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        print("ПОЛУЧЕН ПОСТ с ЭМУЛИРОВАННЫМ СПИСКОМ НОМЕРОВ")
-        print(request.POST)
-        emulated_list_of_players_gn = [3,7,13,39,40,55,70,96,8,9,34,60,100,101]
-        players_to_match = [x for x in self.players() if x.game_number in emulated_list_of_players_gn]
-        team_side = "A" if self.nearest_match().team_A == self.object else "B"
-        lineup = Lineup(
-            match_id=self.nearest_match().id,
-            team = self.object,
-            team_side=team_side
-        )
-        try:
-            lineup.save()
-            for player in players_to_match:
-                lineup.players.add(
-                    Player.objects.get(id=player.id)
-                )
-        except IntegrityError:
-            messages.error(request,'Состав команды для данного матча уже утверждён')
-
-        #lineup.players.add(x for x in players_to_match)
-
-        #new_goal.save()
-        #new_goal.players_passes.add(
-        #    Player.objects.get(id=A_goal_ass1_id),
-        #    Player.objects.get(id=A_goal_ass2_id))
+        print("ПОЛУЧЕН ПОСТ")
+        if 'selected_game_numbers' in request.POST:
+            game_numbers = [int(x) for x in request.POST.getlist('selected_game_numbers')]
+            players_to_match = [x for x in self.players() if x.game_number in game_numbers]
+            team_side = "A" if self.nearest_match().team_A == self.object else "B"
+            lineup = Lineup(
+                match_id=self.nearest_match().id,
+                team = self.object,
+                team_side=team_side
+            )
+            try:
+                lineup.save()
+                for player in players_to_match:
+                    lineup.players.add(
+                        Player.objects.get(id=player.id)
+                    )
+            except IntegrityError:
+                messages.error(request,'Состав команды для данного матча уже утверждён')
 
         return HttpResponseRedirect(request.path)
 

@@ -6930,7 +6930,6 @@ a:active, a:focus {
 }
 
 .app-players-type-card {
-  position: relative;
   height: 176px;
   width: 134px;
   margin: 0 15px;
@@ -6938,6 +6937,20 @@ a:active, a:focus {
   cursor: pointer;
 }
 
+.app-card{
+  position: relative;
+  height: 176px;
+  width: 134px;
+  margin: 0 15px;
+  margin-bottom: 20px;
+}
+.app-players__input{
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  opacity: 0;
+}
 .app-players-type-cards {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -7073,9 +7086,17 @@ a:active, a:focus {
   border-radius: 5px;
   color: #fff;
   font-family: Ubuntu-Medium, sans-serif;
+  margin-right: 30px;
+}
+.app-ready{
+  font-size: 18px;
+  width: 350px;
+  height: 50px;
+  border-radius: 5px;
+  background: #3241A5;
 }
 
-.app-submit:hover {
+.app-submit:hover, .app-ready:hover {
   background-color: #14248A;
 }
 
@@ -7119,6 +7140,11 @@ a:active, a:focus {
     width: 96px;
     height: 139px;
   }
+  .app-card{
+    display: none;
+    width: 96px;
+    height: 139px;
+  }
   .app-players-type-cards__line {
     display: block;
   }
@@ -7152,10 +7178,16 @@ a:active, a:focus {
   .app-players-type-card-active {
     display: block;
   }
+  .app-card-active{
+    display: block;
+  }
   .app-players-type-card__overlay {
     display: none;
   }
   .app-submit {
+    display: none;
+  }
+  .app-ready{
     display: none;
   }
 }
