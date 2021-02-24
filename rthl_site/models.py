@@ -11,16 +11,11 @@ class FileUploadModel(models.Model):
     image = models.ImageField(upload_to='images/test')
 
 class Team(models.Model): # TODO: Сделать PK по имени-городу
-    """Команда"""   # TODO: Подкрутить в профиле игрока ссылки на команды
+    """Команда"""
     name = models.CharField("Название", max_length=50, unique=True)
     image = models.ImageField("Логотип", upload_to="img/teams",default="img/team.jpg")
     city = models.CharField("Город",max_length=30, default="Москва")
-    division = models.CharField("Дивизион", max_length=50,default="Нет",
-                                choices=(
-                                    ("Золотой","Золотой"),
-                                    ("Бронзовый","Бронзовый"),
-                                    ("Серебряный","Серебряный"))
-                                )
+    division = models.CharField("Дивизион", max_length=50, null=True)
     url = models.SlugField(
         help_text="Адрес на сайте. Пример: rthl.ru/avangard (\"rthl.ru/\" не вводить)",
         max_length=30,
