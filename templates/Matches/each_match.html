@@ -10,9 +10,9 @@
         <p class="match-header__place"><a href="#">{{ match.place }}<i class="fas fa-map-marker-alt"></i></a></p>
         <div class="match-header-main">
           <div class="match-header-team-left">
-            <img src="{{ view.teamA.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
+            <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
             <div class="match-header-team-left-info">
-              <h1 class="match-header-team-left__name"><a href="../team/{{ view.teamA.url }}">{{ view.teamA.name }}</a></h1>
+              <h1 class="match-header-team-left__name"><a href="../team/{{ match.team_A.url }}">{{ match.team_A.name }}</a></h1>
               <span class="match-header-team-left__trainer">Тренер:<br><a href="../player/{{ view.teamA_coach.id }}">{{ view.teamA_coach }}</a></span>
             </div>
           </div>
@@ -30,9 +30,9 @@
             </div>
           </div>
           <div class="match-header-team-right">
-            <img src="{{ view.teamB.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
+            <img src="{{ match.team_B.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
             <div class="match-header-team-right-info">
-              <h1 class="match-header-team-right__name"><a href="../team/{{ view.teamB.url }}">{{ view.teamB.name }}</a></h1>
+              <h1 class="match-header-team-right__name"><a href="../team/{{ match.team_B.url }}">{{ match.team_B.name }}</a></h1>
               <span class="match-header-team-right__trainer">Тренер:<br><a href="../player/{{ view.teamB_coach.id }}">{{ view.teamB_coach }}</a></span>
             </div>
           </div>
