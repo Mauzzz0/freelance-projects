@@ -235,7 +235,8 @@ class Match(models.Model):
 
     def info(self):
         res = ""
-        fdate = self.date.strftime("%Y-%m-%d %H:%M")
+        localdate = self.date.astimezone()
+        fdate = localdate.strftime("%d.%m.%Y %H:%M")
         res += str(fdate) + " "
         res += str(self.place) + " "
         res += self.team_A.name

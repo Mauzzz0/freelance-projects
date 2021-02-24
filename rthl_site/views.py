@@ -553,21 +553,20 @@ class TeamDetailView(DetailView):
             messages.success(self.request, 'Игрок {} удалён из команды'.format(player))
         return HttpResponseRedirect(request.path)
 
+
     def future_matches(self):
-        _matches_teamA = [m for m in self.object.match_teamA.all()]
-        _matches_teamB = [m for m in self.object.match_teamB.all()]
+        _matches_teamA = [m for m in self.object.match_teamA.all() if not m.is_past_due]
+        _matches_teamB = [m for m in self.object.match_teamB.all() if not m.is_past_due]
+        matches = _matches_teamA + _matches_teamB
+        matches = sorted(matches, key=operator.attrgetter('date'), reverse=False)
+        return matches
+
+    def past_matches(self):
+        _matches_teamA = [m for m in self.object.match_teamA.all() if m.is_past_due]
+        _matches_teamB = [m for m in self.object.match_teamB.all() if m.is_past_due]
         matches = _matches_teamA + _matches_teamB
         matches = sorted(matches, key=operator.attrgetter('date'), reverse=True)
         return matches
-        #_matches = [x.match for x in _lineups]
-        #_future_matches = [x for x in _matches if x.is_past_due == False]
-        #return _future_matches
-
-    def past_matches(self):
-        _lineups = self.object.lineup_team.all()
-        _matches = [x.match for x in _lineups]
-        _past_matches = [x for x in _matches if x.is_past_due == True]
-        return _past_matches
 
 class TeamAppDetailView(DetailView):
     model = Team
@@ -606,10 +605,10 @@ class TeamAppDetailView(DetailView):
         return HttpResponseRedirect(request.path)
 
     def nearest_match(self):
-        _matches_teamA = [m for m in self.object.match_teamA.all()]
-        _matches_teamB = [m for m in self.object.match_teamB.all()]
+        _matches_teamA = [m for m in self.object.match_teamA.all() if not m.is_past_due]
+        _matches_teamB = [m for m in self.object.match_teamB.all() if not m.is_past_due]
         matches = _matches_teamA + _matches_teamB
-        matches = sorted(matches, key=operator.attrgetter('date'), reverse=True)
+        matches = sorted(matches, key=operator.attrgetter('date'), reverse=False)
         return matches[0]
 
 class PlayerDetailView(DetailView):

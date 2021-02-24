@@ -56,9 +56,9 @@
       </div>
       <div id="matches" class="team-matches tab">
         <div class="team-matches-block">
-          <div class="team-matches-column">
-            <h2 class="team-matches__title">Ближайшие</h2>
-              {% for match in view.future_matches %}
+            <div class="team-matches-column">
+            <h2 class="team-matches__title">Прошедшие</h2>
+              {% for match in view.past_matches %}
             <a href="../match/{{ match.id }}">
               <div class="team-matches-card">
                 <div class="team-matches-card-teams">
@@ -84,9 +84,9 @@
             </a>
               {% endfor %}
           </div>
-          <div class="team-matches-column">
-            <h2 class="team-matches__title">Прошедшие</h2>
-              {% for match in view.past_matches %}
+            <div class="team-matches-column">
+            <h2 class="team-matches__title">Ближайшие</h2>
+              {% for match in view.future_matches %}
             <a href="../match/{{ match.id }}">
               <div class="team-matches-card">
                 <div class="team-matches-card-teams">
