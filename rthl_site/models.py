@@ -192,20 +192,7 @@ class Match(models.Model):
     # TODO: Результаты для трёх раундов
     name = models.CharField("Название",max_length=50)
     date = models.DateTimeField("Дата и время")
-    #teamA = models.ForeignKey(
-    #    Team,
-    #    verbose_name="Команда 1",
-    #    related_name="team1",
-    #    on_delete=models.SET_NULL,
-    #    null=True
-    #)
-    #teamB = models.ForeignKey(
-    #    Team,
-    #    verbose_name="Команда 2",
-    #    related_name="team2",
-    #    on_delete=models.SET_NULL,
-    #    null=True
-    #)
+
     tournament = models.ForeignKey(
         Tournament,
         verbose_name="В рамках турнира",
@@ -213,19 +200,24 @@ class Match(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    #goals_list = models.ManyToManyField(
-    #    ActionGoal,
-    #    verbose_name="Голы",
-    #    related_name="match_goals"
-    #)
-    #penalties_list = models.ManyToManyField(
-    #    ActionPenalty,
-    #    verbose_name="Штрафы",
-    #    related_name="match_penalties"
-    #)
+
+    team_A = models.ForeignKey(
+        Team,
+        verbose_name="Команда А",
+        related_name="match_teamA",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
+    team_B = models.ForeignKey(
+        Team,
+        verbose_name="Команда B",
+        related_name="match_teamB",
+        on_delete=models.SET_NULL,
+        null=True
+    )
+
     place = models.CharField("Место проведения",max_length=50,blank=True)
-    #teamA_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
-    #teamB_total_goals = models.PositiveSmallIntegerField("Общее кол-во голов первой команды",null=True)
 
     @property
     def is_past_due(self):
