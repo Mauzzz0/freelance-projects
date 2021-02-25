@@ -366,7 +366,6 @@ class MatchScoreboardDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
-        print(request.POST)
         self.object = self.get_object()
         if 'goalA_button_remove' in request.POST:
             ActionGoal.objects.get(id=request.POST['goalA_button_remove']).delete()
@@ -429,7 +428,6 @@ class MatchScoreboardDetailView(DetailView):
                                              'должны либо отсутствовать, либо различаться')
 
         elif 'button_goalB' in request.POST and 'teamB_goal_player' in request.POST:
-            print(request.POST)
             B_time_minute = request.POST.get('B_goal_time_minute')
             B_time_second = request.POST.get('B_goal_time_second')
 
@@ -677,7 +675,6 @@ class PlayerDetailView(DetailView):
         count = 0
         for lineup in self.lineups():
             for penalty in lineup.match.penalty_match.all():
-                print(penalty)
                 if penalty.player == self.object:
                     count += 1
         return count
