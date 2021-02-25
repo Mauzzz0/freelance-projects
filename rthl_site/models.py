@@ -144,6 +144,10 @@ class Tournament(models.Model):
     )
     is_generated = models.BooleanField("Матчи сгенерированы", default=False)
 
+    @property
+    def loop_count_list(self):
+        return range(self.loop_count)
+
     def get_teams_set(self):
         return set([x for x in self.teams.all()])
 
@@ -184,6 +188,7 @@ class Match(models.Model):
     # TODO: Результаты для трёх раундов
     name = models.CharField("Title",max_length=50)
     date = models.DateTimeField("Date and time")
+    loop = models.PositiveSmallIntegerField("Номер круга (Плей-офф: 1)", default=1)
 
     tournament = models.ForeignKey(
         Tournament,

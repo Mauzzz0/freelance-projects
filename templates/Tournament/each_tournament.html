@@ -68,6 +68,7 @@
           <div id="line2" class="home-nav__line line"></div>
         </div>
       </div>
+        {% for loop in tournament.loop_count_list %}
       <div class="home-champ">
         <div class="home-champ-table-block">
           <table class="home-champ-table">
@@ -112,6 +113,7 @@
           </table>
         </div>
       </div>
+        {% endfor %}
       <div class="home-best">
         <div class="home-best-card">
           <div class="home-best-card__title">Лучшие<span class="home-best-card__title-type">вратари</span></div>

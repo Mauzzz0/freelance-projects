@@ -724,7 +724,9 @@ class TournamentDetailView(DetailView):
 
                             new_match = Match(
                                 name = "Матч "+teamA.name+teamB.name,
-                                date =timezone.localtime() + datetime.timedelta(days=30),
+                                date =
+                                timezone.localtime() + datetime.timedelta(days=10*(i+1)),
+                                loop = i+1,
                                 tournament_id=self.object.id,
                                 team_A_id=teamA.id,
                                 team_B_id=teamB.id,
