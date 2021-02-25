@@ -56,35 +56,7 @@
       </div>
       <div id="matches" class="team-matches tab">
         <div class="team-matches-block">
-            <div class="team-matches-column">
-            <h2 class="team-matches__title">Прошедшие</h2>
-              {% for match in view.past_matches %}
-            <a href="../match/{{ match.id }}">
-              <div class="team-matches-card">
-                <div class="team-matches-card-teams">
-                  <div class="team-matches-card-team1">
-                    <div class="team-matches-card-team1__name">{{ match.lineup_match.all.0.team }}</div>
-                    <div class="team-matches-card-team1__from">{{ match.lineup_match.all.0.team.city }}</div>
-                  </div>
-                  <div class="team-matches-card-team2">
-                    <div class="team-matches-card-team2__name">{{ match.lineup_match.all.1.team }}</div>
-                    <div class="team-matches-card-team2__from">{{ match.lineup_match.all.1.team.city }}</div>
-                  </div>
-                </div>
-                <div class="team-matches-card-info">
-                  <img src="{{ match.lineup_match.all.0.team.image.url }}" alt="Команда 1" class="team-matches-card__img">
-                  <div class="team-matches-card-match">
-                    <span class="team-matches-card__first">{{ match.date }}</span>
-                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
-                    <span class="team-matches-card__third">{{ match.place }}</span>
-                  </div>
-                  <img src="{{ match.lineup_match.all.1.team.image.url }}" alt="Команда 2" class="team-matches-card__img">
-                </div>
-              </div>
-            </a>
-              {% endfor %}
-          </div>
-            <div class="team-matches-column">
+          <div class="team-matches-column">
             <h2 class="team-matches__title">Ближайшие</h2>
               {% for match in view.future_matches %}
             <a href="../match/{{ match.id }}">
@@ -103,7 +75,35 @@
                   <img src="{{ match.lineup_match.all.0.team.image.url }}" alt="Команда 1" class="team-matches-card__img">
                   <div class="team-matches-card-match">
                     <span class="team-matches-card__first">{{ match.date }}</span>
-                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
+                    <span class="team-matches-card__second">__Результат__</span>
+                    <span class="team-matches-card__third">{{ match.place }}</span>
+                  </div>
+                  <img src="{{ match.lineup_match.all.1.team.image.url }}" alt="Команда 2" class="team-matches-card__img">
+                </div>
+              </div>
+            </a>
+              {% endfor %}
+          </div>
+          <div class="team-matches-column">
+            <h2 class="team-matches__title">Прошедшие</h2>
+              {% for match in view.past_matches %}
+            <a href="../match/{{ match.id }}">
+              <div class="team-matches-card">
+                <div class="team-matches-card-teams">
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team1__name">{{ match.lineup_match.all.0.team }}</div>
+                    <div class="team-matches-card-team1__from">{{ match.lineup_match.all.0.team.city }}</div>
+                  </div>
+                  <div class="team-matches-card-team2">
+                    <div class="team-matches-card-team2__name">{{ match.lineup_match.all.1.team }}</div>
+                    <div class="team-matches-card-team2__from">{{ match.lineup_match.all.1.team.city }}</div>
+                  </div>
+                </div>
+                <div class="team-matches-card-info">
+                  <img src="{{ match.lineup_match.all.0.team.image.url }}" alt="Команда 1" class="team-matches-card__img">
+                  <div class="team-matches-card-match">
+                    <span class="team-matches-card__first">{{ match.date }}</span>
+                    <span class="team-matches-card__second">__Результат__</span>
                     <span class="team-matches-card__third">{{ match.place }}</span>
                   </div>
                   <img src="{{ match.lineup_match.all.1.team.image.url }}" alt="Команда 2" class="team-matches-card__img">
@@ -127,21 +127,26 @@
                 <th class="team-players-table-header__item">КВАЛИФИКАЦИЯ</th>
                 <th class="team-players-table-header__item">ВОЗРАСТ</th>
                 <th class="team-players-table-header__item">РЕЙТИНГ</th>
+                <th></th>
               </tr>
         {% for player in view.players %}
         {% if player.role == singular %}
             <form method="post"> {% csrf_token %}
               <tr class="team-players-table-line">
+
                 <td class="team-players-table-line__item">{{ player.game_number }}</td>
                 <td class="team-players-table-line__item"><img src="{{ player.image.url }}" alt="" class="team-players-table-line__img"></td>
                 <td class="team-players-table-line__item"><a href="../player/{{ player.id }}">{{ player.name }} {{ player.surname }}</a></td>
                 <td class="team-players-table-line__item">{{ player.qualification }}</td>
-                <button type="submit" name="delete_player_id" value="{{ player.id }}" class="team-players-table-line__item">{{ player.age }}</button>
+                <td class="team-players-table-line__item">{{ player.age }}</td>
                 <td class="team-players-table-line__item">0.5rating???</td>
-            </form>
-        {% endif %}
-        {% endfor %}
+                <td class="team-players-table-line__item">
+                  <button type="submit" name="delete_player_id" class="team-players-del" value="{{ player.id }}"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                </td>
               </tr>
+            </form>
+              {% endif %}
+              {% endfor %}
             </table>
           </div>
         </div>

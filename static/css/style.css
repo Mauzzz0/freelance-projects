@@ -2811,6 +2811,15 @@ a:active, a:focus {
   border: 1px solid #BAB9B9;
   border-top: none;
 }
+.team-players-del{
+  height: 25px;
+  width: 25px;
+  background-color: #fff;
+}
+.team-players-del img{
+  height: 25px;
+  width: 25px;
+}
 
 .team-players-table-line__item {
   font-size: 18px;
