@@ -130,20 +130,22 @@ class Season(models.Model):
 class Tournament(models.Model):
     """Турнир"""
     name = models.CharField("Название",max_length=50,unique=True)
-    type = models.CharField("Тип",max_length=20)
     season = models.ForeignKey(
         Season,
         verbose_name="Сезон чемпионата",
         on_delete=models.SET_NULL,
         null = True
         )
+    loop_count = models.PositiveSmallIntegerField("Количество кругов")
+    teams = models.ManyToManyField(
+        Team,
+        verbose_name="Команды чемпионата",
+        related_name="tournament_teams"
+    )
+    is_generated = models.BooleanField("Матчи сгенерированы", default=False)
 
     def get_teams_set(self):
-        teams_all = list()
-        for _match in self.match_tournament.all():
-            teams_all.append(_match.team_A)
-            teams_all.append(_match.team_B)
-        return set(teams_all)
+        return set([x for x in self.teams.all()])
 
     def get_2past_matches(self):
         # Короче, эта штука долджна быть умной и понимать сколько предыдущих

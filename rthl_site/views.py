@@ -1,6 +1,12 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils import timezone
 from django.views.generic import DetailView, TemplateView
+from pytz import utc
+
+from mysite import settings
 from .models import Team, Player, Match, Season, Tournament, ActionGoal, ActionPenalty, Lineup
 from django.db.models import Q
 from django.db.utils import IntegrityError
@@ -559,9 +565,9 @@ class TeamDetailView(DetailView):
     players = lambda x: x.object.player_team.all()
     coach = lambda x:x.object.player_team.get(adm_role="Главный Тренер")
 
-    lineups = lambda x:x.object.lineup_team.all()
-    matches = lambda x: [lineup.match for lineup in x.lineups()]
-    tournaments_set = lambda x: set([_match.tournament for _match in x.matches()])
+    #lineups = lambda x:x.object.lineup_team.all()
+    #matches = lambda x: [lineup.match for lineup in x.lineups()]
+    tournaments_set = lambda x: set([j for j in x.object.tournament_teams.all()])
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -695,3 +701,38 @@ class PlayerDetailView(DetailView):
             dic[team] = matches
         #matches = self.object.lineup_player.all()
         return dic
+
+class TournamentDetailView(DetailView):
+    model = Tournament
+    template_name = 'Tournament/each_tournament.html'
+    context_object_name = 'tournament'
+
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        if 'GenerateMatches' in request.POST:
+            print('Получен запрос генерации матчей')
+            self.object = self.get_object()
+
+            teams_list = [x for x in self.object.teams.all()]
+            if self.object.is_generated is False:
+                for i in range(self.object.loop_count):
+                    for team1_i in range(len(teams_list)):
+                        for team2_i in range(team1_i+1,len(teams_list)):
+                            teamA = teams_list[team1_i]
+                            teamB = teams_list[team2_i]
+
+                            new_match = Match(
+                                name = "Матч "+teamA.name+teamB.name,
+                                date =timezone.localtime() + datetime.timedelta(days=30),
+                                tournament_id=self.object.id,
+                                team_A_id=teamA.id,
+                                team_B_id=teamB.id,
+                                place="Место по умолчанию"
+                            )
+                            new_match.save()
+                            self.object.is_generated = True
+                            self.object.save()
+
+
+        return HttpResponseRedirect(request.path)

@@ -36,7 +36,7 @@ class PlayerAdmin(admin.ModelAdmin):
 @admin.register(Tournament)
 class TournamentAdmin(admin.ModelAdmin):
     """Турниры"""
-    list_display = ("name","type","season")
+    list_display = ("name","season", "is_generated")
 
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):

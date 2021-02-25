@@ -7282,4 +7282,26 @@ a:active, a:focus {
   background-color: rgb(20, 36, 138);
 }
 
+.messages{
+  position: fixed;
+  height: auto;
+  width: 400px;
+  background-color: #fff;
+  border: 1px solid #BAB9B9;
+  margin: 0;
+  margin: 0 auto;
+  padding: 20px;
+  list-style: none;
+}
+.messages:hover{
+  cursor: pointer;
+}
+.error{
+  margin: 0;
+  color: red;
+}
+.success{
+  margin: 0;
+  color: green;
+}
 

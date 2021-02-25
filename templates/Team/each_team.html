@@ -72,13 +72,13 @@
                   </div>
                 </div>
                 <div class="team-matches-card-info">
-                  <img src="{{ match.lineup_match.all.0.team.image.url }}" alt="Команда 1" class="team-matches-card__img">
+                  <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="team-matches-card__img">
                   <div class="team-matches-card-match">
                     <span class="team-matches-card__first">{{ match.date }}</span>
-                    <span class="team-matches-card__second">__Результат__</span>
+                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
                     <span class="team-matches-card__third">{{ match.place }}</span>
                   </div>
-                  <img src="{{ match.lineup_match.all.1.team.image.url }}" alt="Команда 2" class="team-matches-card__img">
+                  <img src="{{ match.team_B.image.url }}" alt="Команда 2" class="team-matches-card__img">
                 </div>
               </div>
             </a>
@@ -100,13 +100,13 @@
                   </div>
                 </div>
                 <div class="team-matches-card-info">
-                  <img src="{{ match.lineup_match.all.0.team.image.url }}" alt="Команда 1" class="team-matches-card__img">
+                  <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="team-matches-card__img">
                   <div class="team-matches-card-match">
                     <span class="team-matches-card__first">{{ match.date }}</span>
-                    <span class="team-matches-card__second">__Результат__</span>
+                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
                     <span class="team-matches-card__third">{{ match.place }}</span>
                   </div>
-                  <img src="{{ match.lineup_match.all.1.team.image.url }}" alt="Команда 2" class="team-matches-card__img">
+                  <img src="{{ match.team_B.image.url }}" alt="Команда 2" class="team-matches-card__img">
                 </div>
               </div>
             </a>

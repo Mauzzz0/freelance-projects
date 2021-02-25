@@ -10,7 +10,7 @@
       <div class="teams-block">
     {% for tournament in tournaments %}
         <div class="teams-league">
-          <p class="teams-league__title">{{ tournament.name }}</p>
+          <p  class="teams-league__title"><a href="../tournament/{{ tournament.id }}">{{ tournament.name }}</a></p>
           <div class="teams-league-teams">
             {% for team in tournament.get_teams_set %}
             <a class="teams-league-team" href="../team/{{ team.url }}">
