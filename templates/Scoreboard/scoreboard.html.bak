@@ -27,12 +27,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-left-goal">Минуты</label>
-          <input name="A_goal_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-left-goal">
+          <input name="A_goal_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-left-goal" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-left-goal">Секунды</label>
-          <input name="A_goal_time_second" type="number" class="modal-time__secs" id="modal-time__secs-left-goal">
+          <input name="A_goal_time_second" type="number" class="modal-time__secs" is="modal-time__secs-left-goal" value="30">
         </div>
       </div>
       <div class="modal-goal-header">
@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <button name="button_goalA" type="submit" class="modal-goal-left__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-goal-left__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -77,12 +77,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-right-goal">Минуты</label>
-          <input name="B_goal_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-right-goal">
+          <input name="B_goal_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-right-goal" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-right-goal">Секунды</label>
-          <input name="B_goal_time_second" type="number" class="modal-time__secs" id="modal-time__secs-right-goal">
+          <input name="B_goal_time_second" type="number" class="modal-time__secs" is="modal-time__secs-right-goal" value="30">
         </div>
       </div>
       <div class="modal-goal-header">
@@ -118,7 +118,7 @@
           </div>
         </div>
       </div>
-      <button name="button_goalB" type="submit" class="modal-goal-right__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-goal-right__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -127,12 +127,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-left-fine">Минуты</label>
-          <input name="A_penalty_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-left-fine">
+          <input name="A_penalty_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-left-fine" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-left-fine">Секунды</label>
-          <input name="A_penalty_time_second" type="number" class="modal-time__secs" id="modal-time__secs-left-fine">
+          <input name="A_penalty_time_second" type="number" class="modal-time__secs" is="modal-time__secs-left-fine" value="30">
         </div>
       </div>
       <div class="modal-del-header">
@@ -156,7 +156,7 @@
           </div>
         </div>
       </div>
-      <button name="button_penaltyA" type="submit" class="modal-del-left__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-del-left__submit modal__submit">Готово</button>
     </div>
   </div>
 
@@ -165,12 +165,12 @@
       <div class="modal-time">
         <div class="modal-time-mins">
           <label for="modal-time__mins-right-fine">Минуты</label>
-          <input name="B_penalty_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-right-fine">
+          <input name="B_penalty_time_minute" type="number" class="modal-time__mins" id="modal-time__mins-right-fine" value="20">
         </div>
         <span class="modal-time-dots"> : </span>
         <div class="modal-time-secs">
           <label for="modal-time__secs-right-fine">Секунды</label>
-          <input name="B_penalty_time_second" type="number" class="modal-time__secs" id="modal-time__secs-right-fine">
+          <input name="B_penalty_time_second" type="number" class="modal-time__secs" is="modal-time__secs-right-fine" value="30">
         </div>
       </div>
       <div class="modal-del-header">
@@ -194,17 +194,17 @@
           </div>
         </div>
       </div>
-      <button name="button_penaltyB" type="submit" class="modal-del-right__submit modal__submit">Готово</button>
+      <button type="submit" class="modal-del-right__submit modal__submit">Готово</button>
     </div>
   </div>
 </form>
-  
+
   <div class="board-nav">
     <button id="playersBtn" class="board-nav-item tablink" onclick="openBlock(event, 'players')">Составы (1)</button>
     <button id="defaultOpen" class="board-nav-item tablink" onclick="openBlock(event, 'board')">Табло (2)</button>
     <button id="protocolBtn" class="board-nav-item tablink" onclick="openBlock(event, 'protocol')">Протокол (3)</button>
   </div>
-  
+
   <div class="board-block">
     <div id="board" class="board-board tab">
       <div class="board-header">
@@ -214,19 +214,6 @@
         </div>
         <div class="board-header-time">
           <button id="minus" class="board-header-time__minus"><span>-</span><p>(C\C)</p></button>
-          <div class="timer-time">
-            <div class="timer-time-now">
-              <span class="timer-mins">0</span>
-              <span class="timer-dots">:</span>
-              <span class="timer-secs">0</span>
-            </div>
-            <div class="timer-time-left">
-              <span class="timer-left">Осталось: </span>
-              <span class="timer-mins-left">20</span>
-              <span>:</span>
-              <span class="timer-secs-left">0</span>
-            </div>
-          </div>
           <button id="plus" class="board-header-time__plus"><span>+</span><p>(M\Ь)</p></button>
         </div>
         <div class="board-header-team">
@@ -239,8 +226,8 @@
           <button id="leftGoal" class="board-buttons-left-goal">ГОЛ<p>(Левый Shift)</p></button>
           <button id="leftDel" class="board-buttons-left-del">УДАЛЕНИЕ<p>(Левый Alt)</p></button>
         </div>
-        <button id="stop" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
-          
+        <button id="stop" onclick="StartStop()" class="board-buttons-stop">STOP/GO<p>(Пробел)</button>
+
           <div class="board-buttons-right">
             <button id="rightGoal" class="board-buttons-right-goal">ГОЛ<p>(Правый Shift)</button>
               <button id="rightDel" class="board-buttons-right-del">УДАЛЕНИЕ<p>(Правый Alt)</button>
@@ -248,10 +235,10 @@
             </div>
           </div>
 
-        <form method="post">
-        {% csrf_token %}
-          <div id="protocol" class="board-protocol tab">
-            <div class="board-protocol-block">
+    <form method="post">
+    {% csrf_token %}
+    <div id="protocol" class="board-protocol tab">
+         <div class="board-protocol-block">
               <p class="board-protocol-period__title">1 период</p>
               <div class="board-protocol-period">
                 {% for action in view.actions1period %}
@@ -337,9 +324,9 @@
             <b>Нет событий</b>
             {% endfor %}
           </div>
-          
-          <p class="board-protocol-period__title">2 период</p>
-          <div class="board-protocol-period">
+
+              <p class="board-protocol-period__title">2 период</p>
+              <div class="board-protocol-period">
             {% for action in view.actions2period %}
             {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
@@ -424,8 +411,8 @@
               {% endfor %}
           </div>
 
-            <p class="board-protocol-period__title">3 период</p>
-          <div class="board-protocol-period">
+              <p class="board-protocol-period__title">3 период</p>
+              <div class="board-protocol-period">
                 {% for action in view.actions3period %}
                   {% if action.type == "Штраф" and action.team_side == "A" %}
             <div class="board-protocol-event-left-fine board-protocol-event event">
@@ -511,8 +498,8 @@
           </div>
         </div>
     </div>
-  </form>
-  
+    </form>
+
     <div id="players" class="board-players tab">
       <div class="board-players-teams">
         <p class="board-players__team">{{ view.teamA }}</p>
@@ -599,104 +586,6 @@
       </div>
     </div>
     <script>
-
-      var id;
-
-      let secs = 1,
-          mins = 0,
-          max = 20,
-          period = 1;
-
-      let act = false;
-
-      function startStop(){
-        if(!act){
-          id = setInterval(myFunc, 1000);
-          act = true;
-        }else{
-          clearInterval(id);
-          act = false;
-        }
-      }
-
-      function newPeriod(){
-        clearInterval(id);
-        secs = 1;
-        mins = max;
-        act=false;
-        $('.timer-mins').text(max);
-        $('.timer-secs').text('0');
-        $('#myButton').text('Start');
-        mins = max;
-        period+=1;
-        max = 20*period;
-        delta = 0;
-      }
-
-      function reset(){
-        clearInterval(id);
-        secs = 1;
-        mins = 0;
-        max = 20;
-        act = false;
-        $('.timer-mins').text('0');
-        $('.timer-secs').text('0');
-        $('#myButton').text('Start');
-        console.log("матч - все");
-        period = 1;
-      }
-
-      function myFunc(){
-        if (period < 3){
-          if (mins < max){
-            if(secs == 60){
-              mins += 1;
-              secs = 0;
-            } 
-            $('.timer-mins').text(mins);
-            $('.timer-secs').text(secs);
-            if (max-mins-1 < 0){
-              $('.timer-mins-left').text('0');  
-            }else{
-              $('.timer-mins-left').text(max - mins-1);
-            }
-            if(60-secs == 1){
-              $('.timer-mins-left').text(max-mins);
-              $('.timer-secs-left').text('0');  
-            }else{
-              $('.timer-secs-left').text(60 - secs);
-            }
-            secs++;
-          }
-          else{
-            newPeriod();
-          }
-        }else{
-          if (mins < max){
-            if(secs==60){
-              mins+=1;
-              secs = 0;
-            } 
-            $('.timer-mins').text(mins);
-            $('.timer-secs').text(secs);
-            if (max-mins-1 < 0){
-              $('.timer-mins-left').text('0');  
-            }else{
-              $('.timer-mins-left').text(max - mins-1);
-            }
-            if(60-secs == 1){
-              $('.timer-mins-left').text(max-mins);
-              $('.timer-secs-left').text('0');  
-            }else{
-              $('.timer-secs-left').text(60 - secs);
-            }
-            secs++;
-          }else{
-            reset();
-          }
-        }
-      }
-
       document.getElementById("defaultOpen").click();
       function openBlock(event, blockName) {
         var i, tabcontent, tablinks;
@@ -713,35 +602,25 @@
         event.currentTarget.className += " active";
         event.currentTarget.style.backgroundColor = "#14248A";
       }
-  
-      function createGoalLeft (mins, secs){
-        $('#modal-time__mins-left-goal').val(mins);
-        $('#modal-time__secs-left-goal').val(secs-1);
+
+      function createGoalLeft (){
         $('.modal-goal-left').css({'display' : 'flex'});
-      } 
-      function createGoalRight (mins, secs){
-        $('#modal-time__mins-right-goal').val(mins);
-        $('#modal-time__secs-right-goal').val(secs-1);
+      }
+      function createGoalRight (){
         $('.modal-goal-right').css({'display' : 'flex'});
       }
-      function createDelLeft(mins, secs){
-        $('#modal-time__mins-left-fine').val(mins);
-        $('#modal-time__secs-left-fine').val(secs-1);
+      function createDelLeft(){
         $('.modal-del-left').css({'display' : 'flex'});
       }
-      function createDelRight(mins, secs){
-        $('#modal-time__mins-right-fine').val(mins);
-        $('#modal-time__secs-right-fine').val(secs-1);
+      function createDelRight(){
         $('.modal-del-right').css({'display' : 'flex'});
       }
 
       $('#stop').mousedown(function(){
-        startStop();
         $(this).css({
           'background-color': '#b9c0ea',
         });
       });
-
       $('#stop').mouseup(function(){
         $(this).css({
           'background-color': '#fff',
@@ -756,7 +635,7 @@
         $(this).css({
           'background-color': '#fff',
         });
-        createGoalLeft(mins, secs);
+        createGoalLeft();
       });
       $('#leftDel').mousedown(function(){
         $(this).css({
@@ -767,7 +646,7 @@
         $(this).css({
           'background-color': '#fff',
         });
-        createDelLeft(mins, secs);
+        createDelLeft();
       });
       $('#rightGoal').mousedown(function(){
         $(this).css({
@@ -778,7 +657,7 @@
         $(this).css({
           'background-color': '#fff',
         });
-        createGoalRight(mins, secs);
+        createGoalRight();
       });
       $('#rightDel').mousedown(function(){
         $(this).css({
@@ -789,7 +668,7 @@
         $(this).css({
           'background-color': '#fff',
         });
-        createDelRight(mins, secs);
+        createDelRight();
       });
       $('#minus').mousedown(function(){
         $(this).css({
@@ -811,18 +690,18 @@
           'background-color': '#3241A5',
         });
       });
-      $(".modal").on('click', (event) =>{ 
+      $(".modal").on('click', (event) =>{
         if(event.target.className == "modal-del modal modal-del-left"){
-          $('.modal-del-left').css({"display":"none"});  
+          $('.modal-del-left').css({"display":"none"});
         }
         if(event.target.className == "modal-del modal modal-del-right"){
-          $('.modal-del-right').css({"display":"none"});    
+          $('.modal-del-right').css({"display":"none"});
         }
         if(event.target.className == "modal-goal modal modal-goal-left"){
           $('.modal-goal-left').css({"display":"none"});
         }
         if(event.target.className == "modal-goal modal modal-goal-right"){
-          $('.modal-goal-right').css({"display":"none"}); 
+          $('.modal-goal-right').css({"display":"none"});
         }
       })
       document.addEventListener('keydown', (event) => {
@@ -859,10 +738,10 @@
           $('.modal-goal-left').css({"display":"none"});
           $('.modal-goal-right').css({"display":"none"});
           $('.modal-del-left').css({"display":"none"});
-          $('.modal-del-right').css({"display":"none"});        
+          $('.modal-del-right').css({"display":"none"});
         }
       });
-      
+
       document.addEventListener('keyup', (event) => {
         let keyName = event.code;
         if (keyName === 'Space') {
@@ -898,7 +777,7 @@
           $('#plus').mouseup();
         }
       });
-  
+
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         let keyName = event.code;
@@ -915,23 +794,23 @@
   
       $('.modal-goal-left__submit').on('click', function(){
         $('.modal-goal-left').css({"display":"none"});
-        $('.modal-select').removeClass('modal-select-active');
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-goal-right__submit').on('click', function(){
         $('.modal-goal-right').css({"display":"none"});
-        $('.modal-select').removeClass('modal-select-active');
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-del-left__submit').on('click', function(){
         $('.modal-del-left').css({"display":"none"});
-        $('.modal-select').removeClass('modal-select-active');
+        $('.modal-select').removeClass('modal-select-active')
       })
       $('.modal-del-right__submit').on('click', function(){
         $('.modal-del-right').css({"display":"none"});        
-        $('.modal-select').removeClass('modal-select-active');
+        $('.modal-select').removeClass('modal-select-active')
       })
 
       $('.modal-select').click( function(){
-      $(this).toggleClass('modal-select-active');
+      $(this).toggleClass('modal-select-active')
     });
     </script>
 </body>

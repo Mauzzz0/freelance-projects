@@ -5532,6 +5532,22 @@ a:active, a:focus {
   width: 400px;
   margin: 0 30px;
 }
+.timer-time{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+.timer-time-now{
+  margin-bottom: 10px;
+  font-size: 36px;  
+}
+
+.timer-mins, .timer-secs{
+  display: inline-block;
+  text-align: center;
+  width: 50px;
+}
 
 .board-header-time__minus, .board-header-time__plus {
   position: relative;

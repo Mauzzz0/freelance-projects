@@ -366,8 +366,8 @@ class MatchScoreboardDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         print("ПОЛУЧЕН ПОСТ")
-        self.object = self.get_object()
         print(request.POST)
+        self.object = self.get_object()
         if 'goalA_button_remove' in request.POST:
             ActionGoal.objects.get(id=request.POST['goalA_button_remove']).delete()
 
@@ -380,9 +380,7 @@ class MatchScoreboardDetailView(DetailView):
         elif 'penaltyB_button_remove' in request.POST:
             ActionPenalty.objects.get(id=request.POST['penaltyB_button_remove']).delete()
 
-        elif 'teamA_goal_assistant1' in request.POST and \
-            'teamA_goal_assistant2' in request.POST and \
-            'teamA_goal_player' in request.POST:
+        elif 'button_goalA' in request.POST and 'teamA_goal_player' in request.POST:
 
             A_time_minute = request.POST.get('A_goal_time_minute')
             A_time_second = request.POST.get('A_goal_time_second')
@@ -403,7 +401,6 @@ class MatchScoreboardDetailView(DetailView):
                 elif str(player.game_number) == str(A_goal_player):
                     A_goal_player_id = player.pk
 
-
             new_goal = ActionGoal(
                 player_score_id = A_goal_player_id,
                 match_id = self.object.id,
@@ -411,17 +408,28 @@ class MatchScoreboardDetailView(DetailView):
                 time_minute=A_time_minute,
                 time_second=A_time_second
             )
-            new_goal.save()
-            new_goal.players_passes.add(
-                Player.objects.get(id=A_goal_ass1_id),
-                Player.objects.get(id=A_goal_ass2_id))
 
-            messages.success(self.request, 'Гол А добавлен')
+            if A_goal_player_id == -1:
+                messages.error(self.request, 'Номер одного из ассистентов совпадает с номером игрока '
+                                             'забившего гол')
 
-        elif 'teamB_goal_assistant1' in request.POST and \
-            'teamB_goal_assistant2' in request.POST and \
-            'teamB_goal_player' in request.POST:
+            elif A_goal_ass1_id != -1 and A_goal_ass2_id != -1:
+                new_goal.save()
+                new_goal.players_passes.add(
+                    Player.objects.get(id=A_goal_ass1_id),
+                    Player.objects.get(id=A_goal_ass2_id))
+                messages.success(self.request, 'Гол А добавлен')
 
+            elif A_goal_ass1_id == -1 and A_goal_ass2_id == -1:
+                new_goal.save()
+                messages.success(self.request, 'Гол А добавлен без ассистентов')
+
+            else:
+                messages.error(self.request, 'Неправильно выбраны игроки для гола. Асистенты '
+                                             'должны либо отсутствовать, либо различаться')
+
+        elif 'button_goalB' in request.POST and 'teamB_goal_player' in request.POST:
+            print(request.POST)
             B_time_minute = request.POST.get('B_goal_time_minute')
             B_time_second = request.POST.get('B_goal_time_second')
 
@@ -442,18 +450,31 @@ class MatchScoreboardDetailView(DetailView):
                     B_goal_player_id = player.pk
 
             new_goal = ActionGoal(
-                player_score_id=B_goal_player_id,
-                match_id=self.object.id,
+                player_score_id = B_goal_player_id,
+                match_id = self.object.id,
                 team_side="B",
                 time_minute=B_time_minute,
                 time_second=B_time_second
             )
-            new_goal.save()
-            new_goal.players_passes.add(
-                Player.objects.get(id=B_goal_ass1_id),
-                Player.objects.get(id=B_goal_ass2_id))
 
-            messages.success(self.request, 'Гол B добавлен')
+            if B_goal_player_id == -1:
+                messages.error(self.request, 'Номер одного из ассистентов совпадает с номером игрока '
+                                             'забившего гол')
+
+            elif B_goal_ass1_id != -1 and B_goal_ass2_id != -1:
+                new_goal.save()
+                new_goal.players_passes.add(
+                    Player.objects.get(id=B_goal_ass1_id),
+                    Player.objects.get(id=B_goal_ass2_id))
+                messages.success(self.request, 'Гол B добавлен')
+
+            elif B_goal_ass1_id == -1 and B_goal_ass2_id == -1:
+                new_goal.save()
+                messages.success(self.request, 'Гол B добавлен без ассистентов')
+
+            else:
+                messages.error(self.request, 'Неправильно выбраны игроки для гола. Асистенты '
+                                             'должны либо отсутствовать, либо различаться')
 
         elif 'teamA_penalty_player' in request.POST:
 
