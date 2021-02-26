@@ -188,7 +188,7 @@ class Match(models.Model):
     # TODO: Результаты для трёх раундов
     name = models.CharField("Title",max_length=50)
     date = models.DateTimeField("Date and time")
-    loop = models.PositiveSmallIntegerField("Номер круга (Плей-офф: 1)", default=1)
+    loop = models.PositiveSmallIntegerField("Номер круга (Для матча плей-офф оставлять 0)", default=0)
 
     tournament = models.ForeignKey(
         Tournament,
