@@ -708,6 +708,49 @@ class TournamentDetailView(DetailView):
     context_object_name = 'tournament'
 
 
+    def list_of_tables(self):
+        list_of_teams = [x for x in self.object.get_teams_set()]
+        query_of_matches = self.object.match_tournament.all()
+        teams_count = len(list_of_teams)
+        list_of_tables = []
+        for loop_counter in range(2):
+            table = [[None for x in range(teams_count+1)] for y in range(teams_count+1) ]
+            list_of_tables.append(table)
+
+            """Generating header-row[0] and header-column[0]"""
+            table[0] = list_of_teams
+            for i in range(1,len(table)):
+                table[i][0] = list_of_teams[i-1]
+
+            """Filling with matches"""
+            for row in range(1,len(table)):
+                for column in range(1, len(table)):
+                    row_header = table[row][0]
+                    column_header = table[column][0]
+
+                    _match = query_of_matches.filter(loop=loop_counter+1,
+                                                     team_A=row_header,
+                                                     team_B=column_header)
+                    if not _match:
+                        _match = query_of_matches.filter(loop=loop_counter+1,
+                                                     team_A=column_header,
+                                                     team_B=row_header)
+                        if not _match:
+                            _match = None
+                        else:
+                            _match = _match[0]
+                    else:
+                        _match = _match[0]
+                    table[row][column] = _match
+
+
+        for table in list_of_tables:
+            for line in table:
+                print(line)
+
+        list_of_tables.append([])
+        return list_of_tables
+
     def post(self, request, *args, **kwargs):
         print(request.POST)
         if 'GenerateMatches' in request.POST:

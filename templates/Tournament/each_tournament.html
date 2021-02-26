@@ -4,9 +4,6 @@
     <form method="post"> {% csrf_token %}
     <button name="GenerateMatches">Сгенерировать список матчей</button>
     </form>
-    {% for match in tournament.match_tournament.all %}
-    <b>{{ match }} {{ match.team_A }}-{{ match.team_B }}</b>
-    {% endfor %}
   <div class="home-league">
     <h1 class="home-league__title">{{ tournament }}</h1>
     <div class="home-matches">
@@ -68,7 +65,7 @@
           <div id="line2" class="home-nav__line line"></div>
         </div>
       </div>
-        {% for loop in tournament.loop_count_list %}
+        {% for table in view.list_of_tables %}
       <div class="home-champ">
         <div class="home-champ-table-block">
           <table class="home-champ-table">
@@ -76,10 +73,9 @@
               <tr class="home-champ-table-header">
                 <th class="home-champ-table-header__item">#</th>
                 <th class="home-champ-table-header__item">КОМАНДА</th>
-                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{% static 'img/team.png' %}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
-                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{% static 'img/team.png' %}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
-                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{% static 'img/team.png' %}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
-                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{% static 'img/team.png' %}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
+                {% for team in table.0 %}
+                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{{ team.image.url }}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
+                {% endfor %}
                 <th class="home-champ-table-header__item home-champ-table-header-index">И</th>
                 <th class="home-champ-table-header__item home-champ-table-header-index">В</th>
                 <th class="home-champ-table-header__item home-champ-table-header-index">ВБ</th>
@@ -92,13 +88,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="home-champ-table-line">
-                <td class="home-champ-table-line__item">1</td>
-                <td class="home-champ-table-line__item"><a href="#">ХК СТРОЙГАЗМОНТАЖ (СГМ)</a></td>
-                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="#">1:2</a></td>
-                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="#">1:2</a></td>
-                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="#">1:2</a></td>
-                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="#">1:2</a></td>
+            {% for line in table %}
+                {% if forloop.counter0 == 0 %}
+                {% else %}
+                    <tr class="home-champ-table-line">
+                <td class="home-champ-table-line__item">{{ forloop.counter0 }}</td>
+                <td class="home-champ-table-line__item"><a href="#">{{ line.0 }}</a></td>
+                        {% for match in line %}
+                        {% if forloop.counter0 == 0 %}
+                            {% else %}
+                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="../match/{{ match.id }}">{{ match.get_result_str }}</a></td>
+                            {% endif %}
+                    {% endfor %}
                 <td class="home-champ-table-line__item">7</td>
                 <td class="home-champ-table-line__item">6</td>
                 <td class="home-champ-table-line__item">4</td>
@@ -109,6 +110,8 @@
                 <td class="home-champ-table-line__item">4</td>
                 <td class="home-champ-table-line__item">12-50</td>
               </tr>
+                {% endif %}
+            {% endfor %}
             </tbody>
           </table>
         </div>
