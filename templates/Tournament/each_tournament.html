@@ -98,9 +98,15 @@
                         {% for match in line %}
                         {% if forloop.counter0 == 0 %}
                             {% else %}
+                            {% if forloop.counter > forloop.parentloop.counter %}
                 <td class="home-champ-table-line__item home-champ-table-line-count"><a href="../match/{{ match.id }}">{{ match.get_result_str }}</a></td>
+                            {% elif forloop.counter < forloop.parentloop.counter %}
+                            <td class="home-champ-table-line__item home-champ-table-line-count"><a href="../match/{{ match.id }}">{{ match.get_result_str_reversed }}</a></td>
+                            {% else %}
+                <td class="home-champ-table-line__item home-champ-table-line-count">--</td>
                             {% endif %}
-                    {% endfor %}
+                            {% endif %}
+                         {% endfor %}
                 <td class="home-champ-table-line__item">7</td>
                 <td class="home-champ-table-line__item">6</td>
                 <td class="home-champ-table-line__item">4</td>

@@ -234,6 +234,12 @@ class Match(models.Model):
         goalsB = [i for i in self.goal_match.all().filter(team_side="B")]
         return str(len(goalsA)) + ":" + str(len(goalsB))
 
+    @property
+    def get_result_str_reversed(self):
+        goalsA = [i for i in self.goal_match.all().filter(team_side="A")]
+        goalsB = [i for i in self.goal_match.all().filter(team_side="B")]
+        return str(len(goalsB)) + ":" + str(len(goalsA))
+
     def info(self):
         res = ""
         localdate = self.date.astimezone()
