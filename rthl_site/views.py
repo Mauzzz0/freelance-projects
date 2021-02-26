@@ -713,7 +713,7 @@ class TournamentDetailView(DetailView):
         query_of_matches = self.object.match_tournament.all()
         teams_count = len(list_of_teams)
         list_of_tables = []
-        for loop_counter in range(2):
+        for loop_counter in range(self.object.loop_count):
             table = [[None for x in range(teams_count+1)] for y in range(teams_count+1) ]
             list_of_tables.append(table)
 
@@ -748,7 +748,6 @@ class TournamentDetailView(DetailView):
             for line in table:
                 print(line)
 
-        list_of_tables.append([])
         return list_of_tables
 
     def post(self, request, *args, **kwargs):

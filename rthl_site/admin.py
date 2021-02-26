@@ -41,4 +41,4 @@ class TournamentAdmin(admin.ModelAdmin):
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
     """Матчи"""
-    list_display = ("name","tournament","date")
+    list_display = ("name","tournament","loop","date")

@@ -67,6 +67,7 @@
       </div>
         {% for table in view.list_of_tables %}
       <div class="home-champ">
+      <b>Круг: {{ forloop.counter }}</b>
         <div class="home-champ-table-block">
           <table class="home-champ-table">
             <thead>
@@ -93,7 +94,7 @@
                 {% else %}
                     <tr class="home-champ-table-line">
                 <td class="home-champ-table-line__item">{{ forloop.counter0 }}</td>
-                <td class="home-champ-table-line__item"><a href="#">{{ line.0 }}</a></td>
+                <td class="home-champ-table-line__item"><a href="../team/{{ line.0.url }}">{{ line.0 }}</a></td>
                         {% for match in line %}
                         {% if forloop.counter0 == 0 %}
                             {% else %}
