@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.db.utils import IntegrityError
 import operator
 from django.contrib import messages
-from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm, EditMatchForm
+from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm, EditMatchForm, CreateTournamentForm
 from itertools import chain
 
 
@@ -96,6 +96,45 @@ class CreatePlayerDetailView(DetailView):
             messages.success(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
+class CreateTeamDetailView(DetailView):
+    model = Team
+    template_name = "Team/create_team.html"
+    context_object_name = "team"
+
+    def get(self, request, *args, **kwargs):
+        form = CreateTeamForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateTeamForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Команда добавлен")
+            return HttpResponseRedirect(request.path)
+        else:
+            messages.success(request, "Форма некорректна")
+            return HttpResponseRedirect(request.path)
+
+class CreateTournamentDetailView(DetailView):
+    model = Tournament
+    template_name = "Tournament/create_tournament.html"
+    context_object_name = "tournament"
+
+    def get(self, request, *args, **kwargs):
+        form = CreateTournamentForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateTournamentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Турнир добавлен")
+            return HttpResponseRedirect(request.path)
+        else:
+            messages.success(request, "Форма некорректна")
+            return HttpResponseRedirect(request.path)
+
+
 class EditPlayerDetailView(DetailView):
     model = Player
     template_name = "Player/edit_player.html"
@@ -138,24 +177,6 @@ class EditMatchDetailView(DetailView):
             messages.success(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
-class CreateTeamDetailView(DetailView):
-    model = Team
-    template_name = "Team/create_team.html"
-    context_object_name = "team"
-
-    def get(self, request, *args, **kwargs):
-        form = CreateTeamForm()
-        return render(request, self.template_name, {"form": form})
-
-    def post(self, request, *args, **kwargs):
-        form = CreateTeamForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Команда добавлен")
-            return HttpResponseRedirect(request.path)
-        else:
-            messages.success(request, "Форма некорректна")
-            return HttpResponseRedirect(request.path)
 
 class GoalDetailView(DetailView):
     model = ActionGoal

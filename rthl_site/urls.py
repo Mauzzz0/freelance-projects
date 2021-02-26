@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('create_player',views.CreatePlayerDetailView.as_view()),
     path('create_team',views.CreateTeamDetailView.as_view()),
+    path('create_tournament',views.CreateTournamentDetailView.as_view()),
     path('dev_news', views.news, name="news"),
     path('dev_scoreboard', views.scoreboard, name="scoreboard"),
     path('dev_zip', views.ZipView.as_view(), name="zip"),

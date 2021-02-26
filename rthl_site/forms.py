@@ -1,5 +1,5 @@
 from django import forms
-from .models import FileUploadModel, ActionGoal, Player, Team, Match
+from .models import FileUploadModel, ActionGoal, Player, Team, Match, Tournament
 
 
 class CreatePlayerForm(forms.ModelForm):
@@ -37,6 +37,11 @@ class CreateTeamForm(forms.ModelForm):
         fields = [
             'name', 'image', 'city', 'url'
         ]
+
+class CreateTournamentForm(forms.ModelForm):
+    class Meta:
+        model = Tournament
+        fields = ['name', 'season','loop_count','teams']
 
 class UploadFileForm(forms.ModelForm):
     class Meta:
