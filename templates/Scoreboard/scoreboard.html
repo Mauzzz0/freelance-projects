@@ -598,6 +598,7 @@
 
       </div>
     </div>
+    <script src="{% static 'js/jquery.cookies.js' %}"></script>
     <script>
 
       var id;
@@ -629,8 +630,7 @@
         $('#myButton').text('Start');
         mins = max;
         period+=1;
-        max = 20*period;
-        delta = 0;
+        max = 20*period ;
       }
 
       function reset(){
@@ -653,6 +653,8 @@
               mins += 1;
               secs = 0;
             } 
+            $.cookie('mins', mins);
+            $.cookie('secs', secs);
             $('.timer-mins').text(mins);
             $('.timer-secs').text(secs);
             if (max-mins-1 < 0){
@@ -667,6 +669,7 @@
               $('.timer-secs-left').text(60 - secs);
             }
             secs++;
+            $.cookie('secs', secs)
           }
           else{
             newPeriod();
@@ -677,12 +680,14 @@
               mins+=1;
               secs = 0;
             } 
+            $.cookie('mins', mins)
+            $.cookie('secs', secs)
             $('.timer-mins').text(mins);
             $('.timer-secs').text(secs);
-            if (max-mins-1 < 0){
+            if (mins-1 < 0){
               $('.timer-mins-left').text('0');  
             }else{
-              $('.timer-mins-left').text(max - mins-1);
+              $('.timer-mins-left').text(max - mins - 1);
             }
             if(60-secs == 1){
               $('.timer-mins-left').text(max-mins);
@@ -902,14 +907,17 @@
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         let keyName = event.code;
-        if (keyName === 'Digit1') {
-          document.getElementById("playersBtn").click();
-        }
-        else if (keyName === 'Digit2'){
-          document.getElementById("defaultOpen").click();
-        }
-        else if (keyName === 'Digit3'){
-          document.getElementById("protocolBtn").click();
+        if($(".modal-goal-left").css('display')=="none" && $(".modal-goal-tight").css('display')=="none" &&
+           $(".modal-fine-left").css('display')=="none" && $(".modal-fine-right").css('display')=="none"){
+          if (keyName === 'Digit1') {
+            document.getElementById("playersBtn").click();
+          }
+          else if (keyName === 'Digit2'){
+            document.getElementById("defaultOpen").click();
+          }
+          else if (keyName === 'Digit3'){
+            document.getElementById("protocolBtn").click();
+          }
         }
       })
   
@@ -933,6 +941,9 @@
       $('.modal-select').click( function(){
       $(this).toggleClass('modal-select-active');
     });
+    $('.messages').on('click', ()=>{
+      $('.messges').toggleClass("hidden");
+    })
     </script>
 </body>
 </html>
