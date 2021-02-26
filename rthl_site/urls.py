@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('match/<int:pk>/scoreboard', views.MatchScoreboardDetailView.as_view()),
     path('match/<int:pk>', views.MatchDetailView.as_view()),
+    path('match/<int:pk>/edit', views.EditMatchDetailView.as_view()),
     path('team/<slug:slug>', views.TeamDetailView.as_view()),
     path('team/<slug:slug>/create_app', views.TeamAppDetailView.as_view()),
     path('player/<int:pk>', views.PlayerDetailView.as_view()),

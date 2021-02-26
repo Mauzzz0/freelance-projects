@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.db.utils import IntegrityError
 import operator
 from django.contrib import messages
-from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm
+from .forms import UploadFileForm, GoalForm, CreatePlayerForm, CreateTeamForm, EditPlayerForm, EditMatchForm
 from itertools import chain
 
 
@@ -112,6 +112,27 @@ class EditPlayerDetailView(DetailView):
         if form.is_valid():
             form.save()
             messages.success(request, "Игрок обновлён")
+            return HttpResponseRedirect(request.path)
+        else:
+            messages.success(request, "Форма некорректна")
+            return HttpResponseRedirect(request.path)
+
+class EditMatchDetailView(DetailView):
+    model = Match
+    template_name = "Matches/edit_match.html"
+    context_object_name = "match"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EditMatchForm(instance=self.object)
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = EditMatchForm(request.POST, request.FILES, instance=self.object)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Матч обновлён")
             return HttpResponseRedirect(request.path)
         else:
             messages.success(request, "Форма некорректна")

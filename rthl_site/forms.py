@@ -1,5 +1,5 @@
 from django import forms
-from .models import FileUploadModel, ActionGoal, Player, Team
+from .models import FileUploadModel, ActionGoal, Player, Team, Match
 
 
 class CreatePlayerForm(forms.ModelForm):
@@ -23,6 +23,13 @@ class EditPlayerForm(forms.ModelForm):
             'weight', 'birth_date', 'grip',
             'qualification', 'biography'
         ]
+
+class EditMatchForm(forms.ModelForm):
+    class Meta:
+        model = Match
+        fields = [ 'name', 'date', 'loop',
+                   'team_A', 'team_B',
+                   'place']
 
 class CreateTeamForm(forms.ModelForm):
     class Meta:
