@@ -13,13 +13,14 @@
 </head>
 <body>
 {% if messages %}
-    <ul class="messages">
+  <div class="message">
     {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-            {{ message }}
-        </li>
+      <div{% if message.tags %} class="{{ message.tags }} message-block"{% endif %}>
+          {{ message }}
+          <p>Нажмите, чтобы закрыть</p>
+      </div>
     {% endfor %}
-    </ul>
+</div>
 {% endif %}
   <div class="app">
     <div class="app-header">

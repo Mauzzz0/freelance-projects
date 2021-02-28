@@ -12,13 +12,14 @@
 </head>
 <body>
 {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+    <div class="message">
+      {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }} message-block"{% endif %}>
             {{ message }}
-        </li>
-    {% endfor %}
-    </ul>
+            <p>Нажмите, чтобы закрыть</p>
+        </div>
+      {% endfor %}
+  </div>
 {% endif %}
   <form name="MyForm" method="post">
     {% csrf_token %}
@@ -215,17 +216,10 @@
         <div class="board-header-time">
           <button id="minus" class="board-header-time__minus"><span>-</span><p>(C\C)</p></button>
           <div class="timer-time">
-            <div class="timer-time-now">
-              <span class="timer-mins">0</span>
-              <span class="timer-dots">:</span>
-              <span class="timer-secs">0</span>
-            </div>
-            <div class="timer-time-left">
-              <span class="timer-left">Осталось: </span>
-              <span class="timer-mins-left">20</span>
-              <span>:</span>
-              <span class="timer-secs-left">0</span>
-            </div>
+            <div class="timer-period">1-й период</div>
+            <span class="timer-mins">0</span>
+            <span class="timer-dots">:</span>
+            <span class="timer-secs">0</span>
           </div>
           <button id="plus" class="board-header-time__plus"><span>+</span><p>(M\Ь)</p></button>
         </div>
@@ -598,109 +592,106 @@
 
       </div>
     </div>
-    <script src="{% static 'js/jquery.cookies.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
+      let id; 
+  let secs = 1,
+      mins = 0, 
+      period = 1,
+      max = 20;
 
-      var id;
+  let act = false;
 
-      let secs = 1,
-          mins = 0,
-          max = 20,
-          period = 1;
+  function startStop(){
+    if(!act){
+      id = setInterval(timer, 1000);
+      act = true;
+      $(this).text("stop");
+    }else{
+      clearInterval(id);
+      act = false;
+      $(this).text("start");
+    }
+  }
 
-      let act = false;
+  $('.period').text(period)
 
-      function startStop(){
-        if(!act){
-          id = setInterval(myFunc, 1000);
-          act = true;
-        }else{
-          clearInterval(id);
-          act = false;
-        }
-      }
-
-      function newPeriod(){
-        clearInterval(id);
+  function plus(){
+    if (act && mins < 20*period){
+      secs++;
+      if(secs > 60){
+        mins++;
         secs = 1;
-        mins = max;
-        act=false;
-        $('.timer-mins').text(max);
-        $('.timer-secs').text('0');
-        $('#myButton').text('Start');
-        mins = max;
-        period+=1;
-        max = 20*period ;
       }
+      $('.timer-mins').text(mins);
+      $('.timer-secs').text(secs-1);
+    }
+  }
 
-      function reset(){
-        clearInterval(id);
-        secs = 1;
-        mins = 0;
-        max = 20;
-        act = false;
-        $('.timer-mins').text('0');
-        $('.timer-secs').text('0');
-        $('#myButton').text('Start');
-        console.log("матч - все");
-        period = 1;
+  function minus(){
+    if (act){
+      secs--;
+      if(secs < 1){
+        mins--;
+        secs = 60;
       }
+      $('.timer-mins').text(mins);
+      $('.timer-secs').text(secs-1);
+    }
+  }
 
-      function myFunc(){
-        if (period < 3){
-          if (mins < max){
-            if(secs == 60){
-              mins += 1;
-              secs = 0;
-            } 
-            $.cookie('mins', mins);
-            $.cookie('secs', secs);
-            $('.timer-mins').text(mins);
-            $('.timer-secs').text(secs);
-            if (max-mins-1 < 0){
-              $('.timer-mins-left').text('0');  
-            }else{
-              $('.timer-mins-left').text(max - mins-1);
-            }
-            if(60-secs == 1){
-              $('.timer-mins-left').text(max-mins);
-              $('.timer-secs-left').text('0');  
-            }else{
-              $('.timer-secs-left').text(60 - secs);
-            }
-            secs++;
-            $.cookie('secs', secs)
-          }
-          else{
-            newPeriod();
-          }
-        }else{
-          if (mins < max){
-            if(secs==60){
-              mins+=1;
-              secs = 0;
-            } 
-            $.cookie('mins', mins)
-            $.cookie('secs', secs)
-            $('.timer-mins').text(mins);
-            $('.timer-secs').text(secs);
-            if (mins-1 < 0){
-              $('.timer-mins-left').text('0');  
-            }else{
-              $('.timer-mins-left').text(max - mins - 1);
-            }
-            if(60-secs == 1){
-              $('.timer-mins-left').text(max-mins);
-              $('.timer-secs-left').text('0');  
-            }else{
-              $('.timer-secs-left').text(60 - secs);
-            }
-            secs++;
-          }else{
-            reset();
-          }
+  function newPeriod(){
+    clearInterval(id);
+    secs = 1;
+    mins = 20*period;
+    act=false;
+    $('.timer-mins').text(20*period);
+    $('.timer-secs').text('0');
+    $('#myButton').text('Start');
+    period+=1;
+    max = 20*period;
+    if (period <=3){
+      $('.timer-period').text(period+"-й период")
+    }else{
+      $('.timer-period').text("Овертайм")
+      $('.period-text').text('')
+    }
+  }
+
+  function reset(){
+    clearInterval(id);
+    $('.timer-period').text("матч закончился")
+  }
+
+  function timer(){
+    if(period <=3){
+      if (mins < 20*period){
+        if(secs >= 60){
+          mins += 1;
+          secs = 0;
         }
+        $('.timer-mins').text(mins);
+        $('.timer-secs').text(secs);
+        secs++;
       }
+      else{
+        newPeriod();
+      }
+    }else{
+      if (mins < 20*period){
+        if(secs >= 60){
+          mins += 1;
+          secs = 0;
+        }
+        $('.timer-mins').text(mins);
+        $('.timer-secs').text(secs);
+        secs++;
+      }
+      else{
+        reset();
+      }
+    }
+  }
 
       document.getElementById("defaultOpen").click();
       function openBlock(event, blockName) {
@@ -797,6 +788,7 @@
         createDelRight(mins, secs);
       });
       $('#minus').mousedown(function(){
+        minus();
         $(this).css({
           'background-color': 'rgb(20, 36, 138)',
         });
@@ -807,6 +799,7 @@
         });
       });
       $('#plus').mousedown(function(){
+        plus();
         $(this).css({
           'background-color': 'rgb(20, 36, 138)',
         });
@@ -907,8 +900,8 @@
       document.addEventListener('keyup', (event) => {
         event.preventDefault();
         let keyName = event.code;
-        if($(".modal-goal-left").css('display')=="none" && $(".modal-goal-tight").css('display')=="none" &&
-           $(".modal-fine-left").css('display')=="none" && $(".modal-fine-right").css('display')=="none"){
+        if( $(".modal-goal-left").css('display')=="none" && $(".modal-goal-right").css('display')=="none" &&
+           $(".modal-del-left").css('display')=="none" && $(".modal-del-right").css('display')=="none" ){
           if (keyName === 'Digit1') {
             document.getElementById("playersBtn").click();
           }
@@ -941,9 +934,7 @@
       $('.modal-select').click( function(){
       $(this).toggleClass('modal-select-active');
     });
-    $('.messages').on('click', ()=>{
-      $('.messges').toggleClass("hidden");
-    })
+    
     </script>
 </body>
 </html>

@@ -53,6 +53,8 @@ $('.footer__partner__img').mouseout(function(){
     $(this).stop().animate({opacity:'0'},200);
 });
 
-
+$('.message').on('click', ()=>{
+    $('.message').toggleClass("hidden");
+})
 
 

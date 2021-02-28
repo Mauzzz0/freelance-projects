@@ -1029,6 +1029,7 @@ a:active, a:focus {
   background-color: #3241A5;
   color: #fff;
   border-right: 1px solid #3241A5;
+  max-width: 1300px;
 }
 
 .home-champ-table-header__item {
@@ -1415,6 +1416,7 @@ a:active, a:focus {
       -ms-flex-pack: start;
           justify-content: start;
   margin-bottom: 15px;
+  
 }
 
 .home-best-card-player-header-player {
@@ -1677,6 +1679,7 @@ a:active, a:focus {
   }
   .home-champ-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .home-champ-table-header__item {
     font-family: Ubuntu-Regular, sans-serif;
@@ -2782,6 +2785,7 @@ a:active, a:focus {
 .team-players-table-header {
   background-color: #3241A5;
   height: 50px;
+  max-width: 1300px;
 }
 
 .team-players-table-header__item {
@@ -2895,6 +2899,7 @@ a:active, a:focus {
 .team-tournaments-table-header {
   background-color: #3241A5;
   height: 50px;
+  max-width: 1300px;
 }
 
 .team-tournaments-table-header__item {
@@ -3104,6 +3109,7 @@ a:active, a:focus {
   }
   .team-players-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .team-players-table-header__item {
     font-size: 15px;
@@ -3131,6 +3137,7 @@ a:active, a:focus {
   }
   .team-tournaments-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .team-tournaments-table-line {
     max-height: 50px;
@@ -3995,6 +4002,7 @@ a:active, a:focus {
   height: 50px;
   background-color: #3241A5;
   color: #ffffff;
+  max-width: 1300px;
 }
 
 .player-matches-table-header__item {
@@ -4052,6 +4060,7 @@ a:active, a:focus {
   height: 50px;
   background-color: #3241A5;
   color: #ffffff;
+  max-width: 1300px;
 }
 
 .player-seasons-table-header__item {
@@ -4169,6 +4178,7 @@ a:active, a:focus {
   }
   .player-matches-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .player-matches-table-header__item {
     font-size: 14px;
@@ -4178,6 +4188,7 @@ a:active, a:focus {
   }
   .player-seasons-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .player-seasons-table-header__item {
     font-size: 14px;
@@ -4876,6 +4887,10 @@ a:active, a:focus {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  
+}
+.match-players-type-row__right{
+  text-align: right;
 }
 
 .match-players-type-row-right__name {
@@ -4908,6 +4923,7 @@ a:active, a:focus {
   height: 50px;
   background-color: #3241A5;
   border-right: 1px solid #3241A5;
+  max-width: 1300px;
 }
 
 .match-statistics-table-header__item {
@@ -5170,6 +5186,7 @@ a:active, a:focus {
   }
   .match-statistics-table-header {
     height: 40px;
+    max-width: 1300px;
   }
   .match-statistics-table-header__item {
     font-size: 16px;
@@ -5541,15 +5558,14 @@ a:active, a:focus {
   width: 400px;
   margin: 0 30px;
 }
+
 .timer-time{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column;
+  text-align: center;
+  font-size: 36px;
 }
-.timer-time-now{
-  margin-bottom: 10px;
-  font-size: 36px;  
+.timer-period{
+  margin-bottom: 15px;
+  font-size: 24px;
 }
 
 .timer-mins, .timer-secs{
@@ -7254,13 +7270,13 @@ a:active, a:focus {
 }
 
 .auth__pass:focus, .auth__login:focus{
-  border: 1px solid #3241A5;
+  border: 1px solid #;
 }
 .auth__btn{
   margin-top: 15px;
   height: 40px;
   width: 150px;
-  border: 2px solid #3241A5;
+  border: 2px solid #;
   outline: none;
   border-radius: 20px;
   background-color: #fff;
@@ -7281,24 +7297,43 @@ a:active, a:focus {
 .modal__submit:hover{
   background-color: rgb(20, 36, 138);
 }
-
-.messages{
-  position: fixed;
-  height: auto;
-  width: 400px;
-  background-color: #fff;
-  border: 1px solid #BAB9B9;
-  margin: 0;
-  margin: 0 auto;
-  padding: 20px;
-  list-style: none;
+main{
+  position: relative;
 }
-.messages:hover{
+.message{
+  width: 300px;
+  height: auto;
+  background-color: rgba(0,0,0,0.3);
+  overflow:hidden;
+  position:fixed;
+  top: 0;
+  left: 50%;
+  margin-left: -150px;
+  z-index: 99;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.message-block{
+  height: 100%;
+  width: 100%;
+  padding: 25px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  border: 1px solid #BAB9B9;
+}
+.message p{
+  margin-bottom: 0;
+  font-size: 14px;
+}
+.message:hover{
   cursor: pointer;
 }
 .error{
   margin: 0;
-  color: red;
+  color: red; 
 }
 .success{
   margin: 0;

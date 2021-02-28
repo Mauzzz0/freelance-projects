@@ -93,7 +93,7 @@ class CreatePlayerDetailView(DetailView):
             messages.success(request, "Игрок добавлен")
             return HttpResponseRedirect(request.path)
         else:
-            messages.success(request, "Форма некорректна")
+            messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
 class CreateTeamDetailView(DetailView):
@@ -112,7 +112,7 @@ class CreateTeamDetailView(DetailView):
             messages.success(request, "Команда добавлен")
             return HttpResponseRedirect(request.path)
         else:
-            messages.success(request, "Форма некорректна")
+            messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
 class CreateTournamentDetailView(DetailView):
@@ -131,9 +131,9 @@ class CreateTournamentDetailView(DetailView):
             messages.success(request, "Турнир добавлен")
             return HttpResponseRedirect(request.path)
         else:
-            messages.success(request, "Форма некорректна")
+            messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
-
+    
 
 class EditPlayerDetailView(DetailView):
     model = Player
@@ -153,7 +153,7 @@ class EditPlayerDetailView(DetailView):
             messages.success(request, "Игрок обновлён")
             return HttpResponseRedirect(request.path)
         else:
-            messages.success(request, "Форма некорректна")
+            messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
 class EditMatchDetailView(DetailView):
@@ -174,7 +174,7 @@ class EditMatchDetailView(DetailView):
             messages.success(request, "Матч обновлён")
             return HttpResponseRedirect(request.path)
         else:
-            messages.success(request, "Форма некорректна")
+            messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
 
 

@@ -2,12 +2,17 @@
 {% block title %}{{ team.name }} | РТХЛ{% endblock %}
 {% block content %}
 {% load static %}
-    {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-    {% endfor %}
-</ul>
+{% if messages %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+    <div class="message">
+      {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }} message-block"{% endif %}>
+            {{ message }}
+            <p>Нажмите, чтобы закрыть</p>
+        </div>
+      {% endfor %}
+  </div>
 {% endif %}
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
