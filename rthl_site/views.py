@@ -61,21 +61,20 @@ class ZipView(TemplateView):
     template_name = "dev_zip.html"
 
     def get(self, request,  *args, **kwargs):
-        form = UploadFileForm()
-        return render(request, self.template_name, { "form" : form })
+        return render(request, self.template_name)
 
     def post(self, request):
-        form = UploadFileForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-            img_obj = form.instance
-
-            return render(request, self.template_name, {'form': form, 'img_obj': img_obj})
+        print("POST")
+        if request.is_ajax():
+            print('POST is_ajax')
+            print(request.POST)
+            """
+            Code for new goal or penalty. 
+            """
         else:
-            form = UploadFileForm()
-
-        return render(request, self.template_name, {'form': form})
+            print('POST')
+            print(request.POST)
+        return HttpResponseRedirect(request.path)
 
 class CreatePlayerDetailView(DetailView):
     model = Player
@@ -133,7 +132,6 @@ class CreateTournamentDetailView(DetailView):
         else:
             messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
-    
 
 class EditPlayerDetailView(DetailView):
     model = Player
@@ -176,7 +174,6 @@ class EditMatchDetailView(DetailView):
         else:
             messages.error(request, "Форма некорректна")
             return HttpResponseRedirect(request.path)
-
 
 class GoalDetailView(DetailView):
     model = ActionGoal
