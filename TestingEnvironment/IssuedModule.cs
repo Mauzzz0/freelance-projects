@@ -25,15 +25,15 @@ namespace TestingEnvironment
         /// </summary>
         LostConnectionWithGAC,
         /// <summary>
-        /// ВНИМАНИЕ! СТРЕЛКИ СТОЯТ НЕ ПО МАРГРУТУ! РОСПУСК ПО ИУ 1 НЕВОЗМОЖЕН
+        /// ВНИМАНИЕ! СТРЕЛКИ СТОЯТ НЕ ПО МАРШРУТУ! РОСПУСК ПО ИУ 1 НЕВОЗМОЖЕН
         /// </summary>
         SwitchesDoNotMatchToTrackForIU1,
         /// <summary>
-        /// ВНИМАНИЕ!  СТРЕЛКИ СТОЯТ НЕ ПО МАРГРУТУ! РОСПУСК ПО ИУ 2 НЕВОЗМОЖЕН
+        /// ВНИМАНИЕ!  СТРЕЛКИ СТОЯТ НЕ ПО МАРШРУТУ! РОСПУСК ПО ИУ 2 НЕВОЗМОЖЕН
         /// </summary>
         SwitchesDoNotMatchToTrackForIU2,
         /// <summary>
-        /// ВНИМАНИЕ!  СТРЕЛКИ СТОЯТ НЕ ПО МАРГРУТУ! РОСПУСК ПО ИУ 3 НЕВОЗМОЖЕН
+        /// ВНИМАНИЕ!  СТРЕЛКИ СТОЯТ НЕ ПО МАРШРУТУ! РОСПУСК ПО ИУ 3 НЕВОЗМОЖЕН
         /// </summary>
         SwitchesDoNotMatchToTrackForIU3,
         /// <summary>
