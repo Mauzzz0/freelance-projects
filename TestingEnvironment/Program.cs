@@ -4,6 +4,17 @@ using static System.Console;
 
 namespace TestingEnvironment
 {
+    /* Сценарии:
+     *
+     *  1) [Нет нештатной ситуации] ->
+     *     [TypeDisrepairGac.None] ->
+     * 
+     *  2) [Внимание. Тормозить вручную] -> [остановить роспуск 5сек] -> [замедлители ручные 30сек]
+     *     [TypeDisrepairGac.ManualBrake] -> [SemaphoreColor.Red]       -> [BrakeModeControl.Manual]
+     * 
+     *  3) [Внимание!! Любая ситуация] -> [остановить роспуск 5сек] -> [замедлители 30сек]
+     *     [TypeDisrepairGac.[ANY]] -> [SemaphoreColor.Red]        -> [BrakeModeControl.Manual] 
+     */
     class Program
     {
         private static DateTime start;
@@ -100,7 +111,6 @@ namespace TestingEnvironment
         void SwitchModesManualCall()
         {
             SwitchModesEventArgs args = new SwitchModesEventArgs();
-            // TODO: awd
             args.SwitchModes = new Dictionary<Guid, SwitchModeControl>();
             args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
             args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
