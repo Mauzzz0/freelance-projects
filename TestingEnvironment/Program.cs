@@ -14,7 +14,7 @@ namespace TestingEnvironment
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать зелёный семафор\n4 - брейкмоды");
+                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать зелёный семафор\n4 - брейкмоды\n5 - свичмоды");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
@@ -37,6 +37,11 @@ namespace TestingEnvironment
                 {
                     Program M = new Program();
                     M.BrakeModesManualCall();
+                }
+                else if (inp == "5")
+                {
+                    Program M = new Program();
+                    M.SwitchModesManualCall();
                 }
             }
 
