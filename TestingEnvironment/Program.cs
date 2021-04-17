@@ -17,15 +17,20 @@ namespace TestingEnvironment
      */
     class Program
     {
-        private static DateTime start;
-        private static DateTime stopDissolution;
-        private static DateTime restartDissolution;
+        private static DateTime start_time;
+        private static DateTime stopDissolution_time;
+        private static DateTime restartDissolution_time;
+        private static TypeDisrepairGac typeDisrepair;
+        private static SemaphoreColor previousColor;
+        private static bool isStarted;
         private static int penaltyScores = 0;
+        private const int penaltyMultiplicator = 100;
+        
         static void Main(string[] args)
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать зелёный семафор\n4 - брейкмоды\n5 - свичмоды");
+                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать красный семафор\n4 - брейкмоды\n5 - свичмоды");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
@@ -58,14 +63,43 @@ namespace TestingEnvironment
 
             static void c_CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
             {
-                start = DateTime.Now;
-                WriteLine("Нештатная ситуация. "+e.TypeDisrepair+" "+Convert.ToString(start.TimeOfDay));
+                if (e.TypeDisrepair != TypeDisrepairGac.None)
+                {
+                    start_time = DateTime.UtcNow;
+                    typeDisrepair = e.TypeDisrepair;
+                    WriteLine("Время нештатной ситуации: " + start_time);
+                    isStarted = true;
+                }
             }
 
             static void c_StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
-            {
-                stopDissolution = DateTime.Now;
-                WriteLine("Роспуск");
+            { // TODO: Рестарт роспуска - это изменение с красного на любой?
+                if (e.ValueColor == SemaphoreColor.Red & isStarted)
+                {
+                    previousColor = e.ValueColor;
+                    stopDissolution_time = DateTime.UtcNow;
+                    WriteLine("Время роспуска: " + stopDissolution_time);
+                    if ((stopDissolution_time - start_time).Seconds > 15) // 5 секунда норма, +10 сек - без штрафа
+                    {
+                        penaltyScores += ((stopDissolution_time - start_time).Seconds - 5) / 10 * penaltyMultiplicator;
+                    }
+                    WriteLine("Штрафные баллы: " + penaltyScores);
+                }
+                else
+                {
+                    if (previousColor == SemaphoreColor.Red)
+                    { // TODO: Это и есть рестарт?
+                        previousColor = e.ValueColor;
+                        restartDissolution_time = DateTime.UtcNow;
+                        WriteLine("Время рестарта: " + restartDissolution_time);
+                        if ((restartDissolution_time - start_time).Seconds > 40) // 30 сек норма, +10сек - без штрафа
+                        {
+                            penaltyScores += ((restartDissolution_time - start_time).Seconds - 30) / 10 *
+                                             penaltyMultiplicator;
+                        }
+                        WriteLine("Штрафные баллы: " + penaltyScores);
+                    }
+                }
             }
 
             static void c_BrakeModes(object sender, BrakeModesEventArgs e)
@@ -83,7 +117,7 @@ namespace TestingEnvironment
         {
             CriticalSituationGacEventArgs args = new CriticalSituationGacEventArgs();
             args.Message = "НЕШТАТНАЯ СИТУАЦИЯ: ГАЦ МН НЕИСПРАВЕН!";
-            args.TypeDisrepair = TypeDisrepairGac.BrokenGAC;
+            args.TypeDisrepair = TypeDisrepairGac.ManualBrake;
             OnCriticalSituationHappened(args);
         }
         void StateSemaphoreRedCall()
