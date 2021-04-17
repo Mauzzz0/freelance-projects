@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TestingEnvironment
 {
@@ -74,7 +76,7 @@ namespace TestingEnvironment
     }
 
     public enum SemaphoreColor
-    { // TODO: Уточнить наличие других цветов
+    {
         /// <summary>
         /// Красный При получении этого значения роспуск считается остановленным
         /// </summary>
@@ -82,7 +84,59 @@ namespace TestingEnvironment
         /// <summary>
         /// Зелёный
         /// </summary>
-        Green = 1
+        Green = 1,
+        /// <summary>
+        /// Желтый(верхний)
+        /// </summary>
+        Yellow = 2,
+        /// <summary>
+        /// Желтый(верхний) и зеленый
+        /// </summary>
+        YellowGreen = 3,
+        /// <summary>
+        /// Два желтых
+        /// </summary>
+        YellowYellow = 4
+    }
+
+    public class GetObjectStatesEventArgs : EventArgs
+    {
+        public IEnumerable<ObjectType> ObjectTypes { get; set; } 
+    }
+
+    public enum ObjectType
+    {
+        Retarder,
+        Switch
+    }
+
+    class BrakeModesEventArgs : EventArgs
+    {
+        public IDictionary<Guid, BrakeModeControl> BrakeModes { get; set; }
+    }
+
+    class SwitchModesEventArgs : EventArgs
+    {
+        public IDictionary<Guid, SwitchModeControl> SwitchModes { get; set; }
+    }
+    
+    /// <summary>
+    /// Режим управления стрелкой
+    /// </summary>
+    public enum SwitchModeControl
+    {
+        /// <summary>
+        /// Неизвестный тип управления
+        /// </summary>
+        Unknown = 0,
+        /// <summary>
+        /// Ручное управление с пульта
+        /// </summary>
+        Manual = 1,
+        /// <summary>
+        /// Автоматическое управление
+        /// </summary>
+        Automatic = 2
     }
     
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using static System.Console;
 
 namespace TestingEnvironment
@@ -13,12 +14,14 @@ namespace TestingEnvironment
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать зелёный семафор");
+                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать зелёный семафор\n4 - брейкмоды");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
                     CriticalSituationHappened += c_CriticalSituationHappened;
                     StateSemaphoreHappened += c_StateSemaphoreHappened;
+                    BrakeModes += c_BrakeModes;
+                    SwitchModes += c_SwitcModes;
                 }
                 else if (inp == "2")
                 {
@@ -29,6 +32,11 @@ namespace TestingEnvironment
                 {
                     Program M = new Program();
                     M.StateSemaphoreRedCall();
+                }
+                else if (inp == "4")
+                {
+                    Program M = new Program();
+                    M.BrakeModesManualCall();
                 }
             }
 
@@ -41,12 +49,17 @@ namespace TestingEnvironment
             static void c_StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
             {
                 stopDissolution = DateTime.Now;
-                double difference = (stopDissolution.TimeOfDay - start.TimeOfDay).TotalSeconds;
-                penaltyScores = difference < 15 ? 0 : Convert.ToInt32(Math.Floor(100 * (difference - 5)));
-                WriteLine("Остановка роспуска. " + stopDissolution.TimeOfDay);
-                WriteLine("Время между событиями: " + difference);
-                WriteLine("Штрафные баллы: " + penaltyScores);
-                // TODO: Чекнуть BrakeControlMode
+                WriteLine("Роспуск");
+            }
+
+            static void c_BrakeModes(object sender, BrakeModesEventArgs e)
+            {
+                WriteLine("Произошёл вызов тормозов");
+            }
+
+            static void c_SwitcModes(object sender, SwitchModesEventArgs e)
+            {
+                WriteLine("Свичмод");
             }
         }
 
@@ -69,6 +82,26 @@ namespace TestingEnvironment
             OnStateSemaphoreHappened(args);
         }
 
+        void BrakeModesManualCall()
+        {
+            BrakeModesEventArgs args = new BrakeModesEventArgs();
+            args.BrakeModes = new Dictionary<Guid, BrakeModeControl>();
+            args.BrakeModes[new Guid()] = BrakeModeControl.Manual;
+            args.BrakeModes[new Guid()] = BrakeModeControl.Manual;
+            args.BrakeModes[new Guid()] = BrakeModeControl.Manual;
+            OnBrakeModesHappened(args);
+        }
+
+        void SwitchModesManualCall()
+        {
+            SwitchModesEventArgs args = new SwitchModesEventArgs();
+            // TODO: awd
+            args.SwitchModes = new Dictionary<Guid, SwitchModeControl>();
+            args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
+            args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
+            OnSwitchModesHappened(args);
+        }
+
         protected virtual void OnCriticalSituationHappened(CriticalSituationGacEventArgs e)
         {
             EventHandler<CriticalSituationGacEventArgs> handler = CriticalSituationHappened;
@@ -86,7 +119,27 @@ namespace TestingEnvironment
             }
         }
 
+        protected virtual void OnBrakeModesHappened(BrakeModesEventArgs e)
+        {
+            EventHandler<BrakeModesEventArgs> handler = BrakeModes;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnSwitchModesHappened(SwitchModesEventArgs e)
+        {
+            EventHandler<SwitchModesEventArgs> handler = SwitchModes;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+        
         public static event EventHandler<CriticalSituationGacEventArgs> CriticalSituationHappened;
         public static event EventHandler<StateSemaphoreEventArgs> StateSemaphoreHappened;
+        public static event EventHandler<BrakeModesEventArgs> BrakeModes;
+        public static event EventHandler<SwitchModesEventArgs> SwitchModes;
     }
 }
