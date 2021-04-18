@@ -14,6 +14,8 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         private TypeDisrepairGac TypeDisrepair; // тип экстренной ситуации
         private SemaphoreColor previousColor; // предыдущее значение семафора
         public bool isStarted; // сработала ли экстренная ситуация
+        public bool isBrakeDone { get; private set; }
+        public bool isSwitchDone { get; private set; }
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
@@ -93,8 +95,14 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
                         NumberOfNotManualBrakes++;
                     }
                 }
-
+            
                 penaltyScores += NumberOfNotManualBrakes * penaltyMultiplicator;
+                isBrakeDone = true;
+                if (isBrakeDone & isSwitchDone)
+                {
+                    // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
+                    isStarted = false;
+                }
             }
         }
         
@@ -117,6 +125,12 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
                 }
 
                 penaltyScores = NumberOfNotManualSwitches * penaltyMultiplicator;
+            }
+            isSwitchDone = true;
+            if (isBrakeDone & isSwitchDone)
+            {
+                // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
+                isStarted = false;
             }
         }
         
