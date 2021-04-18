@@ -25,39 +25,38 @@ namespace TestingEnvironment
         private static bool isStarted;
         private static int penaltyScores = 0;
         private const int penaltyMultiplicator = 100;
+        private static Program M;
         
         static void Main(string[] args)
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать красный семафор\n4 - брейкмоды\n5 - свичмоды");
+                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать красный семафор\n4 - брейкмоды\n5 - свичмоды\n6 - зелёный");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
+                    M = new Program();
                     CriticalSituationHappened += c_CriticalSituationHappened;
                     StateSemaphoreHappened += c_StateSemaphoreHappened;
                     BrakeModes += c_BrakeModes;
                     SwitchModes += c_SwitcModes;
+                    GetObjectStatesHappened += c_GetObjectStatesHappened;
                 }
                 else if (inp == "2")
                 {
-                    Program M = new Program();
                     M.CriticalSituationBrokenGACCall();
                 }
                 else if (inp == "3")
                 {
-                    Program M = new Program();
                     M.StateSemaphoreRedCall();
                 }
                 else if (inp == "4")
                 {
-                    Program M = new Program();
                     M.BrakeModesManualCall();
                 }
-                else if (inp == "5")
+                else if (inp == "6")
                 {
-                    Program M = new Program();
-                    M.SwitchModesManualCall();
+                    M.StateSemaphoreGreenCall();
                 }
             }
 
@@ -72,7 +71,7 @@ namespace TestingEnvironment
                 }
             }
 
-            static void c_StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
+            void c_StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
             { // TODO: Рестарт роспуска - это изменение с красного на любой?
                 if (e.ValueColor == SemaphoreColor.Red & isStarted)
                 {
@@ -98,18 +97,58 @@ namespace TestingEnvironment
                                              penaltyMultiplicator;
                         }
                         WriteLine("Штрафные баллы: " + penaltyScores);
+                        M.GetObjectStatesHappenedCall();
+                        M.StateSemaphoreGreenCall();
+                        M.SwitchModesManualCall();
                     }
                 }
             }
 
+            void c_GetObjectStatesHappened(object sender, GetObjectStatesEventArgs e)
+            {
+                WriteLine("что");
+                BrakeModesEventArgs argsB = new BrakeModesEventArgs();
+                argsB.BrakeModes = new Dictionary<Guid, BrakeModeControl>();
+                argsB.BrakeModes[new Guid()] = BrakeModeControl.Manual;
+                argsB.BrakeModes[new Guid()] = BrakeModeControl.Automatic;
+                SwitchModesEventArgs argsS = new SwitchModesEventArgs();
+                argsS.SwitchModes = new Dictionary<Guid, SwitchModeControl>();
+                argsS.SwitchModes[new Guid()] = SwitchModeControl.Automatic;
+                argsS.SwitchModes[new Guid()] = SwitchModeControl.Manual;
+                M.OnBrakeModesHappened(argsB);
+                M.OnSwitchModesHappened(argsS);
+            }
+
             static void c_BrakeModes(object sender, BrakeModesEventArgs e)
             {
-                WriteLine("Произошёл вызов тормозов");
+                int NumberOfIncorrectBrakes = 0;
+                foreach (KeyValuePair<Guid,BrakeModeControl> Brake in e.BrakeModes)
+                {
+                    if (Brake.Value != BrakeModeControl.Manual)
+                    {
+                        NumberOfIncorrectBrakes++;
+                    }
+                }
+                penaltyScores += NumberOfIncorrectBrakes * penaltyMultiplicator;
+                WriteLine("incorrect " + NumberOfIncorrectBrakes);
             }
 
             static void c_SwitcModes(object sender, SwitchModesEventArgs e)
             {
-                WriteLine("Свичмод");
+                if (typeDisrepair != TypeDisrepairGac.ManualBrake)
+                {
+                    int NumberOfIncorrectSwitches = 0;
+                    foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
+                    {
+                        if (Switch.Value != SwitchModeControl.Manual)
+                        {
+                            NumberOfIncorrectSwitches++;
+                        }
+                    }
+
+                    penaltyScores += NumberOfIncorrectSwitches * penaltyMultiplicator;
+                    WriteLine("switches incorrect: " + NumberOfIncorrectSwitches);
+                }
             }
         }
 
@@ -117,7 +156,7 @@ namespace TestingEnvironment
         {
             CriticalSituationGacEventArgs args = new CriticalSituationGacEventArgs();
             args.Message = "НЕШТАТНАЯ СИТУАЦИЯ: ГАЦ МН НЕИСПРАВЕН!";
-            args.TypeDisrepair = TypeDisrepairGac.ManualBrake;
+            args.TypeDisrepair = TypeDisrepairGac.BrokenGAC;
             OnCriticalSituationHappened(args);
         }
         void StateSemaphoreRedCall()
@@ -129,6 +168,17 @@ namespace TestingEnvironment
             args.IdObj = new Guid();
             args.IdSemaphore = new Guid();
             args.ValueColor = SemaphoreColor.Red;
+            OnStateSemaphoreHappened(args);
+        }
+        void StateSemaphoreGreenCall()
+        {
+            StateSemaphoreEventArgs args = new StateSemaphoreEventArgs();
+            args.Owner = new Role();
+            args.Speed = 10.15;
+            args.ButtonStage = new StageSemaphore();
+            args.IdObj = new Guid();
+            args.IdSemaphore = new Guid();
+            args.ValueColor = SemaphoreColor.Green;
             OnStateSemaphoreHappened(args);
         }
 
@@ -149,6 +199,13 @@ namespace TestingEnvironment
             args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
             args.SwitchModes[new Guid()] = SwitchModeControl.Manual;
             OnSwitchModesHappened(args);
+        }
+
+        void GetObjectStatesHappenedCall()
+        {
+            WriteLine("объекты вызваны");
+            GetObjectStatesEventArgs args = new GetObjectStatesEventArgs();
+            OnGetObjectStatesHappened(args);
         }
 
         protected virtual void OnCriticalSituationHappened(CriticalSituationGacEventArgs e)
@@ -185,10 +242,20 @@ namespace TestingEnvironment
                 handler(this, e);
             }
         }
+
+        protected virtual void OnGetObjectStatesHappened(GetObjectStatesEventArgs e)
+        {
+            EventHandler<GetObjectStatesEventArgs> handler = GetObjectStatesHappened;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
         
         public static event EventHandler<CriticalSituationGacEventArgs> CriticalSituationHappened;
         public static event EventHandler<StateSemaphoreEventArgs> StateSemaphoreHappened;
         public static event EventHandler<BrakeModesEventArgs> BrakeModes;
         public static event EventHandler<SwitchModesEventArgs> SwitchModes;
+        public static event EventHandler<GetObjectStatesEventArgs> GetObjectStatesHappened;
     }
 }
