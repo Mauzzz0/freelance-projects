@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace CorrectBehaviorWhenCriticalSituationGAC
 { // Необходимо подтянуть все классы из остальной части программы
     // А именно, BrakeModeControl, SwitchModeControl, SwitchModesEventArgs, BrakeModesEventArgs, Role, StageSemaphore,
-    // SemaphoreColor, StateSemaphoreEventArgs, TypeDisrepairGac, CriticalSituationGacEventArgs, Get
+    // SemaphoreColor, StateSemaphoreEventArgs, TypeDisrepairGac, CriticalSituationGacEventArgs, GetObjectStatesEventArgs
     public class CorrectBehaviorCheck
     {
         public DateTime criticalSituationStartTime { get; private set; } // время срабатывания экстренной ситуации
@@ -17,10 +17,11 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
-        public CorrectBehaviorCheck(int multiplicator = 100)
+        public CorrectBehaviorCheck(int multiplicator = 100) // стандартный конструктор, задаёт множитель
         {
             penaltyMultiplicator = multiplicator;
         }
+        
         
 
         /// <summary>
@@ -47,10 +48,9 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         public void StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
         {
             if (e.ValueColor == SemaphoreColor.Red & isStarted)
-            {
+            { // Если семафор стал красный и ситуация произошла => остановка роспуска
                 previousColor = e.ValueColor;
                 stopDissolutionTime = DateTime.Now;
-                Console.WriteLine("РОСПУСК остановлен");
                 if ((stopDissolutionTime - criticalSituationStartTime).Seconds > 15) // 5сек норма, +10 сек без штрафа
                 {
                     penaltyScores += ((stopDissolutionTime - criticalSituationStartTime).Seconds - 5) *
@@ -58,19 +58,20 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
                 }
             }
             else
-            {
+            { // Если предыдущий сигнал был красным и ситуация произошла => роспуск уже был оставлен, предприняты меры, рестарт
                 if (previousColor == SemaphoreColor.Red & isStarted)
                 {
                     previousColor = e.ValueColor;
                     restartDissolutionTime = DateTime.Now;
-                    Console.WriteLine("Рестарт роспуска");
                     if ((restartDissolutionTime - criticalSituationStartTime).Seconds > 40) // 30сек норма, +10сек без штрафа
                     {
                         penaltyScores += ((restartDissolutionTime - criticalSituationStartTime).Seconds - 30) *
                                          penaltyMultiplicator;
                     }
                     // TODO: Вызов GetObjectStatesEventArgs
-                    // Здесь должен быть вызов GetObjectStatesEventArgs
+                    // Здесь должен быть вызов GetObjectStatesEventArgs, в ответ на который
+                    // произойдут BrakeModesHappened и SwitchModesHappened
+                    // TODO: Вызов GetObjectStatesEventArgs
                 }
             }
         }
