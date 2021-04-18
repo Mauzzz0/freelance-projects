@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static System.Console;
+using cbc = CorrectBehaviorWhenCriticalSituationGAC.CorrectBehaviorCheck;
 
 namespace TestingEnvironment
 {
@@ -36,7 +37,8 @@ namespace TestingEnvironment
                 if (inp == "1")
                 {
                     M = new Program();
-                    CriticalSituationHappened += c_CriticalSituationHappened;
+                    cbc a = new cbc();
+                    CriticalSituationHappened += a.CriticalSituationHappened;
                     StateSemaphoreHappened += c_StateSemaphoreHappened;
                     BrakeModes += c_BrakeModes;
                     SwitchModes += c_SwitcModes;
@@ -60,13 +62,13 @@ namespace TestingEnvironment
                 }
             }
 
-            static void c_CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
+            void c_CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
             {
                 if (e.TypeDisrepair != TypeDisrepairGac.None)
                 {
                     start_time = DateTime.UtcNow;
                     typeDisrepair = e.TypeDisrepair;
-                    WriteLine("Время нештатной ситуации: " + start_time);
+                    WriteLine("Crit sit time: " + start_time);
                     isStarted = true;
                 }
             }
