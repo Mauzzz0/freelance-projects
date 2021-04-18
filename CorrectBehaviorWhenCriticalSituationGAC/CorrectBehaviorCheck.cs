@@ -28,7 +28,7 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         /// </summary>
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Аргументы</param>
-        public void CriticalSituationHappened(object? sender, CriticalSituationGacEventArgs e)
+        public void CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
         {
             if (e.TypeDisrepair != TypeDisrepairGac.None)
             {
