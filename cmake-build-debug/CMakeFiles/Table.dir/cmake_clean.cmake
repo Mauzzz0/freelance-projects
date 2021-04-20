@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Table.dir/main.c.o"
-  "CMakeFiles/Table.dir/table.c.o"
   "Table"
   "Table.pdb"
 )

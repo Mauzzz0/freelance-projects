@@ -169,33 +169,6 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/main.c.s
 .PHONY : main.c.s
 
-table.o: table.c.o
-
-.PHONY : table.o
-
-# target to build an object file
-table.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/table.c.o
-.PHONY : table.c.o
-
-table.i: table.c.i
-
-.PHONY : table.i
-
-# target to preprocess a source file
-table.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/table.c.i
-.PHONY : table.c.i
-
-table.s: table.c.s
-
-.PHONY : table.s
-
-# target to generate assembly for a file
-table.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/table.c.s
-.PHONY : table.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -208,9 +181,6 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... table.o"
-	@echo "... table.i"
-	@echo "... table.s"
 .PHONY : help
 
 

@@ -93,12 +93,12 @@ clean: CMakeFiles/Table.dir/clean
 CMakeFiles/Table.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Table.dir/build.make CMakeFiles/Table.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rusla/CLionProjects/Table/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target Table"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/rusla/CLionProjects/Table/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target Table"
 .PHONY : CMakeFiles/Table.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Table.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rusla/CLionProjects/Table/cmake-build-debug/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rusla/CLionProjects/Table/cmake-build-debug/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Table.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/rusla/CLionProjects/Table/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/Table.dir/rule

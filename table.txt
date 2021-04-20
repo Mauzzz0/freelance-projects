@@ -97,10 +97,7 @@ char *get_str()
 int find1(Table tab, int k1) { //Поиск в упорядоченной таблице
     int i = 0;
     for (; i < tab.maxsize1; ++i) {//
-// Created by rusla on 20.04.2021.
-//
-
-
+        // TODO: Цикл от 0 до текущего размера хранилища (csize1). i++
         if (tab.ks1[i].key == k1) {
             return i;
         }
@@ -144,7 +141,7 @@ int insert (Table *tab) { //Вставка в таблицу по составн
     }
     printf("Input info: \n");
     scanf("%s", info);
-    int i2 = insert2(tab, k2, info);
+    int i2 = insert2(tab, k2, info); /////////////////////////////////////////////////////////////////////
     printf("%d\n", i2);
     int i = (tab->size1); //+1;
     /*  while (tab->ks1[i].key > k1 && i>=0) {
@@ -352,6 +349,6 @@ int fake_main ()
     table.ks2=(void*)calloc(table.maxsize2, sizeof(int));
     int m = menu(&table);
     printf("%d\n", m);
-    free1 (table);
+    free1(table);
     free2(table);
 }

@@ -3,5 +3,3 @@
 
 CMakeFiles/Table.dir/main.c.o: ../main.c
 
-CMakeFiles/Table.dir/table.c.o: ../table.c
-

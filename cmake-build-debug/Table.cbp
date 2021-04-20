@@ -79,7 +79,7 @@
 		<Unit filename="/home/rusla/CLionProjects/Table/main.c">
 			<Option target="Table"/>
 		</Unit>
-		<Unit filename="/home/rusla/CLionProjects/Table/table.c">
+		<Unit filename="/home/rusla/CLionProjects/Table/table.txt">
 			<Option target="Table"/>
 		</Unit>
 		<Unit filename="/home/rusla/CLionProjects/Table/CMakeLists.txt">

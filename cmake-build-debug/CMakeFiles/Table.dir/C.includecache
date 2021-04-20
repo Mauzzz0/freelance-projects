@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/rusla/CLionProjects/Table/table.c
+/home/rusla/CLionProjects/Table/main.c
 stdio.h
 -
 malloc.h
