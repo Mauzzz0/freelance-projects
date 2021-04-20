@@ -269,7 +269,7 @@ int AddNewElement(Table *table){
     scanf("%d", &k1);
     printf("Input key in table #2:\n");
     scanf("%d", &k2);
-    printf("Input info:\n");
+    printf("Input info (ONLY CHAR):\n");
     scanf("%s", info);
 
 
@@ -325,9 +325,63 @@ Table CreateNewTable(){
     return newTable;
 }
 
+int menu (Table *table){
+    int m, k1,k2;
+    Item item;
+    printf("Input - 1\nFind - 2.[By both keys]  3.[By 1st key]  4.[By 2nd key]"
+           "\nDelete - 5.[By both keys]  6.[By 1st key]  7.[By 2nd key]\n0.Quit\n");
+    scanf("%d", &m);
+    while (m!=0) {
+        switch (m) {
+            case 1:
+                AddNewElement(table);
+                break;
+            case 2:
+                printf("write k1");
+                scanf("%d", &k1);
+                printf("write k2");
+                scanf("%d", &k2);
+                item = FindByBothKeys(*table, k1, k2);
+                printf(item.info);
+                break;
+            case 3:
+                printf("write k1");
+                scanf("%d", &k1);
+                item = FindByFirstKey(*table, k1);
+                printf(item.info);
+                break;
+            case 4:
+                printf("write k2");
+                scanf("%d", &k2);
+                item = FindBySecondKey(*table, k2);
+                printf(item.info);
+                break;
+            case 5:
+                printf("write k1");
+                scanf("%d", &k1);
+                printf("write k2");
+                scanf("%d", &k2);
+                DeleteByBothKeys(table, k1,k2);
+                break;
+            case 6:
+                printf("write k1");
+                scanf("%d", &k1);
+                DeleteByFirstKey(table, k1);
+                break;
+            case 7:
+                printf("write k2\n");
+                scanf("%d", &k2);
+                DeleteBySecondKey(table, k2);
+                break;
+        }
+        printf("Input - 1\nFind - 2.[By both keys]  3.[By 1st key]  4.[By 2nd key]"
+               "\nDelete - 5.[By both keys]  6.[By 1st key]  7.[By 2nd key]\n0.Quit\n");
+        scanf("%d", &m);
+    }
+}
+
 int main() {
     Table MyTable = CreateNewTable();
-    AddNewElement(&MyTable);
-    AddNewElement(&MyTable);
+    menu(&MyTable);
     return 0;
 }
