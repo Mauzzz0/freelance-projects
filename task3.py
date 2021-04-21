@@ -22,12 +22,7 @@ class NaughtyChild:
             if self.volume > 100:
                 self.volume = 100
 
-    def __iadd__(self, other):
-        self.volume += int(other)
-        if self.volume < 0:
-            self.volume = 0
-        elif self.volume > 100:
-            self.volume = 100
+
 
     def __str__(self):
         # _str_ возвращает строку: Naughty Child <имя> has <громкость> loudness
@@ -43,8 +38,6 @@ class NaughtyChild:
         elif self.name < sec.name:
             return True
         return False
-
-
 
     def __le__(self, sec):
         " x <= y"
@@ -96,9 +89,26 @@ class NaughtyChild:
             return True
         return False
 
+
+
     def __call__(self, *args, **kwargs):
         new_str = args[0][0].upper() + args[0][1:]
         if self.volume < 10:
             return new_str
         else:
-            return new_str * (self.volume//10)
+            return new_str * (self.volume // 10)
+
+    def __add__(self, other):
+        self.volume = self.volume + int(other)
+        if self.volume < 0:
+            self.volume = 0
+        elif self.volume > 100:
+            self.volume = 100
+        return self
+
+nc = NaughtyChild("Victoria", 50, "I WANT A DO-O-O-OGGY")
+nc.change_cry("I DON'T WANT ABDULLAH")
+print(nc)
+nc += -15
+print(nc)
+print(nc("why do you cry"))
