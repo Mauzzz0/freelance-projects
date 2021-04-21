@@ -18,6 +18,5 @@ arr[-1] = arr[-1].replace("\n", "")
 for word in arr:
     if len(word) % dig != 0:
         out.append(word)
-print(dig)
-print(arr)
+
 print(*out,sep=", ")
