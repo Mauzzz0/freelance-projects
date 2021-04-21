@@ -4,8 +4,9 @@ def morning(*kwargs):
     for word in words:
         old_letter = ""
         for letter in word:
-
-            if letter.lower() in ["a", "e", "i", "o", "u", "y"] and letter.lower() not in old_letter:
+            letters = ["a", "e", "i", "o", "u", "y"]
+            letter = letter.lower()
+            if letter in letters and letter not in old_letter:
                 letter = letter.lower()
                 output[letter] = output.get(letter, 0) + 1
                 old_letter += letter
