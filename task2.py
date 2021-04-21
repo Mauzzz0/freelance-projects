@@ -32,7 +32,10 @@ def flattery(filename1, filename2):
 
             idraw.point((x, y), (new_red, new_green, new_blue))
 
-    img.save(filename2)
+
+    out = img.transpose(Image.FLIP_LEFT_RIGHT)
+    out.save(filename2)
+
 
 
 flattery("car.jpeg", "result.jpeg")
