@@ -1,14 +1,13 @@
 def morning(*kwargs):
     words = [el for el in kwargs]
-    output = dict()
+    output = dict({"a" : 0, "e" : 0, "i":0, "o":0,"u":0, "y":0})
     for word in words:
-        old_letter = ""
+        old_letter = ''
+        letters = ["a", "e", "i", "o", "u", "y"]
         for letter in word:
-            letters = ["a", "e", "i", "o", "u", "y"]
             letter = letter.lower()
             if letter in letters and letter not in old_letter:
-                letter = letter.lower()
-                output[letter] = output.get(letter, 0) + 1
+                output[letter] = output.get(letter) + 1
                 old_letter += letter
     return output
 
