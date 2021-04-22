@@ -21,12 +21,12 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
-        public CorrectBehaviorCheck(int multiplicator = 100, int StopDissolutionTime = 5,
-            int RestartDissolutionTime = 30) // стандартный конструктор, задаёт множитель, время для остановки
+        public CorrectBehaviorCheck(int multiplicator = 100, int stopDissolutionTime = 5,
+            int restartDissolutionTime = 30) // стандартный конструктор, задаёт множитель, время для остановки
         {                                           // роспуска, время для рестарта роспуска
             penaltyMultiplicator = multiplicator;
-            standartStopDissolutionTime = StopDissolutionTime;
-            standartRestartDissolutionTime = RestartDissolutionTime;
+            standartStopDissolutionTime = stopDissolutionTime;
+            standartRestartDissolutionTime = restartDissolutionTime;
         }
         
         

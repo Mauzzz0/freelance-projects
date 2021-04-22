@@ -32,13 +32,13 @@ namespace TestingEnvironment
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - вызвать нештатную ситуацию\n3 - вызвать красный семафор\n4 - брейкмоды\n5 - свичмоды\n6 - зелёный");
+                WriteLine("\n1 - подписаться\n2 - BrokenGac\n3 - ManualBrake\n4 - RedCall\n5 - GreenCall");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
                     M = new Program();
                     cbc a = new cbc();
-                    CriticalSituationHappened += a.CriticalSituationHappened;
+                    CriticalSituationHappened += c_CriticalSituationHappened;
                     StateSemaphoreHappened += c_StateSemaphoreHappened;
                     BrakeModes += c_BrakeModes;
                     SwitchModes += c_SwitcModes;
@@ -50,13 +50,13 @@ namespace TestingEnvironment
                 }
                 else if (inp == "3")
                 {
-                    M.StateSemaphoreRedCall();
+                    M.CriticalSituationManualBrakeCall();
                 }
                 else if (inp == "4")
                 {
-                    M.BrakeModesManualCall();
+                    M.StateSemaphoreRedCall();
                 }
-                else if (inp == "6")
+                else if (inp == "5")
                 {
                     M.StateSemaphoreGreenCall();
                 }
@@ -69,6 +69,7 @@ namespace TestingEnvironment
                     start_time = DateTime.UtcNow;
                     typeDisrepair = e.TypeDisrepair;
                     WriteLine("Crit sit time: " + start_time);
+                    WriteLine("Crit:" + e.TypeDisrepair);
                     isStarted = true;
                 }
             }
@@ -93,6 +94,7 @@ namespace TestingEnvironment
                         previousColor = e.ValueColor;
                         restartDissolution_time = DateTime.UtcNow;
                         WriteLine("Время рестарта: " + restartDissolution_time);
+                        WriteLine((restartDissolution_time - start_time).Seconds);
                         if ((restartDissolution_time - start_time).Seconds > 40) // 30 сек норма, +10сек - без штрафа
                         {
                             penaltyScores += ((restartDissolution_time - start_time).Seconds - 30) / 10 *
@@ -100,23 +102,21 @@ namespace TestingEnvironment
                         }
                         WriteLine("Штрафные баллы: " + penaltyScores);
                         M.GetObjectStatesHappenedCall();
-                        M.StateSemaphoreGreenCall();
-                        M.SwitchModesManualCall();
                     }
                 }
             }
 
             void c_GetObjectStatesHappened(object sender, GetObjectStatesEventArgs e)
             {
-                WriteLine("что");
+                WriteLine("Генерации списков");
                 BrakeModesEventArgs argsB = new BrakeModesEventArgs();
                 argsB.BrakeModes = new Dictionary<Guid, BrakeModeControl>();
-                argsB.BrakeModes[new Guid()] = BrakeModeControl.Manual;
-                argsB.BrakeModes[new Guid()] = BrakeModeControl.Automatic;
+                argsB.BrakeModes[Guid.NewGuid()] = BrakeModeControl.Manual;
+                argsB.BrakeModes[Guid.NewGuid()] = BrakeModeControl.Automatic;
                 SwitchModesEventArgs argsS = new SwitchModesEventArgs();
                 argsS.SwitchModes = new Dictionary<Guid, SwitchModeControl>();
-                argsS.SwitchModes[new Guid()] = SwitchModeControl.Automatic;
-                argsS.SwitchModes[new Guid()] = SwitchModeControl.Manual;
+                argsS.SwitchModes[Guid.NewGuid()] = SwitchModeControl.Automatic;
+                argsS.SwitchModes[Guid.NewGuid()] = SwitchModeControl.Manual;
                 M.OnBrakeModesHappened(argsB);
                 M.OnSwitchModesHappened(argsS);
             }
@@ -124,15 +124,17 @@ namespace TestingEnvironment
             static void c_BrakeModes(object sender, BrakeModesEventArgs e)
             {
                 int NumberOfIncorrectBrakes = 0;
+                WriteLine("Brakes:");
                 foreach (KeyValuePair<Guid,BrakeModeControl> Brake in e.BrakeModes)
                 {
+                    WriteLine("-"+Brake.Value);
                     if (Brake.Value != BrakeModeControl.Manual)
                     {
                         NumberOfIncorrectBrakes++;
                     }
                 }
                 penaltyScores += NumberOfIncorrectBrakes * penaltyMultiplicator;
-                WriteLine("incorrect " + NumberOfIncorrectBrakes);
+                WriteLine("incorrect brakes:" + NumberOfIncorrectBrakes);
             }
 
             static void c_SwitcModes(object sender, SwitchModesEventArgs e)
@@ -140,8 +142,10 @@ namespace TestingEnvironment
                 if (typeDisrepair != TypeDisrepairGac.ManualBrake)
                 {
                     int NumberOfIncorrectSwitches = 0;
+                    WriteLine("Switches:");
                     foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
                     {
+                        WriteLine("-"+Switch.Value);
                         if (Switch.Value != SwitchModeControl.Manual)
                         {
                             NumberOfIncorrectSwitches++;
@@ -149,7 +153,7 @@ namespace TestingEnvironment
                     }
 
                     penaltyScores += NumberOfIncorrectSwitches * penaltyMultiplicator;
-                    WriteLine("switches incorrect: " + NumberOfIncorrectSwitches);
+                    WriteLine("incorrect switches:" + NumberOfIncorrectSwitches);
                 }
             }
         }
@@ -159,6 +163,14 @@ namespace TestingEnvironment
             CriticalSituationGacEventArgs args = new CriticalSituationGacEventArgs();
             args.Message = "НЕШТАТНАЯ СИТУАЦИЯ: ГАЦ МН НЕИСПРАВЕН!";
             args.TypeDisrepair = TypeDisrepairGac.BrokenGAC;
+            OnCriticalSituationHappened(args);
+        }
+
+        void CriticalSituationManualBrakeCall()
+        {
+            CriticalSituationGacEventArgs args = new CriticalSituationGacEventArgs();
+            args.Message = "НЕШТАТНАЯ СИТУАЦИЯ: ТОРМОЗИТЬ ВРУЧНУЮ!";
+            args.TypeDisrepair = TypeDisrepairGac.ManualBrake;
             OnCriticalSituationHappened(args);
         }
         void StateSemaphoreRedCall()
@@ -205,7 +217,7 @@ namespace TestingEnvironment
 
         void GetObjectStatesHappenedCall()
         {
-            WriteLine("объекты вызваны");
+            WriteLine("Объекты запрошены");
             GetObjectStatesEventArgs args = new GetObjectStatesEventArgs();
             OnGetObjectStatesHappened(args);
         }
