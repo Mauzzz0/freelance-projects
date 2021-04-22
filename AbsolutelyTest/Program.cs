@@ -20,13 +20,13 @@ namespace AbsolutelyTest
 
         static void c_aa(object sender, EA e)
         {
-            Console.WriteLine("СРАБОТАЛО ЕБАТЬ " + e.Message);
+            Console.WriteLine("СРАБОТАЛО " + e.Message);
         }
         
         public void call()
         {
             EA args = new EA();
-            args.Message = "ЖОПА ХУЙ";
+            args.Message = "123";
             OnEventHappened(args);
         }
         protected virtual void OnEventHappened(EA e)
