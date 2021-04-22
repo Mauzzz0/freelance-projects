@@ -8,6 +8,8 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
     // SemaphoreColor, StateSemaphoreEventArgs, TypeDisrepairGac, CriticalSituationGacEventArgs, GetObjectStatesEventArgs
     public class CorrectBehaviorCheck
     {
+        public int standartStopDissolutionTime { get; private set; }
+        public int standartRestartDissolutionTime { get; private set; }
         public DateTime criticalSituationStartTime { get; private set; } // время срабатывания экстренной ситуации
         public DateTime stopDissolutionTime { get; private set; } // время остановки роспуска
         public DateTime restartDissolutionTime { get; private set; } // время рестарта роспуска
@@ -19,9 +21,12 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
-        public CorrectBehaviorCheck(int multiplicator = 100) // стандартный конструктор, задаёт множитель
-        {
+        public CorrectBehaviorCheck(int multiplicator = 100, int StopDissolutionTime = 5,
+            int RestartDissolutionTime = 30) // стандартный конструктор, задаёт множитель, время для остановки
+        {                                           // роспуска, время для рестарта роспуска
             penaltyMultiplicator = multiplicator;
+            standartStopDissolutionTime = StopDissolutionTime;
+            standartRestartDissolutionTime = RestartDissolutionTime;
         }
         
         
@@ -53,10 +58,10 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
             { // Если семафор стал красный и ситуация произошла => остановка роспуска
                 previousColor = e.ValueColor;
                 stopDissolutionTime = DateTime.Now;
-                if ((stopDissolutionTime - criticalSituationStartTime).Seconds > 15) // 5сек норма, +10 сек без штрафа
+                if ((stopDissolutionTime - criticalSituationStartTime).Seconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
                 {
-                    penaltyScores += ((stopDissolutionTime - criticalSituationStartTime).Seconds - 5) *
-                                     penaltyMultiplicator;
+                    penaltyScores += ((stopDissolutionTime - criticalSituationStartTime).Seconds - 
+                                      standartRestartDissolutionTime) * penaltyMultiplicator;
                 }
             }
             else
@@ -65,10 +70,10 @@ namespace CorrectBehaviorWhenCriticalSituationGAC
                 {
                     previousColor = e.ValueColor;
                     restartDissolutionTime = DateTime.Now;
-                    if ((restartDissolutionTime - criticalSituationStartTime).Seconds > 40) // 30сек норма, +10сек без штрафа
+                    if ((restartDissolutionTime - criticalSituationStartTime).Seconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
                     {
-                        penaltyScores += ((restartDissolutionTime - criticalSituationStartTime).Seconds - 30) *
-                                         penaltyMultiplicator;
+                        penaltyScores += ((restartDissolutionTime - criticalSituationStartTime).Seconds -
+                                          standartRestartDissolutionTime) * penaltyMultiplicator;
                     }
                     // TODO: Вызов GetObjectStatesEventArgs
                     // Здесь должен быть вызов GetObjectStatesEventArgs, в ответ на который
