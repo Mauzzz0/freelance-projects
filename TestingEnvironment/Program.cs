@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using static System.Console;
-using cbc = CorrectBehaviorWhenCriticalSituationGAC.CorrectBehaviorCheck;
+// using cbc = CorrectBehaviorWhenCriticalSituationGAC.CorrectBehaviorCheck;
+
 
 namespace TestingEnvironment
 {
@@ -37,11 +38,11 @@ namespace TestingEnvironment
                 if (inp == "1")
                 {
                     M = new Program();
-                    cbc a = new cbc();
-                    CriticalSituationHappened += c_CriticalSituationHappened;
-                    StateSemaphoreHappened += c_StateSemaphoreHappened;
-                    BrakeModes += c_BrakeModes;
-                    SwitchModes += c_SwitcModes;
+                    CorrectBehaviorCheck a = new CorrectBehaviorCheck();
+                    CriticalSituationHappened += a.CriticalSituationHappened;
+                    StateSemaphoreHappened += a.StateSemaphoreHappened;
+                    BrakeModes += a.BrakeModesHappened;
+                    SwitchModes += a.SwitchModesHappened;
                     GetObjectStatesHappened += c_GetObjectStatesHappened;
                 }
                 else if (inp == "2")
@@ -139,8 +140,8 @@ namespace TestingEnvironment
 
             static void c_SwitcModes(object sender, SwitchModesEventArgs e)
             {
-                if (typeDisrepair != TypeDisrepairGac.ManualBrake)
-                {
+                //#if (typeDisrepair != TypeDisrepairGac.ManualBrake)
+                //{ // TODO: Срабатывание ГАЦ МН, затем ТОРМОЗИТЬ ВРУЧНУЮ приведёт к нон-чеку этой секции
                     int NumberOfIncorrectSwitches = 0;
                     WriteLine("Switches:");
                     foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
@@ -154,7 +155,7 @@ namespace TestingEnvironment
 
                     penaltyScores += NumberOfIncorrectSwitches * penaltyMultiplicator;
                     WriteLine("incorrect switches:" + NumberOfIncorrectSwitches);
-                }
+                //}
             }
         }
 
@@ -215,7 +216,7 @@ namespace TestingEnvironment
             OnSwitchModesHappened(args);
         }
 
-        void GetObjectStatesHappenedCall()
+        public void GetObjectStatesHappenedCall()
         {
             WriteLine("Объекты запрошены");
             GetObjectStatesEventArgs args = new GetObjectStatesEventArgs();

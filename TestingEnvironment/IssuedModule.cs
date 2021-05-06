@@ -110,12 +110,12 @@ namespace TestingEnvironment
         Switch
     }
 
-    class BrakeModesEventArgs : EventArgs
+    public class BrakeModesEventArgs : EventArgs
     {
         public IDictionary<Guid, BrakeModeControl> BrakeModes { get; set; }
     }
 
-    class SwitchModesEventArgs : EventArgs
+    public class SwitchModesEventArgs : EventArgs
     {
         public IDictionary<Guid, SwitchModeControl> SwitchModes { get; set; }
     }
