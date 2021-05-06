@@ -8,18 +8,18 @@ namespace TestingEnvironment
     // SemaphoreColor, StateSemaphoreEventArgs, TypeDisrepairGac, CriticalSituationGacEventArgs, GetObjectStatesEventArgs
     public class CorrectBehaviorCheck
     {
-        public int standartStopDissolutionTime { get; private set; }
-        public int standartRestartDissolutionTime { get; private set; }
+        public int standartStopDissolutionTime { get; private set; } // время на остановку роспуска
+        public int standartRestartDissolutionTime { get; private set; } // время на рестарт роспуска
         public DateTime criticalSituationStartTime { get; private set; } // время срабатывания экстренной ситуации
         public DateTime stopDissolutionTime { get; private set; } // время остановки роспуска
         public DateTime restartDissolutionTime { get; private set; } // время рестарта роспуска
         private TypeDisrepairGac TypeDisrepair; // тип экстренной ситуации
         private SemaphoreColor previousColor; // предыдущее значение семафора
         public bool isStarted; // сработала ли экстренная ситуация
-        public bool isBrakeDone { get; private set; }
-        public bool isSwitchDone { get; private set; }
-        public bool checkBrakes { get; private set; }
-        public bool checkSwitches { get; private set; }
+        public bool isBrakeDone { get; private set; } // получена ли информация о тормозах
+        public bool isSwitchDone { get; private set; } // получена ли информация о стрелках
+        public bool checkBrakes { get; private set; } // нужно ли проверять тормоза
+        public bool checkSwitches { get; private set; } // нужно ли проверять стрелки
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
@@ -51,19 +51,14 @@ namespace TestingEnvironment
                         penaltyScores += (Convert.ToInt32((now - criticalSituationStartTime).TotalSeconds) - 
                                         standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
                     }
-                    WriteLine("penalty: "+penaltyScores);
                 }
-                
+                criticalSituationStartTime = DateTime.Now;
                 TypeDisrepair = e.TypeDisrepair;
                 checkBrakes = true;
                 if (e.TypeDisrepair != TypeDisrepairGac.ManualBrake)
                 {
                     checkSwitches = true;
                 }
-                criticalSituationStartTime = DateTime.Now;
-                WriteLine("СРАБОТАЛА НЕШТАТНАЯ СИТУАЦИЯ");
-                WriteLine("Crit sit time: " + criticalSituationStartTime);
-                WriteLine("Crit:" + e.TypeDisrepair);
                 isStarted = true;
             }
         }
@@ -75,35 +70,31 @@ namespace TestingEnvironment
         /// <param name="e">Аргументы</param>
         public void StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
         {
-            // TODO: Рестарт роспуска - это изменение с красного на любой?
             if (e.ValueColor == SemaphoreColor.Red & isStarted)
             {
                 previousColor = e.ValueColor;
                 stopDissolutionTime = DateTime.Now;
-                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
-                WriteLine("Время роспуска: " + stopDissolutionTime);
                 if ((stopDissolutionTime - criticalSituationStartTime).TotalSeconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
                 {
                     penaltyScores += (Convert.ToInt32((stopDissolutionTime - criticalSituationStartTime).TotalSeconds) - 
                                       standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
                 }
-                WriteLine("Штрафные баллы: " + penaltyScores);
             }
             else
             {
                 if (previousColor == SemaphoreColor.Red)
-                { // TODO: Это и есть рестарт?
+                {
                     previousColor = e.ValueColor;
                     restartDissolutionTime = DateTime.Now;
-                    WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
-                    WriteLine("Время рестарта: " + restartDissolutionTime);
                     if ((restartDissolutionTime - criticalSituationStartTime).TotalSeconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
                     {
                         penaltyScores += (Convert.ToInt32((restartDissolutionTime - criticalSituationStartTime).TotalSeconds) -
                                           standartRestartDissolutionTime) / 10  * penaltyMultiplicator;
                     }
-                    WriteLine("Штрафные баллы: " + penaltyScores);
-                    new Program().GetObjectStatesHappenedCall();
+                    // TODO: Вызов GetObjectStatesEventArgs
+                    // Здесь должен быть вызов GetObjectStatesEventArgs, в ответ на который
+                    // произойдут BrakeModesHappened и SwitchModesHappened
+                    // TODO: Вызов GetObjectStatesEventArgs
                 }
             }
         }
@@ -118,26 +109,21 @@ namespace TestingEnvironment
             if (isStarted)
             {
                 int numberOfNotManualBrakes = 0;
-                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
-                WriteLine("Brakes:");
                 foreach (KeyValuePair<Guid, BrakeModeControl> Brake in e.BrakeModes)
                 {
-                    WriteLine("-" + Brake.Value);
                     if (Brake.Value != BrakeModeControl.Manual)
                     {
                         numberOfNotManualBrakes++;
                     }
                 }
-                WriteLine("Not manual brakes:" + numberOfNotManualBrakes);
                 penaltyScores += numberOfNotManualBrakes * penaltyMultiplicator;
                 isBrakeDone = true;
                 if (!checkSwitches)
                 {
-                    // Стрекли проверять не надо, сработало только РУЧНОЕ ТОРМОЖЕНИЕ
+                    // Стрелки проверять не надо, сработало только РУЧНОЕ ТОРМОЖЕНИЕ
                     isStarted = false;
                     checkBrakes = false;
                     checkSwitches = false;
-                    WriteLine("TOTAL penalty:" + penaltyScores);
                 }
                 if (isBrakeDone & isSwitchDone)
                 {
@@ -145,7 +131,6 @@ namespace TestingEnvironment
                     isStarted = false;
                     checkBrakes = false;
                     checkSwitches = false;
-                    WriteLine("TOTAL penalty:" + penaltyScores);
                 }
             }
         }
@@ -159,26 +144,21 @@ namespace TestingEnvironment
         {
             if (checkSwitches) {
                 int numberOfNotManualSwitches = 0;
-                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
-                WriteLine("Switches:");
                 foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
                 {
-                    WriteLine("-"+Switch.Value);
                     if (Switch.Value != SwitchModeControl.Manual)
                     {
                         numberOfNotManualSwitches++;
                     }
                 }
                 
-                penaltyScores += numberOfNotManualSwitches * penaltyMultiplicator;;
-                WriteLine("Not manual switches:" + numberOfNotManualSwitches);
+                penaltyScores += numberOfNotManualSwitches * penaltyMultiplicator;
         
                 isSwitchDone = true;
                 if (isBrakeDone & isSwitchDone)
                 {
                     // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
                     isStarted = false;
-                    WriteLine("TOTAL penalty:" + penaltyScores);
                 }
             }
         }
