@@ -61,6 +61,7 @@ namespace TestingEnvironment
             {
                 previousColor = e.ValueColor;
                 stopDissolutionTime = DateTime.Now;
+                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                 WriteLine("Время роспуска: " + stopDissolutionTime);
                 if ((stopDissolutionTime - criticalSituationStartTime).Seconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
                 {
@@ -75,6 +76,7 @@ namespace TestingEnvironment
                 { // TODO: Это и есть рестарт?
                     previousColor = e.ValueColor;
                     restartDissolutionTime = DateTime.Now;
+                    WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                     WriteLine("Время рестарта: " + restartDissolutionTime);
                     WriteLine((restartDissolutionTime - criticalSituationStartTime).Seconds);
                     if ((restartDissolutionTime - criticalSituationStartTime).Seconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
@@ -98,6 +100,7 @@ namespace TestingEnvironment
             if (isStarted)
             {
                 int NumberOfNotManualBrakes = 0;
+                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                 WriteLine("Brakes:");
                 foreach (KeyValuePair<Guid, BrakeModeControl> Brake in e.BrakeModes)
                 {
@@ -114,6 +117,7 @@ namespace TestingEnvironment
                 {
                     // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
                     isStarted = false;
+                    WriteLine("TOTAL penalty:" + penaltyScores);
                 }
             }
         }
@@ -128,6 +132,7 @@ namespace TestingEnvironment
             // if (typeDisrepair != TypeDisrepairGac.ManualBrake)
                 //{ // TODO: Срабатывание ГАЦ МН, затем ТОРМОЗИТЬ ВРУЧНУЮ приведёт к нон-чеку этой секции
             int NumberOfNotManualSwitches = 0;
+            WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
             WriteLine("Switches:");
             foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
             {
@@ -146,6 +151,7 @@ namespace TestingEnvironment
             {
                 // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
                 isStarted = false;
+                WriteLine("TOTAL penalty:" + penaltyScores);
             }
             //}
         }
