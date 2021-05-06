@@ -18,6 +18,8 @@ namespace TestingEnvironment
         public bool isStarted; // сработала ли экстренная ситуация
         public bool isBrakeDone { get; private set; }
         public bool isSwitchDone { get; private set; }
+        public bool checkBrakes { get; private set; }
+        public bool checkSwitches { get; private set; }
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
 
@@ -40,8 +42,25 @@ namespace TestingEnvironment
         {
             if (e.TypeDisrepair != TypeDisrepairGac.None)
             {
-                criticalSituationStartTime = DateTime.Now;
+                if (isStarted) // Если уже началась какая-то ситация, то нужно проверить не нарушил ли оператор время на её реагирование.
+                    // Ситуация 3.2.3 -> Вторая ситуация спустя минуту после первой. Оператор не успел зарестартить роспуск во время первой.
+                {
+                    DateTime now = DateTime.Now;
+                    if ((now - criticalSituationStartTime).TotalSeconds > standartRestartDissolutionTime + 10)
+                    {
+                        penaltyScores += (Convert.ToInt32((now - criticalSituationStartTime).TotalSeconds) - 
+                                        standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
+                    }
+                    WriteLine("penalty: "+penaltyScores);
+                }
+                
                 TypeDisrepair = e.TypeDisrepair;
+                checkBrakes = true;
+                if (e.TypeDisrepair != TypeDisrepairGac.ManualBrake)
+                {
+                    checkSwitches = true;
+                }
+                criticalSituationStartTime = DateTime.Now;
                 WriteLine("СРАБОТАЛА НЕШТАТНАЯ СИТУАЦИЯ");
                 WriteLine("Crit sit time: " + criticalSituationStartTime);
                 WriteLine("Crit:" + e.TypeDisrepair);
@@ -63,10 +82,10 @@ namespace TestingEnvironment
                 stopDissolutionTime = DateTime.Now;
                 WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                 WriteLine("Время роспуска: " + stopDissolutionTime);
-                if ((stopDissolutionTime - criticalSituationStartTime).Seconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
+                if ((stopDissolutionTime - criticalSituationStartTime).TotalSeconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
                 {
-                    penaltyScores += ((stopDissolutionTime - criticalSituationStartTime).Seconds - 
-                                      standartRestartDissolutionTime) * penaltyMultiplicator;
+                    penaltyScores += (Convert.ToInt32((stopDissolutionTime - criticalSituationStartTime).TotalSeconds) - 
+                                      standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
                 }
                 WriteLine("Штрафные баллы: " + penaltyScores);
             }
@@ -78,11 +97,10 @@ namespace TestingEnvironment
                     restartDissolutionTime = DateTime.Now;
                     WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                     WriteLine("Время рестарта: " + restartDissolutionTime);
-                    WriteLine((restartDissolutionTime - criticalSituationStartTime).Seconds);
-                    if ((restartDissolutionTime - criticalSituationStartTime).Seconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
+                    if ((restartDissolutionTime - criticalSituationStartTime).TotalSeconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
                     {
-                        penaltyScores += ((restartDissolutionTime - criticalSituationStartTime).Seconds -
-                                          standartRestartDissolutionTime) * penaltyMultiplicator;
+                        penaltyScores += (Convert.ToInt32((restartDissolutionTime - criticalSituationStartTime).TotalSeconds) -
+                                          standartRestartDissolutionTime) / 10  * penaltyMultiplicator;
                     }
                     WriteLine("Штрафные баллы: " + penaltyScores);
                     new Program().GetObjectStatesHappenedCall();
@@ -99,7 +117,7 @@ namespace TestingEnvironment
         {
             if (isStarted)
             {
-                int NumberOfNotManualBrakes = 0;
+                int numberOfNotManualBrakes = 0;
                 WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
                 WriteLine("Brakes:");
                 foreach (KeyValuePair<Guid, BrakeModeControl> Brake in e.BrakeModes)
@@ -107,16 +125,26 @@ namespace TestingEnvironment
                     WriteLine("-" + Brake.Value);
                     if (Brake.Value != BrakeModeControl.Manual)
                     {
-                        NumberOfNotManualBrakes++;
+                        numberOfNotManualBrakes++;
                     }
                 }
-                WriteLine("Not manual brakes:" + NumberOfNotManualBrakes);
-                penaltyScores += NumberOfNotManualBrakes * penaltyMultiplicator;
+                WriteLine("Not manual brakes:" + numberOfNotManualBrakes);
+                penaltyScores += numberOfNotManualBrakes * penaltyMultiplicator;
                 isBrakeDone = true;
+                if (!checkSwitches)
+                {
+                    // Стрекли проверять не надо, сработало только РУЧНОЕ ТОРМОЖЕНИЕ
+                    isStarted = false;
+                    checkBrakes = false;
+                    checkSwitches = false;
+                    WriteLine("TOTAL penalty:" + penaltyScores);
+                }
                 if (isBrakeDone & isSwitchDone)
                 {
                     // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
                     isStarted = false;
+                    checkBrakes = false;
+                    checkSwitches = false;
                     WriteLine("TOTAL penalty:" + penaltyScores);
                 }
             }
@@ -129,31 +157,30 @@ namespace TestingEnvironment
         /// <param name="e">Аргументы</param>
         public void SwitchModesHappened(object sender, SwitchModesEventArgs e)
         {
-            // if (typeDisrepair != TypeDisrepairGac.ManualBrake)
-                //{ // TODO: Срабатывание ГАЦ МН, затем ТОРМОЗИТЬ ВРУЧНУЮ приведёт к нон-чеку этой секции
-            int NumberOfNotManualSwitches = 0;
-            WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
-            WriteLine("Switches:");
-            foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
-            {
-                WriteLine("-"+Switch.Value);
-                if (Switch.Value != SwitchModeControl.Manual)
+            if (checkSwitches) {
+                int numberOfNotManualSwitches = 0;
+                WriteLine("---" + Convert.ToString(criticalSituationStartTime - DateTime.Now) + "---");
+                WriteLine("Switches:");
+                foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
                 {
-                    NumberOfNotManualSwitches++;
+                    WriteLine("-"+Switch.Value);
+                    if (Switch.Value != SwitchModeControl.Manual)
+                    {
+                        numberOfNotManualSwitches++;
+                    }
+                }
+                
+                penaltyScores += numberOfNotManualSwitches * penaltyMultiplicator;;
+                WriteLine("Not manual switches:" + numberOfNotManualSwitches);
+        
+                isSwitchDone = true;
+                if (isBrakeDone & isSwitchDone)
+                {
+                    // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
+                    isStarted = false;
+                    WriteLine("TOTAL penalty:" + penaltyScores);
                 }
             }
-            
-            penaltyScores = NumberOfNotManualSwitches * penaltyMultiplicator;;
-            WriteLine("Not manual switches:" + NumberOfNotManualSwitches);
-            
-            isSwitchDone = true;
-            if (isBrakeDone & isSwitchDone)
-            {
-                // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
-                isStarted = false;
-                WriteLine("TOTAL penalty:" + penaltyScores);
-            }
-            //}
         }
 
         // public class CriticalSituationGacEventArgs : EventArgs

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using static System.Console;
 // using cbc = CorrectBehaviorWhenCriticalSituationGAC.CorrectBehaviorCheck;
 
@@ -33,7 +34,7 @@ namespace TestingEnvironment
         {
             while (true)
             {
-                WriteLine("\n1 - подписаться\n2 - BrokenGac\n3 - ManualBrake\n4 - RedCall\n5 - GreenCall");
+                WriteLine("\n1 - подписаться\n2 - BrokenGac\n3 - ManualBrake\n4 - RedCall\n5 - GreenCal\n11 - 3.2.1\n12 - 3.2.2\n13 - 3.2.3");
                 string inp = ReadLine();
                 if (inp == "1")
                 {
@@ -59,6 +60,39 @@ namespace TestingEnvironment
                 }
                 else if (inp == "5")
                 {
+                    M.StateSemaphoreGreenCall();
+                }
+                else if (inp == "11")
+                {
+                    M.CriticalSituationBrokenGACCall();
+                    Thread.Sleep(4000);
+                    M.StateSemaphoreRedCall();
+                    Thread.Sleep(7000);
+                    M.CriticalSituationManualBrakeCall();
+                    Thread.Sleep(45000);
+                    M.StateSemaphoreGreenCall();
+                }
+                else if (inp == "12")
+                {
+                    M.CriticalSituationManualBrakeCall();
+                    Thread.Sleep(4000);
+                    M.StateSemaphoreRedCall();
+                    Thread.Sleep(26000);
+                    M.CriticalSituationBrokenGACCall();
+                    Thread.Sleep(15000);
+                    M.StateSemaphoreGreenCall();
+                }
+                else if (inp == "13")
+                {
+                    M.CriticalSituationManualBrakeCall();
+                    Thread.Sleep(4000);
+                    //Thread.Sleep(2000);
+                    M.StateSemaphoreRedCall();
+                    Thread.Sleep(56000);
+                    //Thread.Sleep(10000);
+                    M.CriticalSituationBrokenGACCall();
+                    Thread.Sleep(45000);
+                    //Thread.Sleep(4000);
                     M.StateSemaphoreGreenCall();
                 }
             }
@@ -112,12 +146,12 @@ namespace TestingEnvironment
                 WriteLine("Генерации списков");
                 BrakeModesEventArgs argsB = new BrakeModesEventArgs();
                 argsB.BrakeModes = new Dictionary<Guid, BrakeModeControl>();
-                argsB.BrakeModes[Guid.NewGuid()] = BrakeModeControl.Manual;
+                argsB.BrakeModes[Guid.NewGuid()] = BrakeModeControl.Automatic;
                 argsB.BrakeModes[Guid.NewGuid()] = BrakeModeControl.Automatic;
                 SwitchModesEventArgs argsS = new SwitchModesEventArgs();
                 argsS.SwitchModes = new Dictionary<Guid, SwitchModeControl>();
                 argsS.SwitchModes[Guid.NewGuid()] = SwitchModeControl.Automatic;
-                argsS.SwitchModes[Guid.NewGuid()] = SwitchModeControl.Manual;
+                argsS.SwitchModes[Guid.NewGuid()] = SwitchModeControl.Automatic;
                 M.OnBrakeModesHappened(argsB);
                 M.OnSwitchModesHappened(argsS);
             }
