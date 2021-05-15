@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorrectBehaviorWhenCritical
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbsolutelyTest", "AbsolutelyTest\AbsolutelyTest.csproj", "{982259FA-DFFE-49A1-A702-EF34917D12D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingEnvironmentSwitches", "TestingEnvironmentSwitches\TestingEnvironmentSwitches.csproj", "{44E09A05-9813-4E4A-A3A5-46FDAE4857B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{982259FA-DFFE-49A1-A702-EF34917D12D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{982259FA-DFFE-49A1-A702-EF34917D12D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{982259FA-DFFE-49A1-A702-EF34917D12D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E09A05-9813-4E4A-A3A5-46FDAE4857B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E09A05-9813-4E4A-A3A5-46FDAE4857B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E09A05-9813-4E4A-A3A5-46FDAE4857B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E09A05-9813-4E4A-A3A5-46FDAE4857B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
