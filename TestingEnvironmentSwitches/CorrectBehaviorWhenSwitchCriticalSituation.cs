@@ -45,8 +45,6 @@ namespace TestingEnvironmentSwitches
                 isStarted = true;
                 criticalSituationStartTime = DateTime.Now;
                 Console.WriteLine("Ситуация сработала " + criticalSituationStartTime);
-                // Передали id стрелки в запрос
-                // Получили временно статичный ответ
                 originWays = Map.GetWaysForSwich(e.IdObj);
             }
             else if (isStarted & e.TypeDisrepair == TypeDisrepairSwitch.None)
@@ -102,22 +100,6 @@ namespace TestingEnvironmentSwitches
                         // Здесь должен быть вызов GetObjectStatesEventArgs, в ответ на который
                         // произойдёт SortListEventArgs
                         // TODO: Вызов GetObjectStatesEventArgs
-
-                        //foreach (string var in newWays)
-                        //{
-                        //    Console.WriteLine(var);
-                        //}
-
-                        //foreach (string way in newWays)
-                        //{
-                         //   if (originWays.Contains(way))
-                          //  {
-                            //    Console.WriteLine("ОДИНАКОВЫЙ ПУТЬ: " + way);
-                              //  penaltyScores += penaltyMultiplicator;
-                            //}
-
-                        //}
-
                         Console.WriteLine("Всего штрафных баллов: " + penaltyScores);
                     }
                 }
