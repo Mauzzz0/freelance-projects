@@ -7,9 +7,7 @@ using Microsoft.VisualBasic.CompilerServices;
 namespace TestingEnvironmentSwitches
 {
     public class CorrectBehaviorWhenSwitchCriticalSituation
-    { // Необходимо подключить из внешнего кода StageSemafore, Role, TypeDisrepairSwitch, StateSemaphoreEventArgs
-        // SemaphoreColor, Map.GetWaysForSwich, GetObjectStatesEventArgs, SortListEventArgs, SortList, Route, OtcepKsau,
-        // CriticalSituationSwitchEventArgs
+    {
         public bool isStarted { get; private set; } // началась ли обработка события
         public int standartStopDissolutionTime { get; private set; } // время на остановку роспуска
         public int standartChangeSwitchesTime { get; private set; } // время на изменение маршрутов
@@ -21,6 +19,7 @@ namespace TestingEnvironmentSwitches
         public int penaltyScores { get; private set; } // начисленные штрафные очки
         public int penaltyMultiplicator { get; private set; } // множитель штрафа. по умолчания = 100
         private IEnumerable<string> originWays;
+        private IEnumerable<string> otcepWays;
 
         public CorrectBehaviorWhenSwitchCriticalSituation(int timeForChangeSwitches, int timeForDissolutionStop = 5, int multiplicator = 100, int timeForDissolutionRestart = 5)
         {
@@ -45,6 +44,7 @@ namespace TestingEnvironmentSwitches
             {
                 isStarted = true;
                 criticalSituationStartTime = DateTime.Now;
+                Console.WriteLine("Ситуация сработала " + criticalSituationStartTime);
                 originWays = Map.GetWaysForSwich(e.IdObj);
             }
             else if (isStarted & e.TypeDisrepair == TypeDisrepairSwitch.None)
@@ -61,9 +61,12 @@ namespace TestingEnvironmentSwitches
         {
             if (isStarted)
             {
+                Console.WriteLine("Сработало изменение семафора");
                 if (e.ValueColor == SemaphoreColor.Red)
                 {
                     stopDissolutionTime = DateTime.Now;
+                    Console.WriteLine("Красный сигнал. Роспуск остановлен спустя " +
+                                      (stopDissolutionTime - criticalSituationStartTime).TotalSeconds);
                     if ((stopDissolutionTime - criticalSituationStartTime).TotalSeconds > standartStopDissolutionTime)
                     {
                         int penalty = Convert.ToInt32((stopDissolutionTime - criticalSituationStartTime).TotalSeconds -
@@ -72,12 +75,15 @@ namespace TestingEnvironmentSwitches
                     }
 
                     previousColor = e.ValueColor;
+                    Console.WriteLine("Всего штрафных баллов: " + penaltyScores);
                 }
                 else
                 {
                     if (previousColor == SemaphoreColor.Red)
                     {
                         restartDissolutionTime = DateTime.Now;
+                        Console.WriteLine("Рестарт роспуска спустя " +
+                                          (restartDissolutionTime - stopDissolutionTime).TotalSeconds);
                         if ((restartDissolutionTime - stopDissolutionTime).TotalSeconds >
                             standartRestartDissolutionTime)
                         {
@@ -87,10 +93,14 @@ namespace TestingEnvironmentSwitches
                         }
 
                         previousColor = e.ValueColor;
+                        Console.WriteLine("Всего штрафных баллов: " + penaltyScores);
+                        // Рестар произошёл, отправляется сообщение с запросом маршрута
+                        Console.WriteLine("Запрос путей");
                         // TODO: Вызов GetObjectStatesEventArgs
                         // Здесь должен быть вызов GetObjectStatesEventArgs, в ответ на который
                         // произойдёт SortListEventArgs
                         // TODO: Вызов GetObjectStatesEventArgs
+                        Console.WriteLine("Всего штрафных баллов: " + penaltyScores);
                     }
                 }
             }
@@ -106,117 +116,119 @@ namespace TestingEnvironmentSwitches
                     incorrectWays++;
                 }
             }
+            Console.WriteLine("Кол-во неперевелённых путей: " + incorrectWays);
             penaltyScores += incorrectWays * penaltyMultiplicator;
+            Console.WriteLine("Всего штрафных баллов: " + penaltyScores);
         }
     }
 
-    // public class CriticalSituationSwitchEventArgs : EventArgs
-    // {
-    //     public Guid IdObj { private set; get; }
-    //     public string NameAnimation { private set; get; }
-    //     public TypeDisrepairSwitch TypeDisrepair { private set; get; }
-    //
-    //     public CriticalSituationSwitchEventArgs(Guid idObj, string nameAnimation, TypeDisrepairSwitch typeDisrepair)
-    //     {
-    //         IdObj = idObj;
-    //         NameAnimation = nameAnimation;
-    //         TypeDisrepair = typeDisrepair;
-    //     }
-    // }
+    public class CriticalSituationSwitchEventArgs : EventArgs
+    {
+        public Guid IdObj { private set; get; }
+        public string NameAnimation { private set; get; }
+        public TypeDisrepairSwitch TypeDisrepair { private set; get; }
 
-    // public enum TypeDisrepairSwitch
-    // {
-    //     None,
-    //     Vzrez,
-    //     AutomaticReset,
-    //     Gab,
-    //     LoseControl,
-    //     DefectiveRtds,
-    //     DefectiveIpd,
-    // }
+        public CriticalSituationSwitchEventArgs(Guid idObj, string nameAnimation, TypeDisrepairSwitch typeDisrepair)
+        {
+            IdObj = idObj;
+            NameAnimation = nameAnimation;
+            TypeDisrepair = typeDisrepair;
+        }
+    }
 
-    // public class StateSemaphoreEventArgs : EventArgs
-    // {
-    //     public Guid IdSemaphore;
-    //     public Guid IdObj;
-    //     public StageSemafor ButtonStage;
-    //     public SemaphoreColor ValueColor;
-    //     public double Speed;
-    //     public Role Owner;
-    // }
+    public enum TypeDisrepairSwitch
+    {
+        None,
+        Vzrez,
+        AutomaticReset,
+        Gab,
+        LoseControl,
+        DefectiveRtds,
+        DefectiveIpd,
+    }
 
-    // public enum SemaphoreColor
-    // {
-    //     Red = 0,
-    //     Green = 1,
-    //     Yellow = 2,
-    //     YellowGreen = 3,
-    //     YellowYellow = 4
-    // }
+    public class StateSemaphoreEventArgs : EventArgs
+    {
+        public Guid IdSemaphore;
+        public Guid IdObj;
+        public StageSemafor ButtonStage;
+        public SemaphoreColor ValueColor;
+        public double Speed;
+        public Role Owner;
+    }
 
-    // class Map
-    // {
-    //     public static IEnumerable<string> GetWaysForSwich(Guid idSwitch)
-    //     { // TODO:
-    //         return new List<string>{"aa","bb", "cc"};
-    //     }
-    // }
+    public enum SemaphoreColor
+    {
+        Red = 0,
+        Green = 1,
+        Yellow = 2,
+        YellowGreen = 3,
+        YellowYellow = 4
+    }
+
+    class Map
+    {
+        public static IEnumerable<string> GetWaysForSwich(Guid idSwitch)
+        { // TODO:
+            return new List<string>{"aa","bb", "cc"};
+        }
+    }
     
 
-    // public class GetObjectStatesEventArgs : EventArgs
-    // {
-    //     public IEnumerable<ObjectType> ObjectTypes { get; set; }
-    //
-    //     public enum ObjectType
-    //     {
-    //         Retarder,
-    //         Switch,
-    //         SortList
-    //     }
-    // }
+    public class GetObjectStatesEventArgs : EventArgs
+    {
+        public IEnumerable<ObjectType> ObjectTypes { get; set; }
 
-    // public class SortListEventArgs : EventArgs
-    // {
-    //     public List<SortList> CollectionSortList;
-    //     public Role Owner;
-    //     public bool IsNewSL = true;
-    // }
-    //
-    // public class SortList
-    // {
-    //     public List<OtcepKsau> ListOtcep { get; set; } // временный паблик сет
-    // }
+        public enum ObjectType
+        {
+            Retarder,
+            Switch,
+            SortList
+        }
+    }
 
-    // public class OtcepKsau
-    // {
-    //     Route _route; // Догадка
-    //     public Route Route
-    //     {
-    //         get { return _route; }
-    //         set { _route = value; }
-    //     }
-    // }
+    public class SortListEventArgs : EventArgs
+    {
+        public List<SortList> CollectionSortList;
+        public Role Owner;
+        public bool IsNewSL = true;
+    }
 
-    // public class Route
-    // {
-    //     string _idWay;
-    //
-    //     public string IdWay
-    //     {
-    //         get { return _idWay; }
-    //         set { _idWay = value; }
-    //     }
-    //
-    //     public string IdWayWithoutZero;
-    // }
+    public class SortList
+    {
+        public List<OtcepKsau> ListOtcep { get; set; } // временный паблик сет
+    }
 
-    // public class Role
-    // {
-    //     // Emulated
-    // }
+    public class OtcepKsau
+    {
+        Route _route; // Догадка
+        public Route Route
+        {
+            get { return _route; }
+            set { _route = value; }
+        }
+    }
 
-    // public class StageSemafor
-    // {
-    //     // Emulated
-    // }
+    public class Route
+    {
+        string _idWay;
+
+        public string IdWay
+        {
+            get { return _idWay; }
+            set { _idWay = value; }
+        }
+
+        public string IdWayWithoutZero;
+    }
+
+    public class Role
+    {
+        // Emulated
+    }
+
+    public class StageSemafor
+    {
+        // Emulated
+    }
 }
