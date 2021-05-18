@@ -13,7 +13,7 @@ namespace TestingEnvironmentSwitches
         public bool isStarted { get; private set; } // началась ли обработка события
         public int standartStopDissolutionTime { get; private set; } // время на остановку роспуска
         public int standartChangeSwitchesTime { get; private set; } // время на изменение маршрутов
-        public int standartRestartDissolutionTime { get; private set; }
+        public int standartRestartDissolutionTime { get; private set; } // время на рестарт роспуска
         public DateTime criticalSituationStartTime { get; private set; } // время срабатывания экстренной ситуации
         public DateTime stopDissolutionTime { get; private set; } // время остановки роспуска
         public DateTime restartDissolutionTime { get; private set; } // время рестарта роспуска
@@ -23,7 +23,7 @@ namespace TestingEnvironmentSwitches
         private IEnumerable<string> originWays;
 
         public CorrectBehaviorWhenSwitchCriticalSituation(int timeForChangeSwitches, int timeForDissolutionStop = 5, int multiplicator = 100, int timeForDissolutionRestart = 5)
-        {
+        { // конструктор с временем для роспуска/множителем/временем для рестарта роспуска по умолчанию и необходимостью задать время для смены стрелок
             standartStopDissolutionTime = timeForDissolutionStop;
             standartChangeSwitchesTime = timeForChangeSwitches;
             penaltyMultiplicator = multiplicator;
@@ -31,7 +31,7 @@ namespace TestingEnvironmentSwitches
         }
 
         public void reset()
-        {
+        { // метод, использующийся только при тестировании, обнуляет все параметры
             penaltyScores = 0;
             isStarted = false;
             criticalSituationStartTime = DateTime.MinValue;
@@ -42,13 +42,13 @@ namespace TestingEnvironmentSwitches
         public void CriticalSituationSwitchHappenedHandler(object sender, CriticalSituationSwitchEventArgs e)
         { // Получаем сообщение о нештатной ситуации, определяем пути, которые следуют за данной стрелкой.
             if (!isStarted)
-            {
-                isStarted = true;
-                criticalSituationStartTime = DateTime.Now;
-                originWays = Map.GetWaysForSwich(e.IdObj);
+            { // Если событие ещё не начато, начинаем его, запоминаем время и запрашиваем пути.
+                isStarted = true; 
+                criticalSituationStartTime = DateTime.Now; 
+                originWays = Map.GetWaysForSwich(e.IdObj); // Все пути добавляем в originWays
             }
             else if (isStarted & e.TypeDisrepair == TypeDisrepairSwitch.None)
-            {
+            { // Если событие было начато и пришла отмена события, то сбрасываем все параметры
                 isStarted = false;
                 criticalSituationStartTime = DateTime.MinValue;
                 stopDissolutionTime = DateTime.MinValue;
@@ -60,14 +60,14 @@ namespace TestingEnvironmentSwitches
         public void SemaphoreChangeHappenedHandler(object sender, StateSemaphoreEventArgs e)
         {
             if (isStarted)
-            {
+            { // Если событие начато
                 if (e.ValueColor == SemaphoreColor.Red)
-                {
-                    stopDissolutionTime = DateTime.Now;
+                { // Если сигнал красный, то остановка роспуска 
+                    stopDissolutionTime = DateTime.Now; // запоминаем время стопа
                     if ((stopDissolutionTime - criticalSituationStartTime).TotalSeconds > standartStopDissolutionTime)
-                    {
+                    { // Если оператор не уложился в норму
                         int penalty = Convert.ToInt32((stopDissolutionTime - criticalSituationStartTime).TotalSeconds -
-                                                      standartStopDissolutionTime) * penaltyMultiplicator;
+                                                      standartStopDissolutionTime) * penaltyMultiplicator; // За каждую секунду сверх нормы к общему штрафу прибавляем единичный штраф
                         penaltyScores += penalty;
                     }
 
@@ -76,13 +76,13 @@ namespace TestingEnvironmentSwitches
                 else
                 {
                     if (previousColor == SemaphoreColor.Red)
-                    {
-                        restartDissolutionTime = DateTime.Now;
+                    { // Если предыдущий сигнал был красный, то произошёл рестарт
+                        restartDissolutionTime = DateTime.Now; // запоминаем время рестарта
                         if ((restartDissolutionTime - stopDissolutionTime).TotalSeconds >
                             standartRestartDissolutionTime)
-                        {
+                        { // Если оператор не уложился в норму
                             int penalty = Convert.ToInt32((restartDissolutionTime - stopDissolutionTime).TotalSeconds -
-                                                          standartRestartDissolutionTime) * penaltyMultiplicator;
+                                                          standartRestartDissolutionTime) * penaltyMultiplicator; // За каждую секунду сверх нормы к общему штрафу прибавляем единичный штраф
                             penaltyScores += penalty;
                         }
 
@@ -98,15 +98,15 @@ namespace TestingEnvironmentSwitches
 
         public void SortListHappenedHandler(object sender, SortListEventArgs e)
         {
-            int incorrectWays = 0;
-            foreach (OtcepKsau ok in e.CollectionSortList[0].ListOtcep)
+            int incorrectWays = 0; 
+            foreach (OtcepKsau ok in e.CollectionSortList[0].ListOtcep) // Перебираем все полученные пути
             {
-                if (originWays.Contains(ok.Route.IdWay))
+                if (originWays.Contains(ok.Route.IdWay)) // Считаем сколько путей не было переведено
                 {
-                    incorrectWays++;
+                    incorrectWays++; 
                 }
             }
-            penaltyScores += incorrectWays * penaltyMultiplicator;
+            penaltyScores += incorrectWays * penaltyMultiplicator; // За каждый непереведённый путь прибавляем единичный штраф
         }
     }
 
