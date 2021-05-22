@@ -114,6 +114,7 @@ namespace TestingEnvironment
                     
                     WriteLine("====Тест 1====");
                     WriteLine("Срабатывание гац мн, роспуск, срабатывание тормозить вручную, рестарт, всё в корректных положениях.");
+                    WriteLine("Периоды действий: 4/7/45 секунд");
                     WriteLine("Должно получиться 100 штрафных баллов");
                     M.CriticalSituationBrokenGACCall();
                     Thread.Sleep(4000);
@@ -139,6 +140,7 @@ namespace TestingEnvironment
                     GetObjectStatesHappened += c_GetObject4AStatesHappened;
                     WriteLine("====Тест 2====");
                     WriteLine("Срабатывание гац мн, роспуск, срабатывание тормозить вручную, рестарт, 4 элемента не в корректных положениях.");
+                    WriteLine("Периоды действий: 4/7/45 секунд");
                     WriteLine("Должно получиться 500 штрафных баллов");
                     M.CriticalSituationBrokenGACCall();
                     Thread.Sleep(4000);
@@ -164,6 +166,7 @@ namespace TestingEnvironment
                     GetObjectStatesHappened += c_GetObject4MStatesHappened;
                     WriteLine("====Тест 3====");
                     WriteLine("Срабатывание тормозить вручную, роспуск, срабатывание гац мн, рестарт, всё в корректных положениях.");
+                    WriteLine("Периоды действий: 4/26/15 секунд");
                     WriteLine("Должно получиться 0 штрафных баллов");
                     M.CriticalSituationManualBrakeCall();
                     Thread.Sleep(4000);
@@ -189,6 +192,7 @@ namespace TestingEnvironment
                     GetObjectStatesHappened += c_GetObject4AStatesHappened;
                     WriteLine("====Тест 4====");
                     WriteLine("Срабатывание тормозить вручную, роспуск, срабатывание гац мн, рестарт, 4 элемента не в корректных положениях.");
+                    WriteLine("Периоды действий: 4/26/15 секунд");
                     WriteLine("Должно получиться 400 штрафных баллов");
                     M.CriticalSituationManualBrakeCall();
                     Thread.Sleep(4000);
@@ -214,6 +218,7 @@ namespace TestingEnvironment
                     GetObjectStatesHappened += c_GetObject4MStatesHappened;
                     WriteLine("====Тест 5====");
                     WriteLine("Срабатывание тормозить вручную, роспуск, срабатывание гац мн, рестарт, все элементы в корректных положениях.");
+                    WriteLine("Периоды действий: 4/56/45 секунд");
                     WriteLine("Должно получиться 400 штрафных баллов");
                     M.CriticalSituationManualBrakeCall();
                     Thread.Sleep(4000);
@@ -243,6 +248,7 @@ namespace TestingEnvironment
                     GetObjectStatesHappened += c_GetObject4AStatesHappened;
                     WriteLine("====Тест 6====");
                     WriteLine("Срабатывание тормозить вручную, роспуск, срабатывание гац мн, рестарт, все элементы в корректных положениях.");
+                    WriteLine("Периоды действий: 4/56/45 секунд");
                     WriteLine("Должно получиться 800 штрафных баллов");
                     M.CriticalSituationManualBrakeCall();
                     Thread.Sleep(4000);
@@ -268,49 +274,9 @@ namespace TestingEnvironment
                 }
             }
 
-            void c_CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
-            {
-                if (e.TypeDisrepair != TypeDisrepairGac.None)
-                {
-                    start_time = DateTime.UtcNow;
-                    typeDisrepair = e.TypeDisrepair;
-                    WriteLine("Crit sit time: " + start_time);
-                    WriteLine("Crit:" + e.TypeDisrepair);
-                    isStarted = true;
-                }
-            }
+            
 
-            void c_StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
-            { // TODO: Рестарт роспуска - это изменение с красного на любой?
-                if (e.ValueColor == SemaphoreColor.Red & isStarted)
-                {
-                    previousColor = e.ValueColor;
-                    stopDissolution_time = DateTime.UtcNow;
-                    WriteLine("Время роспуска: " + stopDissolution_time);
-                    if ((stopDissolution_time - start_time).Seconds > 15) // 5 секунда норма, +10 сек - без штрафа
-                    {
-                        penaltyScores += ((stopDissolution_time - start_time).Seconds - 5) / 10 * penaltyMultiplicator;
-                    }
-                    WriteLine("Штрафные баллы: " + penaltyScores);
-                }
-                else
-                {
-                    if (previousColor == SemaphoreColor.Red)
-                    { // TODO: Это и есть рестарт?
-                        previousColor = e.ValueColor;
-                        restartDissolution_time = DateTime.UtcNow;
-                        WriteLine("Время рестарта: " + restartDissolution_time);
-                        WriteLine((restartDissolution_time - start_time).Seconds);
-                        if ((restartDissolution_time - start_time).Seconds > 40) // 30 сек норма, +10сек - без штрафа
-                        {
-                            penaltyScores += ((restartDissolution_time - start_time).Seconds - 30) / 10 *
-                                             penaltyMultiplicator;
-                        }
-                        WriteLine("Штрафные баллы: " + penaltyScores);
-                        M.GetObjectStatesHappenedCall();
-                    }
-                }
-            }
+            
 
             void c_GetObject4AStatesHappened(object sender, GetObjectStatesEventArgs e)
             {
@@ -342,41 +308,7 @@ namespace TestingEnvironment
                 M.OnSwitchModesHappened(argsS);
             }
 
-            static void c_BrakeModes(object sender, BrakeModesEventArgs e)
-            {
-                int NumberOfIncorrectBrakes = 0;
-                WriteLine("Brakes:");
-                foreach (KeyValuePair<Guid,BrakeModeControl> Brake in e.BrakeModes)
-                {
-                    WriteLine("-"+Brake.Value);
-                    if (Brake.Value != BrakeModeControl.Manual)
-                    {
-                        NumberOfIncorrectBrakes++;
-                    }
-                }
-                penaltyScores += NumberOfIncorrectBrakes * penaltyMultiplicator;
-                WriteLine("incorrect brakes:" + NumberOfIncorrectBrakes);
-            }
-
-            static void c_SwitcModes(object sender, SwitchModesEventArgs e)
-            {
-                //#if (typeDisrepair != TypeDisrepairGac.ManualBrake)
-                //{ // TODO: Срабатывание ГАЦ МН, затем ТОРМОЗИТЬ ВРУЧНУЮ приведёт к нон-чеку этой секции
-                    int NumberOfIncorrectSwitches = 0;
-                    WriteLine("Switches:");
-                    foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
-                    {
-                        WriteLine("-"+Switch.Value);
-                        if (Switch.Value != SwitchModeControl.Manual)
-                        {
-                            NumberOfIncorrectSwitches++;
-                        }
-                    }
-
-                    penaltyScores += NumberOfIncorrectSwitches * penaltyMultiplicator;
-                    WriteLine("incorrect switches:" + NumberOfIncorrectSwitches);
-                //}
-            }
+           
         }
 
         void CriticalSituationBrokenGACCall()
