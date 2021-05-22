@@ -25,13 +25,28 @@ namespace TestingEnvironment
 
         public CorrectBehaviorCheck(int multiplicator = 100, int stopDissolutionTime = 5,
             int restartDissolutionTime = 30) // стандартный конструктор, задаёт множитель, время для остановки
-        {                                           // роспуска, время для рестарта роспуска
+        {
+            // роспуска, время для рестарта роспуска
             penaltyMultiplicator = multiplicator;
             standartStopDissolutionTime = stopDissolutionTime;
             standartRestartDissolutionTime = restartDissolutionTime;
         }
-        
-        
+
+        public void reset()
+        {
+            isStarted = false;
+            criticalSituationStartTime = DateTime.MinValue;
+            stopDissolutionTime = DateTime.MinValue;
+            restartDissolutionTime = DateTime.MinValue;
+            isBrakeDone = false;
+            isSwitchDone = false;
+            previousColor = SemaphoreColor.Green;
+            checkBrakes = false;
+            checkSwitches = false;
+            penaltyScores = 0;
+        }
+
+
 
         /// <summary>
         /// Обработчик события "критическая ситуация" (CriticalSituationGacEventArgs)
