@@ -33,7 +33,7 @@ namespace TestingEnvironment
         }
 
         public void reset()
-        {
+        { // Метод используется только при тестировании, обнуляет все параметры для чистого старта
             isStarted = false;
             criticalSituationStartTime = DateTime.MinValue;
             stopDissolutionTime = DateTime.MinValue;
@@ -56,25 +56,26 @@ namespace TestingEnvironment
         public void CriticalSituationHappened(object sender, CriticalSituationGacEventArgs e)
         {
             if (e.TypeDisrepair != TypeDisrepairGac.None)
-            {
+            {  // Если сработала ситуация, которая несёт какой-то смысл в себе
                 if (isStarted) // Если уже началась какая-то ситация, то нужно проверить не нарушил ли оператор время на её реагирование.
                     // Ситуация 3.2.3 -> Вторая ситуация спустя минуту после первой. Оператор не успел зарестартить роспуск во время первой.
                 {
-                    DateTime now = DateTime.Now;
+                    DateTime now = DateTime.Now; // Запоминаем текущее время, 
                     if ((now - criticalSituationStartTime).TotalSeconds > standartRestartDissolutionTime + 10)
-                    {
+                    { // Если время между текущей сработавшей новой ситуацией и прошлой ситуацией превышает время на рестарта роспуска больше, чем на 10сек
+                        // То значит что оператор не успел предпринят все необходимые действия, получает штраф за 10сек
                         penaltyScores += (Convert.ToInt32((now - criticalSituationStartTime).TotalSeconds) - 
                                         standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
                     }
                 }
-                criticalSituationStartTime = DateTime.Now;
-                TypeDisrepair = e.TypeDisrepair;
-                checkBrakes = true;
+                criticalSituationStartTime = DateTime.Now; // Перезаписываем или впервые определяем время срабатывания ситуации
+                TypeDisrepair = e.TypeDisrepair; // Перезаписываем или впервые определяем тип ситуации
+                checkBrakes = true; // Ставим галочку что нужно проверять тормоза
                 if (e.TypeDisrepair != TypeDisrepairGac.ManualBrake)
-                {
+                { // Если тип ситуации НЕ "тормозить вручную", то ставим галочку что нужно проверять стрелки
                     checkSwitches = true;
                 }
-                isStarted = true;
+                isStarted = true; // Ставим галочку что обработка ситуации начата
             }
         }
         
@@ -86,23 +87,25 @@ namespace TestingEnvironment
         public void StateSemaphoreHappened(object sender, StateSemaphoreEventArgs e)
         {
             if (e.ValueColor == SemaphoreColor.Red & isStarted)
-            {
-                previousColor = e.ValueColor;
-                stopDissolutionTime = DateTime.Now;
+            { // Если ситуация начата и получен красный сигнал светофора, то это остановка роспуска
+                previousColor = e.ValueColor; // Запоминаем сигнал светофора
+                stopDissolutionTime = DateTime.Now; // Запоминаем время остановки роспуска
                 if ((stopDissolutionTime - criticalSituationStartTime).TotalSeconds > standartStopDissolutionTime + 10) //норма +10 сек без штрафа
-                {
+                { // Если с момента срабатывания последней критической ситуации прошло больше, чем стандартное время +10сек
+                    // то значит, что оператор не успел во время среагировать, начисляем штраф за каждые 10сек
                     penaltyScores += (Convert.ToInt32((stopDissolutionTime - criticalSituationStartTime).TotalSeconds) - 
                                       standartRestartDissolutionTime) / 10 * penaltyMultiplicator;
                 }
             }
             else
             {
-                if (previousColor == SemaphoreColor.Red)
-                {
-                    previousColor = e.ValueColor;
-                    restartDissolutionTime = DateTime.Now;
+                if (previousColor == SemaphoreColor.Red & isStarted)
+                { // Если ситуация начата и получен НЕ красный светофор, причём предыдущий был красный. Значит произошёл рестарт роспуска
+                    previousColor = e.ValueColor; // Запоминаем новый цвет
+                    restartDissolutionTime = DateTime.Now; // Запоминаем время рестарта роспуска
                     if ((restartDissolutionTime - criticalSituationStartTime).TotalSeconds > standartRestartDissolutionTime + 10) //норма +10сек без штрафа
-                    {
+                    { // Если с момента срабатывания критической ситуации прошло больше, чем на 10сек больше времени, чем задано на реакцию,
+                        // то оператор получает штраф за каждые 10сек сверх нормы
                         penaltyScores += (Convert.ToInt32((restartDissolutionTime - criticalSituationStartTime).TotalSeconds) -
                                           standartRestartDissolutionTime) / 10  * penaltyMultiplicator;
                     }
@@ -122,17 +125,17 @@ namespace TestingEnvironment
         public void BrakeModesHappened(object sender, BrakeModesEventArgs e)
         {
             if (isStarted)
-            {
-                int numberOfNotManualBrakes = 0;
+            { // Если ситуация начата
+                int numberOfNotManualBrakes = 0; // Подсчитываем количество неправильных 
                 foreach (KeyValuePair<Guid, BrakeModeControl> Brake in e.BrakeModes)
-                {
+                { // Перебираем список полученных тормозов
                     if (Brake.Value != BrakeModeControl.Manual)
-                    {
-                        numberOfNotManualBrakes++;
+                    { // Если тормоз не в ручном положении, увеличиваем счётчик на 1
+                        numberOfNotManualBrakes++; 
                     }
                 }
-                penaltyScores += numberOfNotManualBrakes * penaltyMultiplicator;
-                isBrakeDone = true;
+                penaltyScores += numberOfNotManualBrakes * penaltyMultiplicator; // Начисляем штраф за каждый неправильный тормоз
+                isBrakeDone = true; // Ставим галочку что тормоза были првоерены
                 if (!checkSwitches)
                 {
                     // Стрелки проверять не надо, сработало только РУЧНОЕ ТОРМОЖЕНИЕ
@@ -156,20 +159,20 @@ namespace TestingEnvironment
         /// <param name="sender">Отправитель</param>
         /// <param name="e">Аргументы</param>
         public void SwitchModesHappened(object sender, SwitchModesEventArgs e)
-        {
-            if (checkSwitches) {
-                int numberOfNotManualSwitches = 0;
+        { 
+            if (checkSwitches) { // Если нужно проверять стрелки
+                int numberOfNotManualSwitches = 0; // СОздаём счётчик неправильных стрелок 
                 foreach (KeyValuePair<Guid, SwitchModeControl> Switch in e.SwitchModes)
-                {
+                { // В цикле перебираем полученные стрелки
                     if (Switch.Value != SwitchModeControl.Manual)
-                    {
+                    {  // Если стрелка не в ручнмо режиме, то увеличиваем счётчик на 1
                         numberOfNotManualSwitches++;
                     }
                 }
                 
-                penaltyScores += numberOfNotManualSwitches * penaltyMultiplicator;
+                penaltyScores += numberOfNotManualSwitches * penaltyMultiplicator; // Начисляем штраф за неправильные стрелки
         
-                isSwitchDone = true;
+                isSwitchDone = true; // СТавим галочку что стрелки были проверены
                 if (isBrakeDone & isSwitchDone)
                 {
                     // Тормоза и стрелки проверены, штрафы начислены. Ситацию можно закрывать.
