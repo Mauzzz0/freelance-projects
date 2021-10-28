@@ -1,0 +1,354 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <malloc.h>
+#include <string.h>
+//#include "getLib.h"
+
+typedef struct Item {
+    char *info;
+    int key1;
+    int key2;
+    int ind1;
+    int ind2;
+} Item;
+
+typedef struct KeySpace1{
+    int key;
+    Item item;
+} KeySpace1;
+
+typedef struct KeySpace2{
+    int busy;
+    int key;
+    int rel;
+    Item item;
+}KeySpace2;
+
+typedef struct Table {
+    KeySpace1 *ks1;
+    KeySpace2 *ks2;
+    int maxsize1;
+    int maxsize2;
+    int size1;
+    int size2;
+    int csize1;
+    int csize2;
+} Table;
+
+int getInt(int *a);
+char *get_str();
+int find1(Table tab, int k1);
+int insert (Table *tab);
+int hash(int k, Table *tab);
+int insert2 (Table *tab, int k2, char *info);
+int delete (Table *tab);
+int find2 (Table tab, int k2);
+int findInfo(Table tab);
+void free1(Table tab);
+void free2(Table tab);
+int menu (Table *tab);
+int findInfo2 (Table tab);
+
+int getInt (int *a){
+    int n;
+    do {
+        n = sscanf("%d", a, sizeof(int));
+        if (n<0)
+            return 0;
+        if (n==0) {
+            printf("%s\n", "Repeat input");
+            sscanf("%*c", 0);
+        }
+    }while (n == 0);
+    return 1;
+}
+
+char *get_str()
+{
+    char buf[80] = {'\0'};
+    char *str = NULL;
+    unsigned int len = 0;
+    int n;
+    do {
+        n = scanf("%80[^\n]", buf);
+        if (n < 0) {
+            if (!str) {
+                return NULL;
+            }
+        } else if (n > 0){
+            unsigned int chunk_len = strlen(buf);
+            unsigned int new_len = len + chunk_len;
+            str = realloc(str, new_len + 1);
+            memcpy(str + len, buf, chunk_len);
+            len = new_len;
+        } else {
+            scanf("%*c");
+        }
+    } while (n > 0);
+
+    if (len > 0) {
+        str[len] = '\0';
+    } else {
+        str = calloc(1, sizeof(char));
+    }
+    return str;
+}
+
+int find1(Table tab, int k1) { //Поиск в упорядоченной таблице
+    int i = 0;
+    for (; i < tab.maxsize1; ++i) {//
+        // TODO: Цикл от 0 до текущего размера хранилища (csize1). i++
+        if (tab.ks1[i].key == k1) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int find2 (Table tab, int k2) { //Поиск в ХЭШ-таблице
+    printf("find2\n");
+    int r= -1;
+    int i = 0;
+    for (; i<tab.maxsize2; ++i){
+        if (tab.ks2[i].busy ==1 && tab.ks2[i].key == k2){
+            r ++;
+        }
+    }
+    printf("end of find\n");
+    return r;
+}
+
+int insert (Table *tab) { //Вставка в таблицу по составному ключу
+    if (tab->maxsize1 == tab->size1) {
+        printf("Error\n");
+        return 2; //Переполнение таблицы
+    }
+    if (tab->maxsize2 == tab->size2) {
+        printf("Error\n");
+        return 2; //Переполнение таблицы
+    }
+    int k1;
+    int k2;
+    char *info;
+    info = (char*)calloc(20, sizeof(char));
+    printf("Input key in table #1: ");
+    getInt(&k1); printf("\n");
+    printf("Input key in table #2: ");
+    getInt(&k2); printf("\n");
+    if (find1(*tab, k1) >= 0) {
+        printf("Error\n");
+        return 1; //Дублирование ключей
+    }
+    printf("Input info: \n");
+    scanf("%s", info);
+    int i2 = insert2(tab, k2, info); /////////////////////////////////////////////////////////////////////
+    printf("%d\n", i2);
+    int i = (tab->size1); //+1;
+    /*  while (tab->ks1[i].key > k1 && i>=0) {
+          i--;
+          printf("while %d\n", i);
+          tab->ks1[i]=tab->ks1[i-1];
+          tab->ks1[i].item.ind1++;
+      } */
+    tab->ks1[i].key=k1;
+    printf("152 %s %d\n", info, strlen(info)*sizeof(char));
+    tab->ks1[i].item.info = (char*)malloc(sizeof(char)*strlen(info)+1);
+    memset(tab->ks1[i].item.info, '0', sizeof(char)*strlen(info));
+    //tab->ks1[i].item.info = info1;
+    memcpy(tab->ks1[i].item.info, info, strlen(info)*sizeof(char)+1);
+    printf("inserted info: %s\n", tab->ks1[i].item.info);
+    tab->size1 ++;
+    tab->ks1[i].item.ind1=i;
+    tab->ks1[i].item.key1=k1;
+    tab->ks1[i].item.key2=k2;
+    tab->ks1[i].item.ind2=i2;
+    printf("line 160\n");
+    tab->ks2[i2].item.ind1 = i;
+    tab->ks2[i2].item.ind2=i2;
+    tab->ks2[i2].item.key1=k1;
+    tab->ks2[i2].item.key2=k2;
+    printf("line 164\n");
+    free(info);
+    printf("End insert\n");
+    return 0;
+}
+
+int hash(int k, Table *tab) {//ХЭШ-функция
+    printf("hash\n");
+    k = k % (tab->maxsize2);
+    printf("end of hash\n");
+    return k;
+}
+
+int insert2 (Table *tab, int k2, char *info) { //Вставка в ХЭШ-таблицу (возвращает индекс элемента)
+    printf("insert2\n");
+    int i = hash(k2, tab);
+    int r = 0;
+    while (tab->ks2[i].busy==1)  {
+        i = (i +3) % tab->maxsize2;  //шаг перемешивания =3
+    }
+    int f = find2(*tab, k2);
+    if (f>=0)
+        r=f+1;
+    tab->ks2[i].key=k2;
+    printf("key2[%d]=%d\n", i, tab->ks2[i].key);
+    tab->size2 ++;
+    printf("%s\n", info);
+    tab->ks2[i].item.info = (char*)malloc(sizeof(char)*(strlen(info)+1));
+    // tab->ks2[i].info = info;
+    memset(tab->ks2[i].item.info, '0', sizeof(char)*strlen(info)+1);
+    memcpy(tab->ks2[i].item.info, info, strlen(info)*sizeof(char)+1);
+    printf("%s\n", tab->ks2[i].item.info);
+    tab->ks2[i].rel = r;
+    tab->ks2[i].busy=1;
+    printf("end of insert\n");
+    return i;
+}
+
+int findInfo2 (Table tab){
+    int k;
+    printf("Input key: ");
+    getInt(&k); printf("\n");
+    int i1 = find1(tab, k);
+    if (i1!=-1) {
+        printf("Table #1: %s\n", tab.ks1[i1].item.info);
+    }
+    if (find2(tab, k)!=-1) {
+        printf("Table #2:\n");
+        for (int i = 0; i < tab.maxsize2; ++i) {
+            if (tab.ks2[i].busy == 1 && tab.ks2[i].key == k) {
+                printf("%s(rel = %d)\n", tab.ks2[i].item.info, tab.ks2[i].rel);
+            }
+        }
+    }
+    return 0;
+}
+
+int findInfo(Table tab){ //Вывод информации по составному ключу
+    printf("findInfo\n");
+    int k1;
+    int k2;
+    printf("Input key in table #1: ");
+    getInt(&k1); printf("\n");
+    printf("Input key in table #2: ");
+    getInt(&k2); printf("\n");
+    char *info1 =NULL;
+    int i =find1(tab, k1);
+    if (i==-1){
+        printf("Error (no such key)\n"); //Ключ не найден
+        return 1;
+    }
+    if (find2(tab, k2)==-1){
+        printf ("Error (no such key#2)\n");
+        return 1;
+    }
+    int i2;
+    i2=tab.ks1[i].item.ind2;
+    if (tab.ks2[i2].busy==-1) {
+        printf("Info was deleted\n");
+        return 1;
+    }
+    if (i>=0) {
+        printf("line 226\n");
+        info1 = (char*)calloc(strlen(tab.ks1[i].item.info)+1, sizeof(char)); printf("line 216\n");
+        //info1 = tab.ks1[i].item.info;
+        memcpy(info1, tab.ks1[i].item.info, strlen(tab.ks1[i].item.info)*sizeof(char));
+        printf("line 219\n");
+    }
+    printf("key1=%d, info1=%s\n", k1, info1);
+    printf("Key2=%d, rel=%d, info2=%s\n", k2, tab.ks2[i2].rel, tab.ks2[i2].item.info);
+    /* for (int a=0; a<tab.maxsize2; ++a) {
+         if (tab.ks2[a].key==k2){
+             printf("Key2=%d, rel=%d, info2=%s\n", k2, tab.ks2[a].rel, tab.ks2[a].item.info);
+         }
+     } */
+    free(info1);
+    return 0;
+}
+
+
+int delete (Table *tab){ //Удаление из таблицы элемента, заданного составным ключом
+    int k1;
+    int k2;
+    printf("Input key in table #1: ");
+    getInt(&k1); printf("\n");
+    printf("Input key in table #2: ");
+    getInt(&k2); printf("\n");
+    if (find1(*tab, k1)==-1 || find2(*tab, k2)==-1){
+        printf("Error\n"); //Один или оба ключа не найдены
+        return 1;
+    }
+    int i1 = find1(*tab, k1); printf("line 249\n");
+    int i2 = tab->ks1[i1].item.ind2; printf("line 250\n");
+    //free(tab->ks1[i1].item.info); printf("line 251\n");
+    tab->ks1[i1].key=-1; printf("line 252\n");
+    // tab->ks2[i2].key=-1; printf("line 253\n");
+    for (; i1<tab->size1; ++i1){
+        tab->ks1[i1].key = tab->ks1[i1+1].key;
+        tab->ks1[i1].item = tab->ks1[i1+1].item;
+    }
+    tab->size1 --;
+    tab->ks2[i2].busy = -1;
+    free(tab->ks2[i2].item.info);
+    tab->size2 --;
+    return 0;
+}
+void free1(Table tab){
+    int i=tab.maxsize1;
+    for(; i>=0; --i){
+        tab.ks1[i].key=0;
+        tab.ks1[i].item.ind1=0;
+        tab.ks1[i].item.key1=0;
+        free(tab.ks1[i].item.info);
+    }
+    free(tab.ks1);
+}
+void free2(Table tab){
+    int i=tab.maxsize2;
+    for(; i>=0; --i){
+        tab.ks2[i].key=0;
+        tab.ks2[i].busy=0;
+        tab.ks2[i].rel=0;
+        free(tab.ks2[i].item.info);
+    }
+    free(tab.ks2);
+}
+
+int menu (Table *tab) {
+    int m;
+    printf("1.Input\n2.Find info(two keys)\n3.Delete\n4.Find info (one key)\n0.Quit\n");
+    getInt(&m);
+    while (m!=0 && m!=1 && m!=2 && m!=3 && m!=4) {
+        printf("Repeat your choice\n");
+        getInt(&m);
+    }
+    while(m!=0) {
+        if (m == 1) {
+            insert(tab);
+        }
+        if (m == 2) {
+            findInfo(*tab);
+        }
+        if (m == 3) {
+            delete(tab);
+        }
+        if (m==4){
+            findInfo2(*tab);
+        }
+        printf("1.Input\n2.Find info(two keys)\n3.Delete\n4.Find info(one key)\n0.Quit\n");
+        getInt(&m);
+    }
+    return m;
+}
+
+
+int fake_main ()
+{
+    Table table = {NULL, NULL, 4, 4, 0, 0};
+    table.ks1=(void*)calloc(table.maxsize1, sizeof(int));
+    table.ks2=(void*)calloc(table.maxsize2, sizeof(int));
+    int m = menu(&table);
+    printf("%d\n", m);
+    free1(table);
+    free2(table);
+}
