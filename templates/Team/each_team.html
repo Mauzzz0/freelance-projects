@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+{% block title %}{{ team.name }} | РТХЛ{% endblock %}
+{% block content %}
+{% load static %}
+<div class="team">
+{% if messages %}
+  <div class="message">
+    {% for message in messages %}
+      <div{% if message.tags %} class="{{ message.tags }} message-block"{% endif %}>
+          {{ message }}
+          <p>Нажмите, чтобы закрыть</p>
+      </div>
+    {% endfor %}
+</div>
+{% endif %}
+  <div class="container">
+    <div class="team-block">
+      <div class="team-header">
+        <img src="{{ team.image.url }}" alt="Логотип команды" class="team__logo">
+        <div class="team-name">
+          <h1 class="team__title">{{ team.name }}</h1>
+          <span class="team__from">{{ team.city }}</span>
+          <a href="{{ team.url }}/create_app" class="team-info__application">Заявка команды на игру</a>
+        </div>
+      </div>
+      <div class="team-info">
+        <div class="team-info-item">
+          <span class="team-info-item__title">Дивизион</span>
+          <span class="team-info-item__text">{{ team.division }}</span>
+        </div>
+        <div class="team-info-item">
+          <span class="team-info-item__title">Рейтинг</span>
+          <span class="team-info-item__text"></span>
+        </div>
+        <div class="team-info-item">
+          <span class="team-info-item__title">Главный тренер</span>
+          <span class="team-info-item__text">{{ view.coach }}</span>
+        </div>
+      </div>
+      <div class="team-nav">
+        <div class="team-nav-item">
+          <button id="defaultOpen" class="team-nav__btn tablink" onclick="openBlock(event, 'matches', 'line1')">Матчи</button>
+          <div id="line1" class="team-nav__line line"></div>
+        </div>
+        <div class="team-nav-item">
+          <button class="team-nav__btn tablink" onclick="openBlock(event, 'players', 'line2')">Состав</button>
+          <div id="line2" class="team-nav__line line"></div>
+        </div>
+        <div class="team-nav-item">
+          <button class="team-nav__btn tablink" onclick="openBlock(event, 'media', 'line3')">Медиа</button>
+          <div id="line3" class="team-nav__line line"></div>
+        </div>
+        <div class="team-nav-item">
+          <button class="team-nav__btn tablink" onclick="openBlock(event, 'tournaments', 'line4')">Турниры</button>
+          <div id="line4" class="team-nav__line line"></div>
+        </div>
+      </div>
+      <div id="matches" class="team-matches tab">
+        <div class="team-matches-block">
+          <div class="team-matches-column">
+            <h2 class="team-matches__title">Ближайшие</h2>
+              {% for match in view.future_matches %}
+            <a href="../match/{{ match.id }}">
+              <div class="team-matches-card">
+                <div class="team-matches-card-teams">
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team1__name">{{ match.lineup_match.all.0.team }}</div>
+                    <div class="team-matches-card-team1__from">{{ match.lineup_match.all.0.team.city }}</div>
+                  </div>
+                  <div class="team-matches-card-team2">
+                    <div class="team-matches-card-team2__name">{{ match.lineup_match.all.1.team }}</div>
+                    <div class="team-matches-card-team2__from">{{ match.lineup_match.all.1.team.city }}</div>
+                  </div>
+                </div>
+                <div class="team-matches-card-info">
+                  <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="team-matches-card__img">
+                  <div class="team-matches-card-match">
+                    <span class="team-matches-card__first">{{ match.date }}</span>
+                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
+                    <span class="team-matches-card__third">{{ match.place }}</span>
+                  </div>
+                  <img src="{{ match.team_B.image.url }}" alt="Команда 2" class="team-matches-card__img">
+                </div>
+              </div>
+            </a>
+              {% endfor %}
+          </div>
+          <div class="team-matches-column">
+            <h2 class="team-matches__title">Прошедшие</h2>
+              {% for match in view.past_matches %}
+            <a href="../match/{{ match.id }}">
+              <div class="team-matches-card">
+                <div class="team-matches-card-teams">
+                  <div class="team-matches-card-team1">
+                    <div class="team-matches-card-team1__name">{{ match.lineup_match.all.0.team }}</div>
+                    <div class="team-matches-card-team1__from">{{ match.lineup_match.all.0.team.city }}</div>
+                  </div>
+                  <div class="team-matches-card-team2">
+                    <div class="team-matches-card-team2__name">{{ match.lineup_match.all.1.team }}</div>
+                    <div class="team-matches-card-team2__from">{{ match.lineup_match.all.1.team.city }}</div>
+                  </div>
+                </div>
+                <div class="team-matches-card-info">
+                  <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="team-matches-card__img">
+                  <div class="team-matches-card-match">
+                    <span class="team-matches-card__first">{{ match.date }}</span>
+                    <span class="team-matches-card__second">{{ match.get_result_str }}</span>
+                    <span class="team-matches-card__third">{{ match.place }}</span>
+                  </div>
+                  <img src="{{ match.team_B.image.url }}" alt="Команда 2" class="team-matches-card__img">
+                </div>
+              </div>
+            </a>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div id="players" class="team-players tab">
+  {% for singular,plural in view.ampluas.items %}
+        <div class="team-players-type">
+          <h2 class="team-players__title">{{ plural }}</h2>
+          <div class="team-players-table-block">
+            <table class="team-players-table">
+              <tr class="team-players-table-header">
+                <th class="team-players-table-header__item">#</th>
+                <th></th>
+                <th class="team-players-table-header__item">ИГРОК</th>
+                <th class="team-players-table-header__item">КВАЛИФИКАЦИЯ</th>
+                <th class="team-players-table-header__item">ВОЗРАСТ</th>
+                <th class="team-players-table-header__item">РЕЙТИНГ</th>
+                <th></th>
+              </tr>
+        {% for player in view.players %}
+        {% if player.role == singular %}
+            <form method="post"> {% csrf_token %}
+              <tr class="team-players-table-line">
+
+                <td class="team-players-table-line__item">{{ player.game_number }}</td>
+                <td class="team-players-table-line__item"><img src="{{ player.image.url }}" alt="" class="team-players-table-line__img"></td>
+                <td class="team-players-table-line__item"><a href="../player/{{ player.id }}">{{ player.name }} {{ player.surname }}</a></td>
+                <td class="team-players-table-line__item">{{ player.qualification }}</td>
+                <td class="team-players-table-line__item">{{ player.age }}</td>
+                <td class="team-players-table-line__item">0.5rating???</td>
+                <td class="team-players-table-line__item">
+                  <button type="submit" name="delete_player_id" class="team-players-del" value="{{ player.id }}"><img src="{% static 'img/delete.svg' %}" alt=""></button>
+                </td>
+              </tr>
+            </form>
+              {% endif %}
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+    {% endfor %}
+      </div>
+      <div id="media" class="team-media tab">
+        <div class="team-media-block">
+          <div class="team-media-card">
+            <iframe
+              class="team-media-card__video"
+              srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+              frameborder="0"
+              autoplay='1'
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+            ></iframe>
+            <span class="team-media-card__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+            <span class="team-media-card__date">23.11.2002</span>
+          </div>
+          <div class="team-media-card">
+            <iframe
+              class="team-media-card__video"
+              srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+              frameborder="0"
+              autoplay='1'
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+            ></iframe>
+            <span class="team-media-card__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+            <span class="team-media-card__date">23.11.2002</span>
+          </div>
+          <div class="team-media-card">
+            <iframe
+              class="team-media-card__video"
+              srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+              frameborder="0"
+              autoplay='1'
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+            ></iframe>
+            <span class="team-media-card__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+            <span class="team-media-card__date">23.11.2002</span>
+          </div>
+          <div class="team-media-card">
+            <iframe
+              class="team-media-card__video"
+              srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+              frameborder="0"
+              autoplay='1'
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+            ></iframe>
+            <span class="team-media-card__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+            <span class="team-media-card__date">23.11.2002</span>
+          </div>
+          <div class="team-media-card">
+            <iframe
+              class="team-media-card__video"
+              srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+              frameborder="0"
+              autoplay='1'
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+            ></iframe>
+            <span class="team-media-card__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+            <span class="team-media-card__date">23.11.2002</span>
+          </div>
+        </div>
+      </div>
+      <div id="tournaments" class="team-tournaments tab">
+        <div class="team-tournaments-block">
+          <div class="team-tournaments-table-block">
+            <table class="team-tournaments-table">
+              <tr class="team-tournaments-table-header">
+                <th class="team-tournaments-table-header__item">Сезон</th>
+                <th class="team-tournaments-table-header__item">И</th>
+                <th class="team-tournaments-table-header__item">В</th>
+                <th class="team-tournaments-table-header__item">ВБ</th>
+                <th class="team-tournaments-table-header__item">Н</th>
+                <th class="team-tournaments-table-header__item">П</th>
+                <th class="team-tournaments-table-header__item">ПБ</th>
+                <th class="team-tournaments-table-header__item">Ш</th>
+                <th class="team-tournaments-table-header__item">О</th>
+              </tr>
+                {% for tournament in view.tournaments_set %}
+              <tr class="team-tournaments-table-line">
+                <td class="team-tournaments-table-line__item">{{ tournament.season }} {{ tournament }}</td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+                <td class="team-tournaments-table-line__item"></td>
+              </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    document.getElementById("defaultOpen").click();
+  function openBlock(event, blockName, line) {
+    var i, tabcontent, tablinks, lines;
+    lines = document.getElementsByClassName("line");
+    for (i = 0; i < lines.length; i++) {
+        lines[i].style.display = "none";
+    }
+    tabcontent = document.getElementsByClassName("tab");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(blockName).style.display = "block";
+    document.getElementById(line).style.display = "block";
+    event.currentTarget.className += " active";
+}
+</script>
+{% endblock %}

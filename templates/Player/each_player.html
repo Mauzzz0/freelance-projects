@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% block content%}
+  <div class="player">
+    <div class="container">
+      <div class="player-block">
+        <img src="{{ player.image.url }}" alt="Фото игрока" class="player__img">
+        <h2 class="player__name">{{ player.fullname }}</h2>
+        <div class="player-info">
+          <div class="player-info__item">{{ player.role }}</div>
+          <div class="player-info__item">{{ player.growth }}см</div>
+          <div class="player-info__item">{{ player.weight }}кг</div>
+          <div class="player-info__item">{{ player.age }} возраст</div>
+          <div class="player-info__item">
+			{% for team in player.team_name.all %}
+            <div class="player-info-team">
+              <img class="player-info-team__img" src="{{ team.image.url }}" alt="">
+              <span class="player-info-team__text"><a href="../team/{{ team.url }}">{{ team.name }}</a></span>
+            </div>
+			{% endfor %}
+          </div>
+        </div>
+
+        <div class="player-stats">
+          <h2 class="player-stats__title">Статистика</h2>
+          <ul class="player-stats-list">
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Дата рождения :</span>
+              <span class="player-stats-list__item-value">{{ player.birth_date }}</span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Хват :</span>
+              <span class="player-stats-list__item-value">{{ player.grip }}</span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Квалификация :</span>
+                {% if 'Красный' in player.qualification %}
+              <span style="color: red" class="player-stats-list__item-value">{{ player.qualification }}</span>
+                {% else %}
+              <span class="player-stats-list__item-value">{{ player.qualification }}</span>
+                {% endif %}
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Рейтинг :</span>
+              <span class="player-stats-list__item-value">???</span>
+            </li>
+          </ul>
+          <ul class="player-stats-list">
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Игры :</span>
+              <span class="player-stats-list__item-value">{{ view.get_games_count }}</span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Голы :</span>
+              <span class="player-stats-list__item-value">{{ view.get_goals_count }}</span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Передачи :</span>
+              <span class="player-stats-list__item-value">{{ view.get_passes_count }}</span>
+            </li>
+            <li class="player-stats-list__item">
+              <span class="player-stats-list__item-text">Штрафы :</span>
+              <span class="player-stats-list__item-value">{{ view.get_penalties_count }}</span>
+            </li>
+          </ul>
+          <div class="player-stats-extra">
+            <div class="player-stats-bio">
+              <span class="player-stats-bio__title">Хоккейная биография</span>
+              <p class="player-stats-bio__text">{{ player.biography }}</p>
+            </div>
+            <div class="player-stats-dis">
+              <span class="player-stats-dis__title">Игр дисквалификации</span>
+              <p class="player-stats-dis__text">{{ player.disqualified_games_count }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="player-matches">
+          <h2 class="player-matches__title">Матчи</h2>
+            {% for team,matches in view.get_matches_by_team.items %}
+          <button class="player-matches__header"><span>{{ team.name }}</span><i class="fas fa-angle-down"></i></button>
+          <div class="player-matches-table-block hidden">
+            <table class="player-matches-table ">
+              <tr class="player-matches-table-header">
+                <th class="player-matches-table-header__item" title="Дата матча">ДАТА</th>
+                <th class="player-matches-table-header__item" title="Матч">МАТЧ</th>
+                <th class="player-matches-table-header__item" title="Кол-во заброшенных шайб">Ш</th>
+                <th class="player-matches-table-header__item" title="Кол-во голевых передач">А</th>
+                <th class="player-matches-table-header__item" title="Кол-во штрафных минут">ШТР</th>
+              </tr>
+                {% for match in matches %}
+              <tr class="player-matches-table-line">
+                <td class="player-matches-table-line__item">{{ match.date.date }}</td>
+                <td class="player-matches-table-line__item"><a href="../match/{{ match.id }}">{{ match }}</a></td>
+                <td class="player-matches-table-line__item"></td>
+                <td class="player-matches-table-line__item"></td>
+                <td class="player-matches-table-line__item"></td>
+              </tr>
+                    {% endfor %}
+            </table>
+          </div>
+        {% endfor %}
+        </div>
+
+        <div class="player-seasons">
+          <h2 class="player-seasons__title">Сезоны</h2>
+          <div class="player-seasons-table-block">
+            <table class="player-seasons-table ">
+              <tr class="player-seasons-table-header">
+                <th class="player-seasons-table-header__item" title="Дата матча">СЕЗОН</th>
+                <th class="player-seasons-table-header__item" title="Матч">КОМАНДА</th>
+                <th class="player-seasons-table-header__item" title="Кол-во заброшенных шайб">И</th>
+                <th class="player-seasons-table-header__item" title="Кол-во заброшенных шайб">Ш</th>
+                <th class="player-seasons-table-header__item" title="Кол-во голевых передач">А</th>
+                <th class="player-seasons-table-header__item" title="Кол-во заброшенных шайб">О</th>
+                <th class="player-seasons-table-header__item" title="Кол-во заброшенных шайб">+/-</th>
+                <th class="player-seasons-table-header__item" title="Кол-во штрафных минут">ШТР</th>
+              </tr>
+                {% for tournament,team in view.tournament_team.items %}
+              <tr class="player-seasons-table-line">
+                <td class="player-seasons-table-line__item">{{ tournament.season }} {{ tournament }}</td>
+                <td class="player-seasons-table-line__item"><a href="../team/{{ team.url }}">{{ team }}</a></td>
+                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item"></td>
+                <td class="player-seasons-table-line__item"></td>
+              </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

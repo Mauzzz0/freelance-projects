@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="schedule">
+  <div class="schedule-dates">
+    <div class="schedule-dates-left"><a href="#"><img src="{% static 'img/arrow.svg' %}" alt=""></a></div>
+    <div class="schedule-date"><a href="#">12 декабря, четверг</a></div>
+    <div class="schedule-date"><a href="#">12 декабря, четверг</a></div>
+    <div class="schedule-date"><a href="#">12 декабря, четверг</a></div>
+    <div class="schedule-date"><a href="#">12 декабря, четверг</a></div>
+    <div class="schedule-date"><a href="#">12 декабря, четверг</a></div>
+    <div class="schedule-dates-right"><a href="#"><img src="{% static 'img/arrow.svg' %}" alt=""></a></div>
+  </div>
+  <div class="container">
+    <div class="schedule-block">
+      <div class="schedule-league">
+        <div class="schedule-league__title"></div>
+        <div class="schedule-league__header"></div>
+
+        <div class="schedule-league-table-block">
+          <table class="schedule-league-table">
+            <tr class="schedule-league-line">
+              <td class="schedule-league-table__col1">
+                <span class="schedule-league-line__tour"></span>
+                <span class="schedule-league-line__place"></span>
+                <span class="schedule-league-line__time"></span>
+              </td>
+              <td class="schedule-league-table__col2">
+                <div class="schedule-league-line__team1">
+                  <div><img src="" alt=""></div>
+                  <span></span>
+                </div>
+                <div class="schedule-league-line__team2">
+                  <div><img src="" alt=""></div>
+                  <span></span>
+                </div>
+              </td>
+              <td class="schedule-league-table__col3 schedule-league-line__video"><a href="#"><i class="fa fa-youtube-play"></i></a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

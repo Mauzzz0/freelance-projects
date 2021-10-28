@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% if messages %}
+    <div class="message">
+      {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }} message-block"{% endif %}>
+            {{ message }}
+            <p>Нажмите, чтобы закрыть</p>
+        </div>
+      {% endfor %}
+  </div>
+{% endif %}
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+{{ form.as_p }}
+    <span>{{ error }}</span>
+    <button class="btn btn-success" type="submit">Добавить</button>
+    </form>
+{% endblock %}

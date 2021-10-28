@@ -1,0 +1,16 @@
+<nav class="header-nav">
+    <a href="{% url 'schedule' %}" class="header-nav__item">Расписание</a>
+    <a href="{% url 'news' %}" class="header-nav__item">Новости</a>
+    <a href="https://www.youtube.com/channel/UCNJbhEi4TsOLamqbMnqqlRA/featured" target="_blank" class="header-nav__item">Видео</a>
+    <a href="{% url 'teams' %}" class="header-nav__item">Команды</a>
+    <div class="header-nav-more">
+      <button class="header-nav__item header-nav-more__btn">Ещё</button>
+      <div class="header-nav-dropdown">
+        <ul>
+          <li><a href="{% url 'documents' %}" class="header-nav__item dropdown__item">Документы</a></li>
+          <li><a href="{% url 'insurance' %}" class="header-nav__item dropdown__item">Страховка</a></li>
+          <li><a href="{% url 'contacts' %}" class="header-nav__item dropdown__item">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+ </nav>

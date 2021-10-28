@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Документы | РТХЛ{% endblock %}
+
+{% load static %}
+
+{% block content%}
+  <div class="documents">
+    <div class="documents-block">
+      <h2 class="documents__title">Документы</h2>
+      <div class="documents-cards">
+        <a href="{% static 'docs/Zolotoy.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение дивизиона "Золотой"</span>
+        </a>
+        <a href="{% static 'docs/Serebryaniy.pdf' %}" target="_blank"  class="documents-cards__card">
+          <span class="documents-cards__text">Положение дивизиона "Серебряный"</span>
+        </a>
+        <a href="{% static 'docs/Medniy.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение дивизиона "Медный"</span>
+        </a>
+        <a href="{% static 'docs/Hrustalniy.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение дивизиона "Хрустальный"</span>
+        </a>
+        <a href="{% static 'docs/Steklyanniy.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение дивизиона "Стекляный"</span>
+        </a>
+        <a href="{% static 'docs/Budushie_chempiony.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение Дивизиона "Кубок Будущих Чемпионов"</span>
+        </a>
+        <a href="{% static 'docs/Polozheniye.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Положение</span>
+        </a>
+        <a href="{% static 'docs/Terminy.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Термины</span>
+        </a>
+        <a href="{% static 'docs/Sportivniy_reglament.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Спортивный регламент</span>
+        </a>
+        <a href="{% static 'docs/Distsiplinarniy_reglament.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Дисциплинарный регламент</span>
+        </a>
+        <a href="{% static 'docs/Dopuski.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Допуски по квалификациям в дивизионах</span>
+        </a>
+        <a href="{% static 'docs/Publichnaya_oferta.pdf' %}" target="_blank" class="documents-cards__card">
+          <span class="documents-cards__text">Публичная оферта</span>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,572 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+{% load static %}
+<div class="match">
+  <div class="container">
+    <div class="match-block">
+      <div class="match-header">
+        <p class="match-header__date">{{ match.date }}</p>
+        <p class="match-header__place"><a href="#">{{ match.place }}<i class="fas fa-map-marker-alt"></i></a></p>
+        <div class="match-header-main">
+          <div class="match-header-team-left">
+            <img src="{{ match.team_A.image.url }}" alt="Команда 1" class="match-header-team-left__logo">
+            <div class="match-header-team-left-info">
+              <h1 class="match-header-team-left__name"><a href="../team/{{ match.team_A.url }}">{{ match.team_A.name }}</a></h1>
+              <span class="match-header-team-left__trainer">Тренер:<br><a href="../player/{{ view.teamA_coach.id }}">{{ view.teamA_coach }}</a></span>
+            </div>
+          </div>
+          <div class="match-header-match">
+            <div class="match-header-match-count">
+              <span class="match-header-match-count__item">{{ view.goalsA.count }}</span>
+              <span class="match-header-match-count__item">-</span>
+              <span class="match-header-match-count__item">{{ view.goalsB.count }}</span>
+            </div>
+            <div class="match-header-match-counts">
+              <span class="match-header-match-counts__item">{{ view.result1period }}</span>
+              <span class="match-header-match-counts__item">{{ view.result2period }}</span>
+              <span class="match-header-match-counts__item">{{ view.result3period }}</span>
+              <span class="match-header-match-counts__item"></span>
+            </div>
+          </div>
+          <div class="match-header-team-right">
+            <img src="{{ match.team_B.image.url }}" alt="Команда 1" class="match-header-team-right__logo">
+            <div class="match-header-team-right-info">
+              <h1 class="match-header-team-right__name"><a href="../team/{{ match.team_B.url }}">{{ match.team_B.name }}</a></h1>
+              <span class="match-header-team-right__trainer">Тренер:<br><a href="../player/{{ view.teamB_coach.id }}">{{ view.teamB_coach }}</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="match-nav">
+        <div class="match-nav-item">
+          <button id="defaultOpen" class="match-nav__btn tablink" onclick="openBlock(event, 'protocol', 'line1')">Протокол</button>
+          <div id="line1" class="match-nav__line line"></div>
+        </div>
+        <div class="match-nav-item">
+          <button class="match-nav__btn tablink" onclick="openBlock(event, 'players', 'line2')">Состав</button>
+          <div id="line2" class="match-nav__line line"></div>
+        </div>
+        <div class="match-nav-item">
+          <button class="match-nav__btn tablink" onclick="openBlock(event, 'statistics', 'line3')">Статистика</button>
+          <div id="line3" class="match-nav__line line"></div>
+        </div>
+      </div>
+
+      <div id="protocol" class="match-protocol tab">
+        <div class="match-protocol-block">
+          <p class="match-protocol-period__title">1 период</p>
+          <div class="match-protocol-period">
+                {% for action in view.actions1period %}
+                  {% if action.type == "Штраф" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-fine match-protocol-event event">
+              <div class="match-protocol-event-left-fine-text">
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+              <div class="match-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
+                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-left-fine-time time">
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-goal match-protocol-event event">
+              <div class="match-protocol-event-left-goal-text">
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                  {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
+                  <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-time time">
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Штраф" and action.team_side == "B" %}
+            <div class="match-protocol-event-right-fine match-protocol-event event">
+              <div class="match-protocol-event-right-fine-time time">
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-right-fine-text">
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "B" %}
+             <div class="match-protocol-event-right-goal match-protocol-event event">
+              <div class="match-protocol-event-right-goal-time time">
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-right-goal-text">
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                  {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                  {% endfor %}
+              </div>
+            </div>
+                  {% endif %}
+                    {% empty %}
+               <b>Нет событий</b>
+              {% endfor %}
+          </div>
+
+            <p class="match-protocol-period__title">2 период</p>
+          <div class="match-protocol-period">
+                {% for action in view.actions2period %}
+                  {% if action.type == "Штраф" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-fine match-protocol-event event">
+              <div class="match-protocol-event-left-fine-text">
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+              <div class="match-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
+                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-left-fine-time time">
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-goal match-protocol-event event">
+              <div class="match-protocol-event-left-goal-text">
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                  {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-time time">
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Штраф" and action.team_side == "B" %}
+            <div class="match-protocol-event-right-fine match-protocol-event event">
+              <div class="match-protocol-event-right-fine-time time">
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-right-fine-text">
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "B" %}
+             <div class="match-protocol-event-right-goal match-protocol-event event">
+              <div class="match-protocol-event-right-goal-time time">
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-right-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-right-goal-text">
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                  {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                  {% endfor %}
+              </div>
+            </div>
+                  {% endif %}
+              {% empty %}
+               <b>Нет событий</b>
+              {% endfor %}
+          </div>
+
+            <p class="match-protocol-period__title">3 период</p>
+          <div class="match-protocol-period">
+                {% for action in view.actions3period %}
+                  {% if action.type == "Штраф" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-fine match-protocol-event event">
+              <div class="match-protocol-event-left-fine-text">
+                <p class="match-protocol-event-left-fine-text__item">#{{ action.player.game_number }} | {{ action.player.fullname }}</p>
+                <p class="match-protocol-event-left-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+              <div class="match-protocol-event-left-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-left-fine-action__img">
+                <span class="match-protocol-event-left-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-left-fine-time time">
+                <span class="match-protocol-event-left-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "A" %}
+            <div class="match-protocol-event-left-goal match-protocol-event event">
+              <div class="match-protocol-event-left-goal-text">
+              <p class="match-protocol-event-left-goal-text__item">#{{ action.player_score.game_number }} | {{ action.player_score.fullname }}</p>
+                  {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-left-goal-text__item">#{{ player.game_number }} | {{ player.fullname }}</p>
+                  {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-left-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text"><b>{{ value.0 }}</b>:{{ value.1 }}</span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-left-goal-time time">
+                <span class="match-protocol-event-left-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Штраф" and action.team_side == "B" %}
+            <div class="match-protocol-event-right-fine match-protocol-event event">
+              <div class="match-protocol-event-right-fine-time time">
+                <span class="match-protocol-event-right-fine-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-fine-action">
+                <img src="{% static 'img/fine.svg' %}" alt="" class="match-protocol-event-right-fine-action__img">
+                <span class="match-protocol-event-right-fine-action__text">{{ action.removal_time}}'</span>
+              </div>
+              <div class="match-protocol-event-right-fine-text">
+                <p class="match-protocol-event-right-fine-text__item">{{ action.player.fullname }} | #{{ action.player.game_number }}</p>
+                <p class="match-protocol-event-right-fine-text__item">{{ action.paragraph }}</p>
+              </div>
+            </div>
+                  {% endif %}
+                  {% if action.type == "Гол" and action.team_side == "B" %}
+             <div class="match-protocol-event-right-goal match-protocol-event event">
+              <div class="match-protocol-event-right-goal-time time">
+                <span class="match-protocol-event-right-goal-time__text">{{ action.time_minute }}'{{ action.time_second }}''</span>
+              </div>
+              <div class="match-protocol-event-right-goal-action">
+                <img src="{% static 'img/puck.svg' %}" alt="" class="match-protocol-event-right-goal-action__img">
+                <!-- TODO: Заменить на прямое обращение к view.state_for_each_goal.KEY-ACTION.0  и .1 -->
+                  {% for key, value in view.state_for_each_goal.items %}
+                        {% if key == action %}
+                  <span class="match-protocol-event-left-goal-action__text">{{ value.0 }}:<b>{{ value.1 }}</b></span>
+                            {% endif %}
+                    {% endfor %}
+              </div>
+              <div class="match-protocol-event-right-goal-text">
+              <p class="match-protocol-event-right-goal-text__item">{{ action.player_score.fullname }} | #{{ action.player_score.game_number }}</p>
+                    {% for player in action.players_passes.all %}
+                <p class="match-protocol-event-right-goal-text__item">{{ player.fullname }} | #{{ player.game_number }}</p>
+                  {% endfor %}
+              </div>
+            </div>
+                  {% endif %}
+              {% empty %}
+               <b>Нет событий</b>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div id="players" class="match-players tab">
+
+        <div class="match-players-type">
+          <h2 class="match-players-type__title">Вратари</h2>
+          <div class="match-players-type-table">
+            <div class="match-players-type-row__left">
+                {% for player in view.teamA_goalkeepers %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+
+            <div class="match-players-type-row__right">
+                {% for player in view.teamB_goalkeepers %}
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="match-players-type">
+          <h2 class="match-players-type__title">Защитники</h2>
+          <div class="match-players-type-table">
+            <div class="match-players-type-row__left">
+                {% for player in view.teamA_defenders %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+
+            <div class="match-players-type-row__right">
+                {% for player in view.teamB_defenders %}
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="match-players-type">
+          <h2 class="match-players-type__title">Нападающие</h2>
+          <div class="match-players-type-table">
+            <div class="match-players-type-row__left">
+              <!-- начало цикла -->
+                {% for player in view.teamA_attackers %}
+              <div class="match-players-type-row-left">
+                <span class="match-players-type-row-left__num">{{ player.game_number }}</span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-left__img">
+                <a href="../player/{{ player.id }}" class="match-players-type-row-left__name">{{ player.fullname }}</a>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+
+            <div class="match-players-type-row__right">
+                {% for player in view.teamB_attackers %}
+              <div class="match-players-type-row-right">
+                <span class="match-players-type-row-right__name"><a href="../player/{{ player.id }}">{{ player.fullname }}</a></span>
+                <img src="{{ player.image.url }}" alt="" class="match-players-type-row-right__img">
+                <span class="match-players-type-row-right__num">{{ player.game_number }}</span>
+              </div>
+                {% empty %}
+                <b>Состав команды не утверждён</b>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div id="statistics" class="match-statistics tab">
+        <div class="match-statistics-team">
+          <h2 class="match-statistics__title">{{ match.team_A.name }}</h2>
+          <div class="match-statistics-table-block">
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Вратари</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for player in view.teamA_goalkeepers %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ player.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ player.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ player.fullname }}</a></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+              </tr>
+                {% endfor %}
+            </table>
+
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Нападающие</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamA_statistics_for_attackers.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ key.fullname }}</a></td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+
+                <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Защитники</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamA_statistics_for_defenders.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ key.fullname }}</a></td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+
+        <div class="match-statistics-team">
+          <h2 class="match-statistics__title">{{ match.team_B.name }}</h2>
+          <div class="match-statistics-table-block">
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Вратари</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for player in view.teamB_goalkeepers %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ player.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ player.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ player.fullname }}</a></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+                <td class="match-statistics-table-line__item"></td>
+              </tr>
+                {% endfor %}
+            </table>
+
+            <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Нападающие</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamB_statistics_for_attackers.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ key.fullname }}</a></td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+
+                <table class="match-statistics-table">
+              <tr class="match-statistics-table-header">
+                <th class="match-statistics-table-header__item">#</th>
+                <th class="match-statistics-table-header__item"></th>
+                <th class="match-statistics-table-header__item">Защитники</th>
+                <th class="match-statistics-table-header__item">Г</th>
+                <th class="match-statistics-table-header__item">П</th>
+                <th class="match-statistics-table-header__item">О</th>
+                <th class="match-statistics-table-header__item">Ш</th>
+              </tr>
+                {% for key,value in view.teamB_statistics_for_defenders.items %}
+              <tr class="match-statistics-table-line">
+                <td class="match-statistics-table-line__item">{{ key.game_number }}</td>
+                <td class="match-statistics-table-line__item"><img src="{{ key.image.url }}" alt="Игрок"></td>
+                <td class="match-statistics-table-line__item"><a href="../player/{{ key.id }}">{{ key.fullname }}</a></td>
+                <td class="match-statistics-table-line__item">{{ value.0 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.1 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.2 }}</td>
+                <td class="match-statistics-table-line__item">{{ value.3 }}</td>
+              </tr>
+                {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById("defaultOpen").click();
+  function openBlock(event, blockName, line) {
+    var i, tabcontent, tablinks, lines;
+    lines = document.getElementsByClassName("line");
+    for (i = 0; i < lines.length; i++) {
+        lines[i].style.display = "none";
+    }
+    tabcontent = document.getElementsByClassName("tab");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(blockName).style.display = "block";
+    document.getElementById(line).style.display = "block";
+    event.currentTarget.className += " active";
+}
+</script>
+{% endblock %}

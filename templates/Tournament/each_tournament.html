@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+    <form method="post"> {% csrf_token %}
+    <button name="GenerateMatches">Сгенерировать список матчей</button>
+    </form>
+  <div class="home-league">
+    <h1 class="home-league__title">{{ tournament }}</h1>
+    <div class="home-matches">
+      <a class="home-matches-block">
+        <div class="home-matches-card">
+          <div class="home-matches-card-teams">
+            <div class="home-matches-card-team1">
+              <div class="home-matches-card-team1__name"></div>
+              <div class="home-matches-card-team1__from"></div>
+            </div>
+            <div class="home-matches-card-team2">
+              <div class="home-matches-card-team2__name"></div>
+              <div class="home-matches-card-team2__from"></div>
+            </div>
+          </div>
+          <div class="home-matches-card-info">
+            <img src="" alt="Команда 1" class="home-matches-card__img">
+            <div class="home-matches-card-match">
+              <span class="home-matches-card__first"></span>
+              <span class="home-matches-card__second"></span>
+              <span class="home-matches-card__third"></span>
+            </div>
+            <img src="" alt="Команда 2" class="home-matches-card__img">
+          </div>
+        </div>
+      </a>
+      <a class="home-matches-block">
+        <div class="home-matches-card">
+          <div class="home-matches-card-teams">
+            <div class="home-matches-card-team1">
+              <div class="home-matches-card-team1__name"></div>
+              <div class="home-matches-card-team1__from"></div>
+            </div>
+            <div class="home-matches-card-team2">
+              <div class="home-matches-card-team2__name"></div>
+              <div class="home-matches-card-team2__from"></div>
+            </div>
+          </div>
+          <div class="home-matches-card-info">
+            <img src="" alt="Команда 1" class="home-matches-card__img">
+            <div class="home-matches-card-match">
+              <span class="home-matches-card__first"></span>
+              <span class="home-matches-card__second"></span>
+              <span class="home-matches-card__third"></span>
+            </div>
+            <img src="" alt="Команда 2" class="home-matches-card__img">
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="home-tournament">
+      <div class="home-nav">
+        <div class="home-nav-item">
+          <button id="defaultOpen" class="home-nav__btn">Чемпионат</button>
+          <div id="line1" class="home-nav__line"></div>
+        </div>
+        <div class="home-nav-item">
+          <button class="home-nav__btn">Плей-офф</button>
+          <div id="line2" class="home-nav__line line"></div>
+        </div>
+      </div>
+        {% for table in view.list_of_tables %}
+      <div class="home-champ">
+      <b>Круг: {{ forloop.counter }}</b>
+        <div class="home-champ-table-block">
+          <table class="home-champ-table">
+            <thead>
+              <tr class="home-champ-table-header">
+                <th class="home-champ-table-header__item">#</th>
+                <th class="home-champ-table-header__item">КОМАНДА</th>
+                {% for team in table.0 %}
+                <th class="home-champ-table-header__item home-champ-table-header-team"><div class="home-champ-table-header-team-block"><img src="{{ team.image.url }}" alt="Команда" class="home-champ-table-header-team__img"></div></th>
+                {% endfor %}
+                <th class="home-champ-table-header__item home-champ-table-header-index">И</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">В</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">ВБ</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">Н</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">П</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">ПБ</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">Ш</th>
+                <th class="home-champ-table-header__item home-champ-table-header-index">О</th>
+                <th class="home-champ-table-header__item">ШАЙБЫ</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for line in table %}
+                {% if forloop.counter0 == 0 %}
+                {% else %}
+                    <tr class="home-champ-table-line">
+                <td class="home-champ-table-line__item">{{ forloop.counter0 }}</td>
+                <td class="home-champ-table-line__item"><a href="../team/{{ line.0.url }}">{{ line.0 }}</a></td>
+                        {% for match in line %}
+                        {% if forloop.counter0 == 0 %}
+                            {% else %}
+                            {% if forloop.counter > forloop.parentloop.counter %}
+                <td class="home-champ-table-line__item home-champ-table-line-count"><a href="../match/{{ match.id }}">{{ match.get_result_str }}</a></td>
+                            {% elif forloop.counter < forloop.parentloop.counter %}
+                            <td class="home-champ-table-line__item home-champ-table-line-count"><a href="../match/{{ match.id }}">{{ match.get_result_str_reversed }}</a></td>
+                            {% else %}
+                <td class="home-champ-table-line__item home-champ-table-line-count">--</td>
+                            {% endif %}
+                            {% endif %}
+                         {% endfor %}
+                <td class="home-champ-table-line__item">7</td>
+                <td class="home-champ-table-line__item">6</td>
+                <td class="home-champ-table-line__item">4</td>
+                <td class="home-champ-table-line__item">5</td>
+                <td class="home-champ-table-line__item">2</td>
+                <td class="home-champ-table-line__item">1</td>
+                <td class="home-champ-table-line__item">0</td>
+                <td class="home-champ-table-line__item">4</td>
+                <td class="home-champ-table-line__item">12-50</td>
+              </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+        {% endfor %}
+      <div class="home-best">
+        <div class="home-best-card">
+          <div class="home-best-card__title">Лучшие<span class="home-best-card__title-type">вратари</span></div>
+          <div class="home-best-card-rates">
+            <div class="home-best-card-player">
+              <div class="home-best-card-player-header">
+                <div class="home-best-card-player-header-player">
+                  <img src="{% static 'img/player.jpg' %}" alt="" class="home-best-card-player-header__avatar">
+                  <div class="home-best-card-player-header-team">
+                    <img src="{% static 'img/team.png' %}" alt="">
+                  </div>
+                </div>
+                <div class="home-best-card-player-header-score">
+                  <span class="home-best-card-player-header-score__text">ОЧКИ</span>
+                  <span class="home-best-card-player-header-score__count">120</span>
+                </div>
+              </div>
+              <div class="home-best-card-player-info">
+                <h2 class="home-best-card-player__name">Александр Иванов</h2>
+                <span class="home-best-card-player__num">#20</span>
+                <span class="home-best-card-player__team">ХК СТРОЙГАЗМОНТАЖ (СГМ)</span>
+              </div>
+              <div class="home-best-card-player-stats">
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Штрафных минут</span>
+                  <span class="home-best-card-player-stats__value">0</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Сыгранных игр</span>
+                  <span class="home-best-card-player-stats__value">3</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Голевых передач</span>
+                  <span class="home-best-card-player-stats__value">5</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Заброшенных шайб</span>
+                  <span class="home-best-card-player-stats__value">2</span>
+                </div>
+              </div>
+            </div>
+            <ul class="home-best-card-list">
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Александр Иванов</span>
+                <span class="home-best-card-list__num">150</span></li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="home-best-card">
+          <div class="home-best-card__title">Лучшие<span class="home-best-card__title-type">вратари</span></div>
+          <div class="home-best-card-rates">
+            <div class="home-best-card-player">
+              <div class="home-best-card-player-header">
+                <div class="home-best-card-player-header-player">
+                  <img src="{% static 'img/player.jpg' %}" alt="" class="home-best-card-player-header__avatar">
+                  <div class="home-best-card-player-header-team">
+                    <img src="{% static 'img/team.png' %}" alt="">
+                  </div>
+                </div>
+                <div class="home-best-card-player-header-score">
+                  <span class="home-best-card-player-header-score__text">ОЧКИ</span>
+                  <span class="home-best-card-player-header-score__count">120</span>
+                </div>
+              </div>
+              <div class="home-best-card-player-info">
+                <h2 class="home-best-card-player__name">Александр Иванов</h2>
+                <span class="home-best-card-player__num">#20</span>
+                <span class="home-best-card-player__team">ХК СТРОЙГАЗМОНТАЖ (СГМ)</span>
+              </div>
+              <div class="home-best-card-player-stats">
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Штрафных минут</span>
+                  <span class="home-best-card-player-stats__value">0</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Сыгранных игр</span>
+                  <span class="home-best-card-player-stats__value">3</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Голевых передач</span>
+                  <span class="home-best-card-player-stats__value">5</span>
+                </div>
+                <div class="home-best-card-player-stats-item">
+                  <span class="home-best-card-player-stats__title">Заброшенных шайб</span>
+                  <span class="home-best-card-player-stats__value">2</span>
+                </div>
+              </div>
+            </div>
+            <ul class="home-best-card-list">
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Александр Иванов</span>
+                <span class="home-best-card-list__num">150</span></li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+              <li class="home-best-card-list-item">
+                <span class="home-best-card-list-item__name">Иван Ивановво</span>
+                <span class="home-best-card-list__num">120</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="home-media">
+        <div class="home-media-card">
+          <iframe
+            class="home-media__video"
+            srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+            frameborder="0"
+            autoplay='1'
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+          ></iframe>
+          <span class="home-media__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+        </div>
+        <div class="home-media-card">
+          <iframe
+            class="home-media__video"
+            srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+            frameborder="0"
+            autoplay='1'
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+          ></iframe>
+          <span class="home-media__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+        </div>
+        <div class="home-media-card">
+          <iframe
+            class="home-media__video"
+            srcdoc="<style>*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}</style><a href=//www.youtube.com/embed/OxSpeNsiajs?autoplay=1><img src=//img.youtube.com/vi/OxSpeNsiajs/hqdefault.jpg alt='ХК СТРОЙГАЗМОНТАЖ (СГМ) - ХК Феникс'><span>▶</span></a>"
+            frameborder="0"
+            autoplay='1'
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            title="ХК Феникс (Москва) — Стройгазмонтаж(СГМ)"
+          ></iframe>
+          <span class="home-media__title">ХК Феникс (Москва) — Стройгазмонтаж(СГМ)</span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+<header class="header">
+    <div class="header-ham-menu">
+      <div class="header-ham-content">
+        <div class="header__close">
+          <i class="fas fa-times"></i>
+        </div>
+        <ul>
+          <li class="header-ham__item"><a href="{% url 'schedule' %}">Расписание</a></li>
+          <li class="header-ham__item"><a href="{% url 'news' %}">Новости</a></li>
+          <li class="header-ham__item"><a href="https://www.youtube.com/channel/UCNJbhEi4TsOLamqbMnqqlRA/featured" target="_blank">Видео</a></li>
+          <li class="header-ham__item"><a href="{% url 'teams' %}">Команды</a></li>
+          <br>
+          <li class="header-ham__item"><a href="{% url 'documents' %}">Документы</a></li>
+          <li class="header-ham__item"><a href="{% url 'insurance' %}">Страховка</a></li>
+          <li class="header-ham__item"><a href="{% url 'contacts' %}">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="header-block">
+      <div class="header-logo">
+        <a href="/admin" class="">
+          {% load static %}
+          <img src="{% static 'img/logo.png' %}" alt="Логотип РТХЛ" class="header__logo">
+        </a> 
+        <h1 class="header__title">Российская Товарищеская<br>Хоккейная Лига</h1>
+      </div>
+      <div class="header-links">
+        <button class="header__menu hidden"><i class="fas fa-bars"></i></button>
+        <div class="header-social">
+          <a href="https://vk.com/hockey_rthl" target="_blank" class="header__link"><i class="fa fa-vk"></i></a>
+          <a href="https://www.instagram.com/rthl.ru/" target="_blank" class="header__link"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.facebook.com/rthl.hockey/" target="_blank" class="header__link"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.youtube.com/channel/UCNJbhEi4TsOLamqbMnqqlRA/featured" target="_blank" class="header__link"><i class="fa fa-youtube-play"></i></a>
+        </div>
+      </div>
+    </div>
+  </header>

@@ -1,0 +1,6 @@
+mysite/settings.py
+rthl_site/__pycache__/
+*/__pycache__/*
+__pycache__/*
+~$_architecture.docx
+.idea/

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% include "head.html" %}
+<body>
+  {% include "header.html" %}
+  {% include "nav.html" %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  {% include "footer.html" %}
+  {% load static %}
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
